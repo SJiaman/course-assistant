@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("demo/coursestudent")
-@Api(tags="课程-学生关联表")
+@Api(tags="课程-学生关联管理")
 public class CourseStudentController {
     @Autowired
     private CourseStudentService courseStudentService;

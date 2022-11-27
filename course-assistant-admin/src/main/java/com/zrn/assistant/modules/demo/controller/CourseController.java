@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("demo/course")
-@Api(tags="课程表")
+@Api(tags="课程管理")
 public class CourseController {
     @Autowired
     private CourseService courseService;
