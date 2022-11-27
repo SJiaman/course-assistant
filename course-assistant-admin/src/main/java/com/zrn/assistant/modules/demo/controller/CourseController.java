@@ -35,35 +35,35 @@ public class CourseController {
     @ApiOperation("分页")
     public Result<PageData<CourseDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<CourseDTO> page = courseService.page(params);
-        return new Result<PageData<CourseDTO>>().ok(page);
+        return Result.success(page);
     }
 
     @GetMapping("{id}")
     @ApiOperation("信息")
     public Result<CourseDTO> get(@PathVariable("id") Long id){
         CourseDTO data = courseService.get(id);
-        return new Result<CourseDTO>().ok(data);
+        return Result.success(data);
     }
 
     @PostMapping
     @ApiOperation("保存")
     public Result save(@RequestBody CourseDTO dto){
         courseService.save(dto);
-        return new Result();
+        return  Result.success();
     }
 
     @PutMapping
     @ApiOperation("修改")
     public Result update(@RequestBody CourseDTO dto){
         courseService.update(dto);
-        return new Result();
+        return  Result.success();
     }
 
     @DeleteMapping
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         courseService.delete(ids);
-        return new Result();
+        return  Result.success();
     }
 
     @GetMapping("export")

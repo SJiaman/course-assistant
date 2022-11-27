@@ -26,24 +26,17 @@ public class RenExceptionHandler {
 	 */
 	@ExceptionHandler(RenException.class)
 	public Result handleRenException(RenException ex){
-		Result result = new Result();
-		result.error(ex.getCode(), ex.getMsg());
-
-		return result;
+		return Result.fail(ex.getCode(), ex.getMsg());
 	}
 
 	@ExceptionHandler(DuplicateKeyException.class)
 	public Result handleDuplicateKeyException(DuplicateKeyException ex){
-		Result result = new Result();
-		result.error(ErrorCode.DB_RECORD_EXISTS);
-
-		return result;
+		return Result.fail(ErrorCode.DB_RECORD_EXISTS, "记录不存在");
 	}
 
 	@ExceptionHandler(Exception.class)
 	public Result handleException(Exception ex){
-		logger.error(ex.getMessage(), ex);
-		return new Result().error();
+		return Result.fail(400, ex.getMessage());
 	}
 
 }

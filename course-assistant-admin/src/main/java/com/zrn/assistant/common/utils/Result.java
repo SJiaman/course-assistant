@@ -1,8 +1,6 @@
 
 
 package com.zrn.assistant.common.utils;
-
-import com.zrn.assistant.common.exception.ErrorCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,33 +34,41 @@ public class Result<T> implements Serializable {
         this.setData(data);
         return this;
     }
-
-    public boolean success(){
+    public boolean isSuccess() {
         return code == 0;
     }
 
-    public Result<T> error() {
-        this.code = ErrorCode.INTERNAL_SERVER_ERROR;
-        this.msg = MessageUtils.getMessage(this.code);
-        return this;
+    public static <T> Result<T> success(int code, String message, T data) {
+        Result rest = new Result();
+        rest.setCode(code);
+        rest.setMsg(message);
+        rest.setData(data);
+        return rest;
     }
 
-    public Result<T> error(int code) {
-        this.code = code;
-        this.msg = MessageUtils.getMessage(this.code);
-        return this;
+    public static <T> Result<T> success(T data) {
+        Result rest = new Result();
+        rest.setData(data);
+        return rest;
     }
 
-    public Result<T> error(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        return this;
+    public static <T> Result<T> success() {
+        Result rest = new Result();
+        return rest;
     }
 
-    public Result<T> error(String msg) {
-        this.code = ErrorCode.INTERNAL_SERVER_ERROR;
-        this.msg = msg;
-        return this;
+    public static <T> Result<T> fail() {
+        Result<T> rest = new Result();
+        rest.setCode(400);
+        rest.setMsg("操作失败");
+        return rest;
+    }
+
+    public static <T> Result<T> fail(int code, String message) {
+        Result<T> rest = new Result();
+        rest.setCode(code);
+        rest.setMsg(message);
+        return rest;
     }
 
     public int getCode() {

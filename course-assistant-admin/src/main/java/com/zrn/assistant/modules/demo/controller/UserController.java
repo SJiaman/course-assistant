@@ -1,6 +1,5 @@
 package com.zrn.assistant.modules.demo.controller;
 
-
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.utils.ExcelUtils;
 import com.zrn.assistant.common.utils.Result;
@@ -12,11 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * 用户表
@@ -35,35 +32,35 @@ public class UserController {
     @ApiOperation("分页")
     public Result<PageData<UserDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<UserDTO> page = userService.page(params);
-        return new Result<PageData<UserDTO>>().ok(page);
+        return Result.success(page);
     }
 
     @GetMapping("{id}")
     @ApiOperation("信息")
     public Result<UserDTO> get(@PathVariable("id") Long id){
         UserDTO data = userService.get(id);
-        return new Result<UserDTO>().ok(data);
+        return Result.success(data);
     }
 
     @PostMapping
     @ApiOperation("保存")
     public Result save(@RequestBody UserDTO dto){
         userService.save(dto);
-        return new Result();
+        return Result.success();
     }
 
     @PutMapping
     @ApiOperation("修改")
     public Result update(@RequestBody UserDTO dto){
         userService.update(dto);
-        return new Result();
+        return Result.success();
     }
 
     @DeleteMapping
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         userService.delete(ids);
-        return new Result();
+        return Result.success();
     }
 
     @GetMapping("export")
