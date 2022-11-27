@@ -6,7 +6,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.zrn.assistant.common.exception.ErrorCode;
-import com.zrn.assistant.common.exception.RenException;
+import com.zrn.assistant.common.exception.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -25,11 +25,11 @@ public class AssertUtils {
 
     public static void isBlank(String str, Integer code, String... params) {
         if(code == null){
-            throw new RenException(ErrorCode.NOT_NULL, "code");
+            throw new BusinessException(ErrorCode.NOT_NULL, "code");
         }
 
         if (StringUtils.isBlank(str)) {
-            throw new RenException(code, params);
+            throw new BusinessException(code, params);
         }
     }
 
@@ -39,11 +39,11 @@ public class AssertUtils {
 
     public static void isNull(Object object, Integer code, String... params) {
         if(code == null){
-            throw new RenException(ErrorCode.NOT_NULL, "code");
+            throw new BusinessException(ErrorCode.NOT_NULL, "code");
         }
 
         if (object == null) {
-            throw new RenException(code, params);
+            throw new BusinessException(code, params);
         }
     }
 
@@ -53,11 +53,11 @@ public class AssertUtils {
 
     public static void isArrayEmpty(Object[] array, Integer code, String... params) {
         if(code == null){
-            throw new RenException(ErrorCode.NOT_NULL, "code");
+            throw new BusinessException(ErrorCode.NOT_NULL, "code");
         }
 
         if(ArrayUtil.isEmpty(array)){
-            throw new RenException(code, params);
+            throw new BusinessException(code, params);
         }
     }
 
@@ -67,11 +67,11 @@ public class AssertUtils {
 
     public static void isListEmpty(List<?> list, Integer code, String... params) {
         if(code == null){
-            throw new RenException(ErrorCode.NOT_NULL, "code");
+            throw new BusinessException(ErrorCode.NOT_NULL, "code");
         }
 
         if(CollUtil.isEmpty(list)){
-            throw new RenException(code, params);
+            throw new BusinessException(code, params);
         }
     }
 
@@ -81,11 +81,11 @@ public class AssertUtils {
 
     public static void isMapEmpty(Map map, Integer code, String... params) {
         if(code == null){
-            throw new RenException(ErrorCode.NOT_NULL, "code");
+            throw new BusinessException(ErrorCode.NOT_NULL, "code");
         }
 
         if(MapUtil.isEmpty(map)){
-            throw new RenException(code, params);
+            throw new BusinessException(code, params);
         }
     }
 }

@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @since 1.0.0
  */
 @RestControllerAdvice
-public class RenExceptionHandler {
-	private static final Logger logger = LoggerFactory.getLogger(RenExceptionHandler.class);
+public class BusinessExceptionHandler {
+	private static final Logger logger = LoggerFactory.getLogger(BusinessExceptionHandler.class);
 
 	/**
 	 * 处理自定义异常
 	 */
-	@ExceptionHandler(RenException.class)
-	public Result handleRenException(RenException ex){
+	@ExceptionHandler(BusinessException.class)
+	public Result handleRenException(BusinessException ex){
 		return Result.fail(ex.getCode(), ex.getMsg());
 	}
 

@@ -2,7 +2,7 @@
 
 package com.zrn.assistant.common.utils;
 
-import com.zrn.assistant.common.exception.RenException;
+import com.zrn.assistant.common.exception.BusinessException;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -35,7 +35,7 @@ public class ValidatorUtils {
      * @param groups        待校验的组
      */
     public static void validateEntity(Object object, Class<?>... groups)
-            throws RenException {
+            throws BusinessException {
         Locale.setDefault(LocaleContextHolder.getLocale());
         Validator validator = Validation.byDefaultProvider().configure().messageInterpolator(
                 new ResourceBundleMessageInterpolator(new MessageSourceResourceBundleLocator(getMessageSource())))
@@ -44,7 +44,7 @@ public class ValidatorUtils {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
         if (!constraintViolations.isEmpty()) {
         	ConstraintViolation<Object> constraint = constraintViolations.iterator().next();
-            throw new RenException(constraint.getMessage());
+            throw new BusinessException(constraint.getMessage());
         }
     }
 }
