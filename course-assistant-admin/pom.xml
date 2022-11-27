@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.zrn.assistant</groupId>
 	<artifactId>course-assistant-admin</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<description>course-assistant-admin</description>
 
 	<parent>
