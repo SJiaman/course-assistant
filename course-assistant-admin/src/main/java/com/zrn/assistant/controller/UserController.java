@@ -1,18 +1,14 @@
 package com.zrn.assistant.controller;
 
 import com.zrn.assistant.common.page.PageData;
-import com.zrn.assistant.common.utils.ExcelUtils;
 import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.UserDTO;
-import com.zrn.assistant.excel.UserExcel;
 import com.zrn.assistant.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,12 +58,4 @@ public class UserController {
         userService.delete(ids);
         return Result.success();
     }
-
-    @GetMapping("export")
-    @ApiOperation("导出")
-    public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
-        List<UserDTO> list = userService.list(params);
-        ExcelUtils.exportExcelToTarget(response, null, list, UserExcel.class);
-    }
-
 }
