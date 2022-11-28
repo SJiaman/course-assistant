@@ -19,11 +19,11 @@ const actions = {
 const mutations = {
   setUserName (state, userName) {
     state.userName = userName
-    Cookies.set('adminUserName', userName, { expires: 30 })
+    Cookies.set('adminUserName', userName, { expires: 60 * 24 })
   },
   setUserInfo: (state, userInfo) => {
     state.userInfo = userInfo
-    Cookies.set('adminUserInfo', userInfo, { expires: 30 })
+    Cookies.set('adminUserInfo', userInfo, { expires: 60 * 24 })
   },
   clearLogin (state) {
     Cookies.remove('adminUserName')
