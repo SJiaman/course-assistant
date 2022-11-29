@@ -112,71 +112,71 @@ const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/exam',
-  //   component: Layout,
-  //   name: 'ExamPage',
-  //   meta: {
-  //     title: '卷题管理',
-  //     icon: 'exam'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'paper/list',
-  //       component: () => import('@/views/exam/paper/list'),
-  //       name: 'ExamPaperPageList',
-  //       meta: { title: '试卷列表', noCache: true }
-  //     },
-  //     {
-  //       path: 'paper/edit',
-  //       component: () => import('@/views/exam/paper/edit'),
-  //       name: 'ExamPaperEdit',
-  //       meta: { title: '试卷编辑', noCache: true, activeMenu: '/exam/paper/list' },
-  //       hidden: true
-  //     },
-  //     {
-  //       path: 'question/list',
-  //       component: () => import('@/views/exam/question/list'),
-  //       name: 'ExamQuestionPageList',
-  //       meta: { title: '题目列表', noCache: true }
-  //     },
-  //     {
-  //       path: 'question/edit/singleChoice',
-  //       component: () => import('@/views/exam/question/edit/single-choice'),
-  //       name: 'singleChoicePage',
-  //       meta: { title: '单选题编辑', noCache: true, activeMenu: '/exam/question/list' },
-  //       hidden: true
-  //     },
-  //     {
-  //       path: 'question/edit/multipleChoice',
-  //       component: () => import('@/views/exam/question/edit/multiple-choice'),
-  //       name: 'multipleChoicePage',
-  //       meta: { title: '多选题编辑', noCache: true, activeMenu: '/exam/question/list' },
-  //       hidden: true
-  //     },
-  //     {
-  //       path: 'question/edit/trueFalse',
-  //       component: () => import('@/views/exam/question/edit/true-false'),
-  //       name: 'trueFalsePage',
-  //       meta: { title: '判断题编辑', noCache: true, activeMenu: '/exam/question/list' },
-  //       hidden: true
-  //     },
-  //     {
-  //       path: 'question/edit/gapFilling',
-  //       component: () => import('@/views/exam/question/edit/gap-filling'),
-  //       name: 'gapFillingPage',
-  //       meta: { title: '填空题编辑', noCache: true, activeMenu: '/exam/question/list' },
-  //       hidden: true
-  //     },
-  //     {
-  //       path: 'question/edit/shortAnswer',
-  //       component: () => import('@/views/exam/question/edit/short-answer'),
-  //       name: 'shortAnswerPage',
-  //       meta: { title: '简答题编辑', noCache: true, activeMenu: '/exam/question/list' },
-  //       hidden: true
-  //     }
-  //   ]
-  // },
+  {
+    path: '/exam',
+    component: Layout,
+    name: 'ExamPage',
+    meta: {
+      title: '卷题管理',
+      icon: 'exam'
+    },
+    children: [
+      {
+        path: 'paper/list',
+        component: () => import('@/views/exam/paper/list'),
+        name: 'ExamPaperPageList',
+        meta: { title: '试卷列表', noCache: true }
+      },
+      {
+        path: 'paper/edit',
+        component: () => import('@/views/exam/paper/edit'),
+        name: 'ExamPaperEdit',
+        meta: { title: '试卷编辑', noCache: true, activeMenu: '/exam/paper/list' },
+        hidden: true
+      },
+      {
+        path: 'question/list',
+        component: () => import('@/views/exam/question/list'),
+        name: 'ExamQuestionPageList',
+        meta: { title: '题目列表', noCache: true }
+      },
+      {
+        path: 'question/edit/singleChoice',
+        component: () => import('@/views/exam/question/edit/single-choice'),
+        name: 'singleChoicePage',
+        meta: { title: '单选题编辑', noCache: true, activeMenu: '/exam/question/list' },
+        hidden: true
+      },
+      {
+        path: 'question/edit/multipleChoice',
+        component: () => import('@/views/exam/question/edit/multiple-choice'),
+        name: 'multipleChoicePage',
+        meta: { title: '多选题编辑', noCache: true, activeMenu: '/exam/question/list' },
+        hidden: true
+      },
+      {
+        path: 'question/edit/trueFalse',
+        component: () => import('@/views/exam/question/edit/true-false'),
+        name: 'trueFalsePage',
+        meta: { title: '判断题编辑', noCache: true, activeMenu: '/exam/question/list' },
+        hidden: true
+      },
+      {
+        path: 'question/edit/gapFilling',
+        component: () => import('@/views/exam/question/edit/gap-filling'),
+        name: 'gapFillingPage',
+        meta: { title: '填空题编辑', noCache: true, activeMenu: '/exam/question/list' },
+        hidden: true
+      },
+      {
+        path: 'question/edit/shortAnswer',
+        component: () => import('@/views/exam/question/edit/short-answer'),
+        name: 'shortAnswerPage',
+        meta: { title: '简答题编辑', noCache: true, activeMenu: '/exam/question/list' },
+        hidden: true
+      }
+    ]
+  },
   // {
   //   path: '/task',
   //   component: Layout,
