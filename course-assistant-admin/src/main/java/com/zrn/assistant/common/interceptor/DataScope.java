@@ -5,7 +5,7 @@ package com.zrn.assistant.common.interceptor;
 /**
  * 数据范围
 
- * @since 1.0.0
+
  */
 public class DataScope {
     private String sqlFilter;

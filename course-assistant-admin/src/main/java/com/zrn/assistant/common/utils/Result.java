@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 响应数据
 
- * @since 1.0.0
+
  */
 @ApiModel(value = "响应")
 public class Result<T> implements Serializable {

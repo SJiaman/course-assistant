@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 异常处理器
 
- * @since 1.0.0
+
  */
 @RestControllerAdvice
 public class BusinessExceptionHandler {

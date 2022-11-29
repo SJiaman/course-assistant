@@ -8,7 +8,7 @@ package com.zrn.assistant.common.exception;
  * 如：10001（10代表系统模块，001代表业务代码）
  * </p>
 
- * @since 1.0.0
+
  */
 public interface ErrorCode {
     int INTERNAL_SERVER_ERROR = 500;

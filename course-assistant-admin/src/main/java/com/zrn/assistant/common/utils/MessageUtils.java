@@ -8,7 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 /**
  * 国际化
 
- * @since 1.0.0
+
  */
 public class MessageUtils {
     private static MessageSource messageSource;
