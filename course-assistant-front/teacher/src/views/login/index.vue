@@ -214,7 +214,8 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  background-image: url(~@/assets/login_bg.jpg);
+  background-size: cover;
   overflow: hidden;
 
   .login-form {
@@ -224,7 +225,7 @@ $light_gray:#eee;
     padding:30px 50px 10px 50px;
     margin:120px auto auto auto;
     overflow: hidden;
-    background: rgba(252, 254, 255, 0.11)
+    background: rgba(252, 254, 255, 0.51)
   }
 
   .tips {
