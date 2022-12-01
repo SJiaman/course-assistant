@@ -1,12 +1,18 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.zrn.assistant.common.exception.BusinessException;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
+import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.UserDao;
+import com.zrn.assistant.dto.LoginDTO;
 import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.entity.UserEntity;
 import com.zrn.assistant.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -31,4 +37,21 @@ public class UserServiceImpl extends CrudServiceImpl<UserDao, UserEntity, UserDT
     }
 
 
+    @Override
+    public UserDTO login(LoginDTO dto) {
+        UserEntity userEntity = baseDao.selectOne(Wrappers.lambdaQuery(UserEntity.class)
+                .eq(UserEntity::getUsername, dto.getUsername()));
+        if (userEntity == null) {
+            throw new BusinessException("用户不存在");
+        }
+        if (userEntity.getPassword().equals(dto.getPassword())) {
+            return ConvertUtils.sourceToTarget(userEntity, UserDTO.class);
+        }
+        return null;
+    }
+
+    @Override
+    public void logout() {
+
+    }
 }

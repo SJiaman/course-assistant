@@ -16,7 +16,9 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "课程表")
-public class CourseDTO implements Serializable {
+public class
+
+CourseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "课程id")
