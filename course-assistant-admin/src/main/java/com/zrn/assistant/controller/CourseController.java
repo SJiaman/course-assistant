@@ -20,7 +20,7 @@ import java.util.Map;
  * @since  2022-11-27
  */
 @RestController
-@RequestMapping("demo/course")
+@RequestMapping("/course")
 @Api(tags="课程管理")
 public class CourseController {
     @Autowired
@@ -40,14 +40,14 @@ public class CourseController {
         return Result.success(data);
     }
 
-    @PostMapping
+    @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody CourseDTO dto){
         courseService.save(dto);
         return  Result.success();
     }
 
-    @PutMapping
+    @PostMapping("update")
     @ApiOperation("修改")
     public Result update(@RequestBody CourseDTO dto){
         courseService.update(dto);

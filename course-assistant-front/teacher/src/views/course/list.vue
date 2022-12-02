@@ -6,7 +6,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
-        <router-link :to="{path:'/user/student/edit'}" class="link-left">
+        <router-link :to="{path:'/course/edit'}" class="link-left">
           <el-button type="primary">添加</el-button>
         </router-link>
       </el-form-item>
@@ -14,11 +14,10 @@
 
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
       <el-table-column prop="id" label="Id" />
-      <el-table-column prop="userName" label="课程名称"/>
-      <el-table-column prop="realName" label="真实姓名" />
-      <el-table-column prop="userLevel" label="学级"  :formatter="levelFormatter"/>
-      <el-table-column prop="sex" label="性别" width="60px;" :formatter="sexFormatter"/>
-      <el-table-column prop="phone" label="手机号"/>
+      <el-table-column prop="name" label="课程名称"/>
+      <el-table-column prop="command" label="班级口令" />
+      <el-table-column prop="count" label="人数"  :formatter="levelFormatter"/>
+      <el-table-column prop="teacher" label="教师" width="60px;" :formatter="sexFormatter"/>
       <el-table-column prop="createTime" label="创建时间" width="160px"/>
       <el-table-column label="状态" prop="status" width="70px">
         <template slot-scope="{row}">
@@ -50,7 +49,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import Pagination from '@/components/Pagination'
-import userApi from '@/api/user'
+import courseApi from '@/api/course'
 
 export default {
   components: { Pagination },
@@ -73,7 +72,7 @@ export default {
   methods: {
     search () {
       this.listLoading = true
-      userApi.getUserPageList(this.queryParam).then(data => {
+      courseApi.getCoursePageList(this.queryParam).then(data => {
         const re = data.response
         this.tableData = re.list
         this.total = re.total
@@ -83,7 +82,7 @@ export default {
     },
     changeStatus (row) {
       let _this = this
-      userApi.changeStatus(row.id).then(re => {
+      courseApi.changeStatus(row.id).then(re => {
         if (re.code === 1) {
           row.status = re.response
           _this.$message.success(re.message)
@@ -94,7 +93,7 @@ export default {
     },
     deleteUser (row) {
       let _this = this
-      userApi.deleteUser(row.id).then(re => {
+      courseApi.deleteUser(row.id).then(re => {
         if (re.code === 1) {
           _this.search()
           _this.$message.success(re.message)
