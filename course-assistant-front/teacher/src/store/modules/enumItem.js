@@ -22,6 +22,9 @@ const state = {
         { key: 4, value: '/exam/question/edit/gapFilling', name: '填空题' },
         { key: 5, value: '/exam/question/edit/shortAnswer', name: '简答题' }]
     }
+  },
+  course: {
+    statusEnum: [{ key: 0, value: '未开始' }, { key: 1, value: '进行中' }, { key: 2, value: '结束' }]
   }
 }
 

@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
 
-    <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
+    <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading">
       <el-form-item label="课程名："  prop="name" required>
-        <el-input v-model="form.userName"></el-input>
+        <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="课程口令："  required>
-        <el-input v-model="form.password"></el-input>
+      <el-form-item label="课程口令：" prop="command" required>
+        <el-input v-model="form.command"></el-input>
       </el-form-item>
       <el-form-item label="人数：" prop="count" required>
-        <el-input v-model="form.realName"></el-input>
+        <el-input v-model="form.count"></el-input>
       </el-form-item>
       <el-form-item label="状态：" required>
         <el-select v-model="form.status" placeholder="状态">
@@ -33,25 +33,13 @@ export default {
     return {
       form: {
         id: null,
-        userName: '',
-        password: '',
-        realName: '',
-        role: 1,
-        status: 1,
-        age: ''
+        name: '',
+        command: '',
+        count: '',
+        teacherId: '',
+        status: 0
       },
-      formLoading: false,
-      rules: {
-        userName: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
-        realName: [
-          { required: true, message: '请输入真实姓名', trigger: 'blur' }
-        ],
-        userLevel: [
-          { required: true, message: '请选择年级', trigger: 'change' }
-        ]
-      }
+      formLoading: false
     }
   },
   created () {
@@ -75,7 +63,7 @@ export default {
             if (data.code === 0) {
               _this.$message.success(data.message)
               _this.delCurrentView(_this).then(() => {
-                _this.$router.push('/user/student/list')
+                _this.$router.push('/course/list')
               })
             } else {
               _this.$message.error(data.message)
@@ -94,16 +82,11 @@ export default {
       this.$refs['form'].resetFields()
       this.form = {
         id: null,
-        userName: '',
-        password: '',
-        realName: '',
-        role: 1,
-        status: 1,
-        age: '',
-        sex: '',
-        birthDay: null,
-        phone: null,
-        userLevel: null
+        name: '',
+        command: '',
+        count: '',
+        teacherId: 1,
+        status: 1
       }
       this.form.id = lastId
     },
@@ -114,10 +97,7 @@ export default {
       'enumFormat'
     ]),
     ...mapState('enumItem', {
-      sexEnum: state => state.user.sexEnum,
-      roleEnum: state => state.user.roleEnum,
-      statusEnum: state => state.user.statusEnum,
-      levelEnum: state => state.user.levelEnum
+      statusEnum: state => state.course.statusEnum
     })
   }
 }
