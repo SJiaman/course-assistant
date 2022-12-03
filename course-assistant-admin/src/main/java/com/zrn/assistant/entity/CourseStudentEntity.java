@@ -1,6 +1,6 @@
 package com.zrn.assistant.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,6 +18,7 @@ public class CourseStudentEntity {
     /**
      * id
      */
+    @TableId(type = IdType.AUTO)
 	private Long id;
     /**
      * 学生id
@@ -30,10 +31,12 @@ public class CourseStudentEntity {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
 	private Date createTime;
     /**
      * 修改时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date modifyTime;
     /**
      * 是否删除0:未删除1:删除

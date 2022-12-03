@@ -14,8 +14,8 @@ import java.util.Date;
  */
 @Component
 public class FieldMetaObjectHandler implements MetaObjectHandler {
-    private final static String CREATE_DATE = "createDate";
-    private final static String UPDATE_DATE = "updateDate";
+    private final static String CREATE_DATE = "createTime";
+    private final static String UPDATE_DATE = "modifyTime";
 
 
     @Override
