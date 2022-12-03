@@ -36,6 +36,9 @@ CourseDTO implements Serializable {
 	@ApiModelProperty(value = "课程人数")
 	private Integer count;
 
+	@ApiModelProperty(value = "开课状态0:未开始1:进行中2:已结束")
+	private Integer status;
+
 	@ApiModelProperty(value = "创建时间")
 	private Date createTime;
 

@@ -36,6 +36,10 @@ public class CourseEntity {
      */
 	private Integer count;
     /**
+     * 开课状态0:未开始1:进行中2:已结束
+     */
+	private Integer status;
+    /**
      * 创建时间
      */
 	private Date createTime;
