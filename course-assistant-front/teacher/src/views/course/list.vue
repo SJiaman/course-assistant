@@ -16,8 +16,8 @@
       <el-table-column prop="id" label="Id" />
       <el-table-column prop="name" label="课程名称"/>
       <el-table-column prop="command" label="班级口令" />
-      <el-table-column prop="count" label="人数"  :formatter="levelFormatter"/>
-      <el-table-column prop="teacher" label="教师" width="60px;" :formatter="sexFormatter"/>
+      <el-table-column prop="count" label="人数"  />
+      <el-table-column prop="teacher" label="教师" width="60px;">{{userName}} </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="160px"/>
       <el-table-column label="状态" prop="status" width="70px">
         <template slot-scope="{row}">
@@ -28,14 +28,8 @@
       </el-table-column>
       <el-table-column width="270px" label="操作" align="center">
         <template slot-scope="{row}">
-          <el-button size="mini"  @click="changeStatus(row)" class="link-left">
-            {{ statusBtnFormatter(row.status) }}
-          </el-button>
           <router-link :to="{path:'/user/student/edit', query:{id:row.id}}" class="link-left">
             <el-button size="mini" >编辑</el-button>
-          </router-link>
-          <router-link :to="{path:'/log/user/list', query:{userId:row.id}}" class="link-left">
-            <el-button size="mini" >日志</el-button>
           </router-link>
           <el-button  size="mini" type="danger" @click="deleteUser(row)" class="link-left">删除</el-button>
         </template>
@@ -56,7 +50,7 @@ export default {
   data () {
     return {
       queryParam: {
-        userName: '',
+        name: '',
         role: 1,
         pageIndex: 1,
         pageSize: 10
@@ -72,11 +66,10 @@ export default {
   methods: {
     search () {
       this.listLoading = true
-      courseApi.getCoursePageList(this.queryParam).then(data => {
-        const re = data.response
-        this.tableData = re.list
-        this.total = re.total
-        this.queryParam.pageIndex = re.pageNum
+      courseApi.getCoursePageList(this.queryParam).then(result => {
+        this.tableData = result.data.list
+        this.total = result.data.total
+        // this.queryParam.pageIndex = re.pageNum
         this.listLoading = false
       })
     },
@@ -126,12 +119,14 @@ export default {
     ...mapGetters('enumItem', [
       'enumFormat'
     ]),
+    ...mapGetters(['userName']),
     ...mapState('enumItem', {
-      sexEnum: state => state.user.sexEnum,
-      statusEnum: state => state.user.statusEnum,
-      statusTag: state => state.user.statusTag,
-      statusBtn: state => state.user.statusBtn,
-      levelEnum: state => state.user.levelEnum
+      // sexEnum: state => state.user.sexEnum,
+      statusEnum: state => state.course.statusEnum,
+      statusTag: state => state.user.statusTag
+      // statusBtn: state => state.user.statusBtn,
+      // levelEnum: state => state.user.levelEnum,
+
     })
   }
 }

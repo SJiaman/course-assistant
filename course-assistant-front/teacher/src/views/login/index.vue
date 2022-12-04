@@ -138,6 +138,8 @@ export default {
           loginApi.login(this.loginForm).then(function (result) {
             if (result && result.code === 0) {
               _this.setUserName(_this.loginForm.username)
+              console.log('id', result.data.id)
+              _this.setUserId(result.data.id)
               _this.$router.push({ path: '/' })
             } else {
               _this.loading = false
@@ -154,7 +156,7 @@ export default {
         }
       })
     },
-    ...mapMutations('user', ['setUserName'])
+    ...mapMutations('user', ['setUserName', 'setUserId'])
   }
 }
 </script>

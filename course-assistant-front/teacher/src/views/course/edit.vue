@@ -43,15 +43,7 @@ export default {
     }
   },
   created () {
-    let id = this.$route.query.id
-    let _this = this
-    if (id && parseInt(id) !== 0) {
-      _this.formLoading = true
-      courseApi.selectUser(id).then(re => {
-        _this.form = re.response
-        _this.formLoading = false
-      })
-    }
+    console.log(this.userId)
   },
   methods: {
     submitForm () {
@@ -59,6 +51,9 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.formLoading = true
+          console.log(this.userId)
+          this.form.teacherId = this.userId
+          console.log(this.form)
           courseApi.createCourse(this.form).then(data => {
             if (data.code === 0) {
               _this.$message.success(data.message)
@@ -96,6 +91,7 @@ export default {
     ...mapGetters('enumItem', [
       'enumFormat'
     ]),
+    ...mapGetters(['userId']),
     ...mapState('enumItem', {
       statusEnum: state => state.course.statusEnum
     })
