@@ -54,7 +54,7 @@ public class CourseController {
         return  Result.success();
     }
 
-    @DeleteMapping
+    @PostMapping("delete")
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         courseService.delete(ids);
