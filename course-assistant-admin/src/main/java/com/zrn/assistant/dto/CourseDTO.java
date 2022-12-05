@@ -16,9 +16,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "课程表")
-public class
-
-CourseDTO implements Serializable {
+public class CourseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "课程id")
@@ -38,15 +36,4 @@ CourseDTO implements Serializable {
 
 	@ApiModelProperty(value = "开课状态0:未开始1:进行中2:已结束")
 	private Integer status;
-
-	@ApiModelProperty(value = "创建时间")
-	private Date createTime;
-
-	@ApiModelProperty(value = "修改时间")
-	private Date modifyTime;
-
-	@ApiModelProperty(value = "是否删除0:未删除1:删除")
-	private Boolean deleted;
-
-
 }

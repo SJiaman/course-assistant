@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="用户名：">
-        <el-input v-model="queryParam.userName"></el-input>
+      <el-form-item label="课程名：">
+        <el-input v-model="queryParam.name"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
@@ -13,13 +13,13 @@
     </el-form>
 
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="id" label="Id" />
-      <el-table-column prop="name" label="课程名称"/>
-      <el-table-column prop="command" label="班级口令" />
-      <el-table-column prop="count" label="人数"  />
-      <el-table-column prop="teacher" label="教师" width="60px;">{{userName}} </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="160px"/>
-      <el-table-column label="状态" prop="status" width="70px">
+       <el-table-column type="index" width="50" label="ID"></el-table-column>
+      <el-table-column prop="name" label="课程名称"  width="150"/>
+      <el-table-column prop="command" label="班级口令"  width="150" />
+      <el-table-column prop="count" label="人数"  width="150" />
+      <el-table-column prop="teacher" label="教师" width="150px;">{{userName}} </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="200px"/>
+      <el-table-column label="状态" prop="status" width="100px">
         <template slot-scope="{row}">
           <el-tag :type="statusTagFormatter(row.status)">
             {{ statusFormatter(row.status) }}
@@ -28,10 +28,10 @@
       </el-table-column>
       <el-table-column width="270px" label="操作" align="center">
         <template slot-scope="{row}">
-          <router-link :to="{path:'/user/student/edit', query:{id:row.id}}" class="link-left">
+          <router-link :to="{path:'/course/edit', query:{id:row.id}}" class="link-left">
             <el-button size="mini" >编辑</el-button>
           </router-link>
-          <el-button  size="mini" type="danger" @click="deleteUser(row)" class="link-left">删除</el-button>
+          <el-button  size="mini" type="danger" @click="deleteCourse(row)" class="link-left">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,8 +50,7 @@ export default {
   data () {
     return {
       queryParam: {
-        name: '',
-        role: 1,
+        name: null,
         pageIndex: 1,
         pageSize: 10
       },
@@ -78,20 +77,20 @@ export default {
       courseApi.changeStatus(row.id).then(re => {
         if (re.code === 1) {
           row.status = re.response
-          _this.$message.success(re.message)
+          _this.$message.success(re.msg)
         } else {
-          _this.$message.error(re.message)
+          _this.$message.error(re.msg)
         }
       })
     },
-    deleteUser (row) {
+    deleteCourse (row) {
       let _this = this
-      courseApi.deleteUser(row.id).then(re => {
-        if (re.code === 1) {
+      courseApi.deleteCourse(row.id).then(re => {
+        if (re.code === 0) {
           _this.search()
-          _this.$message.success(re.message)
+          _this.$message.success(re.msg)
         } else {
-          _this.$message.error(re.message)
+          _this.$message.error(re.msg)
         }
       })
     },
@@ -99,20 +98,11 @@ export default {
       this.queryParam.pageIndex = 1
       this.search()
     },
-    levelFormatter  (row, column, cellValue, index) {
-      return this.enumFormat(this.levelEnum, cellValue)
-    },
-    sexFormatter  (row, column, cellValue, index) {
-      return this.enumFormat(this.sexEnum, cellValue)
-    },
     statusFormatter (status) {
       return this.enumFormat(this.statusEnum, status)
     },
     statusTagFormatter (status) {
       return this.enumFormat(this.statusTag, status)
-    },
-    statusBtnFormatter (status) {
-      return this.enumFormat(this.statusBtn, status)
     }
   },
   computed: {
@@ -121,12 +111,8 @@ export default {
     ]),
     ...mapGetters(['userName']),
     ...mapState('enumItem', {
-      // sexEnum: state => state.user.sexEnum,
       statusEnum: state => state.course.statusEnum,
       statusTag: state => state.user.statusTag
-      // statusBtn: state => state.user.statusBtn,
-      // levelEnum: state => state.user.levelEnum,
-
     })
   }
 }

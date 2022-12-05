@@ -22,10 +22,10 @@ public class CourseServiceImpl extends CrudServiceImpl<CourseDao, CourseEntity, 
 
     @Override
     public QueryWrapper<CourseEntity> getWrapper(Map<String, Object> params){
-        String id = (String)params.get("id");
+        String name = (String)params.get("name");
 
         QueryWrapper<CourseEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+        wrapper.eq(StringUtils.isNotBlank(name), "name", name);
 
         return wrapper;
     }
