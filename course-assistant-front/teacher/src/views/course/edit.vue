@@ -43,6 +43,15 @@ export default {
     }
   },
   created () {
+    let id = this.$route.query.id
+    let _this = this
+    if (id && parseInt(id) !== 0) {
+      _this.formLoading = true
+      courseApi.selectCourse(id).then(re => {
+        _this.form = re.data
+        _this.formLoading = false
+      })
+    }
     console.log(this.userId)
   },
   methods: {
@@ -51,22 +60,38 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.formLoading = true
-          console.log(this.userId)
-          this.form.teacherId = this.userId
-          console.log(this.form)
-          courseApi.createCourse(this.form).then(data => {
-            if (data.code === 0) {
-              _this.$message.success(data.message)
-              _this.delCurrentView(_this).then(() => {
-                _this.$router.push('/course/list')
-              })
-            } else {
-              _this.$message.error(data.message)
+          if (this.form.id == null) {
+            console.log(this.userId)
+            this.form.teacherId = this.userId
+            console.log(this.form)
+            courseApi.createCourse(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/course/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
               _this.formLoading = false
-            }
-          }).catch(e => {
-            _this.formLoading = false
-          })
+            })
+          } else {
+            courseApi.updateCourse(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/course/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          }
         } else {
           return false
         }
