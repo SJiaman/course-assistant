@@ -25,14 +25,15 @@
         <el-menu-item index="/question/index">错题本</el-menu-item>
       </el-menu>
       <div>
-        <a href="/"><img src="@/assets/logo.png" height="56"/></a>
+        <!-- <a href="/"><img src="@/assets/logo.png" height="56"/></a> -->
+        <!-- <a href="/">新型课堂助理平台</a> -->
       </div>
     </el-header>
     <el-main class="student-main">
       <router-view/>
     </el-main>
     <el-footer height="340" class="student-footer">
-      <div class="foot-container">
+      <!-- <div class="foot-container">
         <div class="footer-main">
           <h4>产品介绍</h4>
           <a href="https://www.mindskip.net/sdd.html" target="_blank" class="footer-main-link">思多多智能考试系统</a>
@@ -55,10 +56,10 @@
           <a href="https://www.mindskip.net:999" target="_blank" class="footer-main-link">学之思开发文档</a>
           <a href="https://ke.qq.com/course/3614230" target="_blank" class="footer-main-link">学之思视频教程</a>
         </div>
-      </div>
+      </div> -->
     </el-footer>
     <div class="foot-copyright">
-      <span>Copyright ©2019-2022 武汉思维跳跃科技有限公司 版权所有</span>
+      <span>Copyright ©ZRN</span>
     </div>
   </el-container>
 </template>
