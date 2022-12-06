@@ -67,7 +67,6 @@
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
 import loginApi from '@/api/login'
-import userApi from '@/api/user'
 export default {
   name: 'Layout',
   data () {
@@ -82,9 +81,7 @@ export default {
     let _this = this
     this.defaultUrl = this.routeSelect(this.$route.path)
     this.getUserMessageInfo()
-    userApi.getCurrentUser().then(re => {
-      _this.userInfo = re.response
-    })
+    _this.userInfo = this.userInfo
   },
   watch: {
     $route (to, from) {
@@ -102,12 +99,13 @@ export default {
     logout () {
       let _this = this
       loginApi.logout().then(function (result) {
-        if (result && result.code === 1) {
+        if (result && result.code === 0) {
           _this.clearLogin()
           _this.$router.push({ path: '/login' })
         }
       })
     },
+    ...mapState('user', ['userInfo']),
     ...mapActions('user', ['getUserMessageInfo']),
     ...mapMutations('user', ['clearLogin'])
   },

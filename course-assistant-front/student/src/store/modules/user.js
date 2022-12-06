@@ -10,9 +10,9 @@ const state = {
 
 // actions
 const actions = {
-  initUserInfo ({ commit }) {
-    userApi.getCurrentUser().then(re => {
-      commit('setUserInfo', re.response)
+  initUserInfo ({ commit }, id) {
+    userApi.getCurrentUser(id).then(re => {
+      commit('setUserInfo', re.data)
     })
   },
   getUserMessageInfo ({ commit }) {

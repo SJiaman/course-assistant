@@ -12,7 +12,7 @@
             </el-upload>
           </el-row>
           <el-row class="user-info-userName">
-            <label>{{form.userName}}</label>
+            <label>{{form.username}}</label>
           </el-row>
           <el-divider/>
           <el-row class="user-info-fullInfo">
@@ -83,7 +83,7 @@ export default {
     return {
       event: [],
       form: {
-        userName: '',
+        username: '',
         realName: '',
         age: '',
         sex: '',
@@ -105,13 +105,12 @@ export default {
     }
   },
   created () {
+    console.log(this.userInfo)
     let _this = this
     userApi.getUserEvent().then(re => {
       _this.event = re.response
     })
-    userApi.getCurrentUser().then(re => {
-      _this.form = re.response
-    })
+    _this.form = this.userInfo
   },
   methods: {
     uploadSuccess (re, file) {
@@ -149,6 +148,7 @@ export default {
     ...mapGetters('enumItem', [
       'enumFormat'
     ]),
+    ...mapState('user', ['userInfo']),
     ...mapState('enumItem', {
       sexEnum: state => state.user.sexEnum,
       levelEnum: state => state.user.levelEnum

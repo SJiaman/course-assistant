@@ -10,7 +10,7 @@
             <p>学之思开源考试系统</p>
             <div class="lowin-group">
               <label>用户名 </label>
-              <el-input ref="userName" v-model="loginForm.userName" class="lowin-input" placeholder="用户名" name="userName" type="text" tabindex="1" auto-complete="on"/>
+              <el-input ref="username" v-model="loginForm.username" class="lowin-input" placeholder="用户名" name="username" type="text" tabindex="1" auto-complete="on"/>
             </div>
             <div class="lowin-group password-group">
               <label>密码 <a href="#" class="forgot-link">忘记密码?</a></label>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import loginApi from '@/api/login'
 
 export default {
@@ -59,12 +59,12 @@ export default {
     }
     return {
       loginForm: {
-        userName: '',
-        password: '',
+        username: 'jiaman',
+        password: '123456',
         remember: false
       },
       loginRules: {
-        userName: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -77,7 +77,7 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted () {
-    if (this.loginForm.userName === '') {
+    if (this.loginForm.username === '') {
       this.$refs.userName.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
@@ -116,8 +116,9 @@ export default {
         if (valid) {
           this.loading = true
           loginApi.login(this.loginForm).then(function (result) {
-            if (result && result.code === 1) {
-              _this.setUserName(_this.loginForm.userName)
+            if (result && result.code === 0) {
+              _this.setUserName(_this.loginForm.username)
+              _this.initUserInfo(result.data.id)
               _this.$router.push({ path: '/' })
             } else {
               _this.loading = false
@@ -131,6 +132,7 @@ export default {
         }
       })
     },
+    ...mapActions('user', ['initUserInfo']),
     ...mapMutations('user', ['setUserName'])
   }
 }

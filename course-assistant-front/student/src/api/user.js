@@ -1,8 +1,8 @@
-import { post } from '@/utils/request'
+import { post, get } from '@/utils/request'
 
 export default {
   createUser: query => post('/api/student/user/edit', query),
-  getCurrentUser: () => post('/api/student/user/current'),
+  getCurrentUser: query => get('/api/user/' + query),
   getUserEvent: () => post('/api/student/user/log'),
   update: query => post('/api/student/user/update', query),
   messagePageList: query => post('/api/student/user/message/page', query),
