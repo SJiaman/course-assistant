@@ -7,7 +7,7 @@
       <div class="lowin-box lowin-login">
         <div class="lowin-box-inner">
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
-            <p>学之思开源考试系统</p>
+            <p>新型课堂助理平台</p>
             <div class="lowin-group">
               <label>用户名 </label>
               <el-input ref="username" v-model="loginForm.username" class="lowin-input" placeholder="用户名" name="username" type="text" tabindex="1" auto-complete="on"/>

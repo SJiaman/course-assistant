@@ -36,9 +36,6 @@
       <!-- <div class="foot-container">
         <div class="footer-main">
           <h4>产品介绍</h4>
-          <a href="https://www.mindskip.net/sdd.html" target="_blank" class="footer-main-link">思多多智能考试系统</a>
-          <a href="https://www.mindskip.net/wdd.html" target="_blank" class="footer-main-link">维多多培训考试系统</a>
-          <a href="https://www.mindskip.net/xzs.html" target="_blank" class="footer-main-link">学之思开源考试系统</a>
         </div>
         <div class="footer-main">
           <h4>微信小程序</h4>
@@ -52,9 +49,6 @@
         </div>
         <div class="footer-main">
           <h4>文档中心</h4>
-          <a href="https://gitee.com/mindskip" target="_blank" class="footer-main-link">学之思仓库地址</a>
-          <a href="https://www.mindskip.net:999" target="_blank" class="footer-main-link">学之思开发文档</a>
-          <a href="https://ke.qq.com/course/3614230" target="_blank" class="footer-main-link">学之思视频教程</a>
         </div>
       </div> -->
     </el-footer>
