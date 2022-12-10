@@ -94,7 +94,6 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import indexApi from '@/api/dashboard'
 import courseApi from '@/api/course'
 
 export default {
@@ -130,7 +129,7 @@ export default {
     })
   },
   methods: {
-    open(id) {
+    open (id) {
       let _this = this
       this.$prompt('请输入班级口令', '加入课程', {
         confirmButtonText: '确定',
