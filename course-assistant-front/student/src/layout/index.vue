@@ -4,7 +4,7 @@
       <div class="head-user">
         <el-dropdown trigger="click" placement="bottom">
           <el-badge :is-dot="messageCount!==0" >
-            <el-avatar  class="el-dropdown-avatar" size="medium"  :src="userInfo.imagePath === null ? require('@/assets/avatar.png') : userInfo.imagePath"></el-avatar>
+            <el-avatar  class="el-dropdown-avatar" size="medium"  :src="user.imagePath === null ? require('@/assets/avatar.png') : userInfo.imagePath"></el-avatar>
           </el-badge>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="$router.push({path:'/user/index'})">个人中心</el-dropdown-item>
@@ -20,9 +20,9 @@
       </div>
       <el-menu class="el-menu-title" mode="horizontal" :default-active="defaultUrl" :router="true">
         <el-menu-item index="/index">首页</el-menu-item>
-        <el-menu-item index="/paper/index">试卷中心</el-menu-item>
-        <el-menu-item index="/record/index">考试记录</el-menu-item>
-        <el-menu-item index="/question/index">错题本</el-menu-item>
+        <el-menu-item index="/paper/index">我的课程</el-menu-item>
+        <el-menu-item index="/record/index">我的考试</el-menu-item>
+        <!-- <el-menu-item index="/question/index">错题本</el-menu-item> -->
       </el-menu>
       <div>
         <!-- <a href="/"><img src="@/assets/logo.png" height="56"/></a> -->
@@ -32,7 +32,7 @@
     <el-main class="student-main">
       <router-view/>
     </el-main>
-    <el-footer height="340" class="student-footer">
+    <!-- <el-footer height="340" class="student-footer"> -->
       <!-- <div class="foot-container">
         <div class="footer-main">
           <h4>产品介绍</h4>
@@ -51,10 +51,10 @@
           <h4>文档中心</h4>
         </div>
       </div> -->
-    </el-footer>
-    <div class="foot-copyright">
+    <!-- </el-footer> -->
+    <!-- <div class="foot-copyright">
       <span>Copyright ©ZRN</span>
-    </div>
+    </div> -->
   </el-container>
 </template>
 
@@ -66,7 +66,7 @@ export default {
   data () {
     return {
       defaultUrl: '/index',
-      userInfo: {
+      user: {
         imagePath: null
       }
     }
@@ -74,8 +74,8 @@ export default {
   created () {
     let _this = this
     this.defaultUrl = this.routeSelect(this.$route.path)
-    this.getUserMessageInfo()
-    _this.userInfo = this.userInfo
+    // this.getUserMessageInfo()
+    _this.user = this.userInfo
   },
   watch: {
     $route (to, from) {

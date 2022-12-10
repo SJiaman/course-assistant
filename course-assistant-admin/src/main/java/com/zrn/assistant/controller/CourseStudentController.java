@@ -3,6 +3,7 @@ package com.zrn.assistant.controller;
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.CourseStudentDTO;
+import com.zrn.assistant.dto.JoinCourseDTO;
 import com.zrn.assistant.service.CourseStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +20,7 @@ import java.util.Map;
  * @since  2022-11-27
  */
 @RestController
-@RequestMapping("demo/coursestudent")
+@RequestMapping("course/student")
 @Api(tags="课程-学生关联管理")
 public class CourseStudentController {
     @Autowired
@@ -30,6 +31,12 @@ public class CourseStudentController {
     public Result<PageData<CourseStudentDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<CourseStudentDTO> page = courseStudentService.page(params);
         return Result.success(page);
+    }
+
+    @PostMapping("joinCourse")
+    public Result joinCourse(@RequestBody JoinCourseDTO dto) {
+        courseStudentService.joinCourse(dto);
+        return Result.success();
     }
 
     @GetMapping("{id}")

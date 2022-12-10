@@ -18,7 +18,7 @@ import java.util.Map;
  * @since  2022-11-27
  */
 @RestController
-@RequestMapping("demo/user")
+@RequestMapping("user")
 @Api(tags="用户管理")
 public class UserController {
     @Autowired
