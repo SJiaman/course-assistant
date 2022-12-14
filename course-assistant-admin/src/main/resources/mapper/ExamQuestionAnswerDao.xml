@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zrn.assistant.dao.ExamQuestionAnswerDao">
+
+    <resultMap type="com.zrn.assistant.entity.ExamQuestionAnswerEntity" id="examQuestionAnswerMap">
+        <result property="id" column="id"/>
+        <result property="examRecordId" column="exam_record_id"/>
+        <result property="questionId" column="question_id"/>
+        <result property="doRight" column="do_right"/>
+        <result property="score" column="score"/>
+        <result property="doAnswer" column="do_answer"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
+</mapper>

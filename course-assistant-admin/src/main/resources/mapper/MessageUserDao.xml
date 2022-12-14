@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zrn.assistant.dao.MessageUserDao">
+
+    <resultMap type="com.zrn.assistant.entity.MessageUserEntity" id="messageUserMap">
+        <result property="id" column="id"/>
+        <result property="messageId" column="message_id"/>
+        <result property="receiveUserId" column="receive_user_id"/>
+        <result property="readed" column="readed"/>
+        <result property="readTime" column="read_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
+</mapper>
