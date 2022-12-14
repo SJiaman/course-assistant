@@ -17,7 +17,7 @@
           <el-divider/>
           <el-row class="user-info-fullInfo">
             <label>姓名：{{form.realName}}</label><br/>
-            <label>年级：{{levelFormatter(form.userLevel)}}</label><br/>
+            <label>班级：{{form.className}}</label><br/>
             <label>注册时间：{{form.createTime}}</label><br/>
           </el-row>
         </el-card>
@@ -45,7 +45,7 @@
                   <el-input v-model="form.age"></el-input>
                 </el-form-item>
                 <el-form-item label="性别：">
-                  <el-select v-model="form.sex" placeholder="性别" clearable>
+                  <el-select v-model="form.gender" placeholder="性别" clearable>
                     <el-option v-for="item in sexEnum" :key="item.key" :value="item.key"
                                :label="item.value"></el-option>
                   </el-select>
@@ -85,13 +85,13 @@ export default {
       form: {
         username: '',
         realName: '',
-        age: '',
-        sex: '',
-        birthDay: null,
-        phone: null,
-        userLevel: null,
-        createTime: null,
-        imagePath: null
+        age: 0,
+        gender: 0,
+        birthday: '',
+        phone: '',
+        college: '',
+        className: '',
+        imagePath: ''
       },
       formLoading: false,
       rules: {
@@ -105,6 +105,9 @@ export default {
     }
   },
   created () {
+   
+   
+
     console.log(this.userInfo)
     let _this = this
     userApi.getUserEvent().then(re => {
