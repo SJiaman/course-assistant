@@ -4,6 +4,8 @@ import com.zrn.assistant.common.service.CrudService;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.entity.CourseEntity;
 
+import java.util.List;
+
 /**
  * 课程表
  *

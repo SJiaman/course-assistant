@@ -6,9 +6,12 @@ import com.zrn.assistant.dao.CourseDao;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.entity.CourseEntity;
 import com.zrn.assistant.service.CourseService;
+import com.zrn.assistant.service.CourseStudentService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,9 @@ import java.util.Map;
 @Service
 public class CourseServiceImpl extends CrudServiceImpl<CourseDao, CourseEntity, CourseDTO> implements CourseService {
 
+    @Autowired
+    private CourseStudentService courseStudentService;
+
     @Override
     public QueryWrapper<CourseEntity> getWrapper(Map<String, Object> params){
         String name = (String)params.get("name");
@@ -29,6 +35,5 @@ public class CourseServiceImpl extends CrudServiceImpl<CourseDao, CourseEntity, 
 
         return wrapper;
     }
-
 
 }

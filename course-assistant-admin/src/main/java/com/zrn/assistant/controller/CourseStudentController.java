@@ -2,6 +2,7 @@ package com.zrn.assistant.controller;
 
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.utils.Result;
+import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.dto.JoinCourseDTO;
 import com.zrn.assistant.service.CourseStudentService;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 import java.util.Map;
 
 
@@ -67,4 +70,10 @@ public class CourseStudentController {
         return  Result.success();
     }
 
+    @GetMapping("user")
+    @ApiOperation("查询用户的课程")
+    public Result getUserCourse(@RequestParam Long id) {
+        List<CourseDTO> courses = courseStudentService.getUserCourse(id);
+        return Result.success(courses);
+    }
 }
