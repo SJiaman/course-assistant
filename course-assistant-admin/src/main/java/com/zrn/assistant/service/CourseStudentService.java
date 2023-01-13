@@ -4,6 +4,7 @@ import com.zrn.assistant.common.service.CrudService;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.dto.JoinCourseDTO;
+import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.entity.CourseStudentEntity;
 
 import java.util.List;
@@ -24,4 +25,8 @@ public interface CourseStudentService extends CrudService<CourseStudentEntity, C
 
 
     List<CourseDTO> getUserCourse(Long id);
+
+    List<UserDTO> getStudent(Long id);
+
+    List<UserDTO> getStudentByCourseId(Long courseId);
 }

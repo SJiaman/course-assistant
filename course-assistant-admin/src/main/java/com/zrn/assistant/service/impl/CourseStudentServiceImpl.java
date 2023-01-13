@@ -7,11 +7,14 @@ import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.CourseDao;
 import com.zrn.assistant.dao.CourseStudentDao;
+import com.zrn.assistant.dao.UserDao;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.dto.JoinCourseDTO;
+import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.entity.CourseEntity;
 import com.zrn.assistant.entity.CourseStudentEntity;
+import com.zrn.assistant.entity.UserEntity;
 import com.zrn.assistant.service.CourseService;
 import com.zrn.assistant.service.CourseStudentService;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +37,9 @@ import java.util.stream.Collectors;
 public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, CourseStudentEntity, CourseStudentDTO> implements CourseStudentService {
     @Resource
     private CourseDao courseDao;
+
+    @Resource
+    private UserDao userDao;
 
     @Override
     public QueryWrapper<CourseStudentEntity> getWrapper(Map<String, Object> params){
@@ -62,14 +68,30 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
     public List<CourseDTO> getUserCourse(Long id) {
         List<CourseStudentEntity> courseStudentEntities = baseDao.selectList(Wrappers.lambdaQuery(CourseStudentEntity.class)
                 .eq(CourseStudentEntity::getStudentId, id));
-
         List<Long> courseIds = courseStudentEntities.stream()
-                .map(CourseStudentEntity -> CourseStudentEntity.getCourseId()).collect(Collectors.toList());
-
+                .map(CourseStudentEntity::getCourseId).collect(Collectors.toList());
         List<CourseEntity> courseEntities = courseDao.selectBatchIds(courseIds);
+        return ConvertUtils.sourceToTarget(courseEntities, CourseDTO.class);
+    }
 
-        List<CourseDTO> courseStudentDTOS = ConvertUtils.sourceToTarget(courseEntities, CourseDTO.class);
+    @Override
+    public List<UserDTO> getStudent(Long id) {
+        List<CourseEntity> courseEntities = courseDao.selectList(Wrappers.lambdaQuery(CourseEntity.class)
+                .eq(CourseEntity::getTeacherId, id));
+        List<Long> courseIds = courseEntities.stream().map(CourseEntity::getId).collect(Collectors.toList());
+        List<CourseStudentEntity> courseStudentEntities = baseDao.selectList(Wrappers.lambdaQuery(CourseStudentEntity.class)
+                .in(CourseStudentEntity::getCourseId, courseIds));
+        List<Long> studentIds = courseStudentEntities.stream().map(CourseStudentEntity::getStudentId).collect(Collectors.toList());
+        List<UserEntity> userEntities = userDao.selectBatchIds(studentIds);
+        return ConvertUtils.sourceToTarget(userEntities, UserDTO.class);
+    }
 
-        return courseStudentDTOS;
+    @Override
+    public List<UserDTO> getStudentByCourseId(Long courseId) {
+        List<CourseStudentEntity> courseStudentEntities = baseDao.selectList(Wrappers.lambdaQuery(CourseStudentEntity.class)
+                .eq(CourseStudentEntity::getCourseId, courseId));
+        List<Long> studentIds = courseStudentEntities.stream().map(CourseStudentEntity::getStudentId).collect(Collectors.toList());
+        List<UserEntity> userEntities = userDao.selectBatchIds(studentIds);
+        return ConvertUtils.sourceToTarget(userEntities, UserDTO.class);
     }
 }

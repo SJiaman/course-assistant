@@ -80,7 +80,7 @@ const constantRoutes = [
     component: Layout,
     name: 'CoursePage',
     meta: {
-      title: '课程管理',
+      title: '我的课程',
       icon: 'users'
     },
     children: [
@@ -201,31 +201,31 @@ const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/education',
-    component: Layout,
-    name: 'EducationPage',
-    meta: {
-      title: '教育管理',
-      icon: 'education'
-    },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'subject/list',
-        component: () => import('@/views/education/subject/list'),
-        name: 'EducationSubjectPage',
-        meta: { title: '学科列表', noCache: true }
-      },
-      {
-        path: 'subject/edit',
-        component: () => import('@/views/education/subject/edit'),
-        name: 'EducationSubjectEditPage',
-        meta: { title: '学科编辑', noCache: true, activeMenu: '/education/subject/list' },
-        hidden: true
-      }
-    ]
-  },
+  // {
+  //   path: '/education',
+  //   component: Layout,
+  //   name: 'EducationPage',
+  //   meta: {
+  //     title: '教育管理',
+  //     icon: 'education'
+  //   },
+  //   alwaysShow: true,
+  //   children: [
+  //     {
+  //       path: 'subject/list',
+  //       component: () => import('@/views/education/subject/list'),
+  //       name: 'EducationSubjectPage',
+  //       meta: { title: '学科列表', noCache: true }
+  //     },
+  //     {
+  //       path: 'subject/edit',
+  //       component: () => import('@/views/education/subject/edit'),
+  //       name: 'EducationSubjectEditPage',
+  //       meta: { title: '学科编辑', noCache: true, activeMenu: '/education/subject/list' },
+  //       hidden: true
+  //     }
+  //   ]
+  // },
   {
     path: '/answer',
     component: Layout,
@@ -273,7 +273,7 @@ const constantRoutes = [
     component: Layout,
     name: 'LogPage',
     meta: {
-      title: '日志中心',
+      title: '课堂工具',
       icon: 'log'
     },
     alwaysShow: true,

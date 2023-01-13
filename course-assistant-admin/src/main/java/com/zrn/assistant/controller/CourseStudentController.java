@@ -5,6 +5,7 @@ import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.dto.JoinCourseDTO;
+import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.service.CourseStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -75,5 +76,19 @@ public class CourseStudentController {
     public Result getUserCourse(@RequestParam Long id) {
         List<CourseDTO> courses = courseStudentService.getUserCourse(id);
         return Result.success(courses);
+    }
+
+    @GetMapping("student")
+    @ApiOperation("老师课程学生列表")
+    public Result getStudent(@RequestParam Long id) {
+        List<UserDTO> studentDTOS = courseStudentService.getStudent(id);
+        return Result.success(studentDTOS);
+    }
+
+    @GetMapping("byCourseId")
+    @ApiOperation("通过课程id查询")
+    public Result getStudentByCourseId(@RequestParam Long id) {
+        List<UserDTO> dtoList = courseStudentService.getStudentByCourseId(id);
+        return Result.success(dtoList);
     }
 }
