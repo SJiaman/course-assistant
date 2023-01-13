@@ -1,74 +1,139 @@
 <template>
-  <el-card shadow="never" class="aui-card--fill">
-    <div class="mod-demo__coursestudent}">
-      <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-        <el-form-item>
-          <el-input v-model="dataForm.id" placeholder="id" clearable></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="getDataList()">{{ $t('query') }}</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="info" @click="exportHandle()">{{ $t('export') }}</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button v-if="$hasPermission('demo:coursestudent:save')" type="primary" @click="addOrUpdateHandle()">{{ $t('add') }}</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button v-if="$hasPermission('demo:coursestudent:delete')" type="danger" @click="deleteHandle()">{{ $t('deleteBatch') }}</el-button>
-        </el-form-item>
-      </el-form>
-      <el-table v-loading="dataListLoading" :data="dataList" border @selection-change="dataListSelectionChangeHandle" style="width: 100%;">
-        <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-        <el-table-column prop="id" label="id" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="studentId" label="学生id" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="courseId" label="课程id" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="modifyTime" label="修改时间" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="deleted" label="是否删除0:未删除1:删除" header-align="center" align="center"></el-table-column>
-        <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
-          <template slot-scope="scope">
-            <el-button v-if="$hasPermission('demo:coursestudent:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button>
-            <el-button v-if="$hasPermission('demo:coursestudent:delete')" type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        :current-page="page"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size="limit"
-        :total="total"
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="pageSizeChangeHandle"
-        @current-change="pageCurrentChangeHandle">
-      </el-pagination>
-      <!-- 弹窗, 新增 / 修改 -->
-      <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    </div>
-  </el-card>
+  <div class="app-container">
+    <el-form :model="queryParam" ref="queryForm" :inline="true">
+      <el-form-item label="用户名：">
+        <el-input v-model="queryParam.userName"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm">查询</el-button>
+        <router-link :to="{path:'/user/student/edit'}" class="link-left">
+          <el-button type="primary">添加</el-button>
+        </router-link>
+      </el-form-item>
+    </el-form>
+
+    <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
+      <el-table-column prop="id" label="Id" />
+      <el-table-column prop="userName" label="用户名"/>
+      <el-table-column prop="realName" label="真实姓名" />
+      <el-table-column prop="userLevel" label="学级"  :formatter="levelFormatter"/>
+      <el-table-column prop="sex" label="性别" width="60px;" :formatter="sexFormatter"/>
+      <el-table-column prop="phone" label="手机号"/>
+      <el-table-column prop="createTime" label="创建时间" width="160px"/>
+      <el-table-column label="状态" prop="status" width="70px">
+        <template slot-scope="{row}">
+          <el-tag :type="statusTagFormatter(row.status)">
+            {{ statusFormatter(row.status) }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column width="270px" label="操作" align="center">
+        <template slot-scope="{row}">
+          <el-button size="mini"  @click="changeStatus(row)" class="link-left">
+            {{ statusBtnFormatter(row.status) }}
+          </el-button>
+          <router-link :to="{path:'/user/student/edit', query:{id:row.id}}" class="link-left">
+            <el-button size="mini" >编辑</el-button>
+          </router-link>
+          <router-link :to="{path:'/log/user/list', query:{userId:row.id}}" class="link-left">
+            <el-button size="mini" >日志</el-button>
+          </router-link>
+          <el-button  size="mini" type="danger" @click="deleteUser(row)" class="link-left">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <pagination v-show="total>0" :total="total" :page.sync="queryParam.pageIndex" :limit.sync="queryParam.pageSize"
+                @pagination="search"/>
+  </div>
 </template>
 
 <script>
-import mixinViewModule from '@/mixins/view-module'
-import AddOrUpdate from './coursestudent-add-or-update'
+import { mapGetters, mapState } from 'vuex'
+import Pagination from '@/components/Pagination'
+import courseApi from '@/api/course'
+
 export default {
-  mixins: [mixinViewModule],
+  components: { Pagination },
   data () {
     return {
-      mixinViewModuleOptions: {
-        getDataListURL: '/demo/coursestudent/page',
-        getDataListIsPage: true,
-        exportURL: '/demo/coursestudent/export',
-        deleteURL: '/demo/coursestudent',
-        deleteIsBatch: true
+      queryParam: {
+        userName: '',
+        role: 1,
+        pageIndex: 1,
+        pageSize: 10
       },
-      dataForm: {
-        id: ''
-      }
+      listLoading: true,
+      tableData: [],
+      total: 0
     }
   },
-  components: {
-    AddOrUpdate
+  created () {
+    this.search()
+  },
+  methods: {
+    search () {
+      this.listLoading = true
+      courseApi.getCourseStudentList(this.queryParam).then(data => {
+        const re = data.response
+        this.tableData = re.list
+        this.total = re.total
+        this.queryParam.pageIndex = re.pageNum
+        this.listLoading = false
+      })
+    },
+    changeStatus (row) {
+      let _this = this
+      userApi.changeStatus(row.id).then(re => {
+        if (re.code === 1) {
+          row.status = re.response
+          _this.$message.success(re.message)
+        } else {
+          _this.$message.error(re.message)
+        }
+      })
+    },
+    deleteUser (row) {
+      let _this = this
+      userApi.deleteUser(row.id).then(re => {
+        if (re.code === 1) {
+          _this.search()
+          _this.$message.success(re.message)
+        } else {
+          _this.$message.error(re.message)
+        }
+      })
+    },
+    submitForm () {
+      this.queryParam.pageIndex = 1
+      this.search()
+    },
+    levelFormatter  (row, column, cellValue, index) {
+      return this.enumFormat(this.levelEnum, cellValue)
+    },
+    sexFormatter  (row, column, cellValue, index) {
+      return this.enumFormat(this.sexEnum, cellValue)
+    },
+    statusFormatter (status) {
+      return this.enumFormat(this.statusEnum, status)
+    },
+    statusTagFormatter (status) {
+      return this.enumFormat(this.statusTag, status)
+    },
+    statusBtnFormatter (status) {
+      return this.enumFormat(this.statusBtn, status)
+    }
+  },
+  computed: {
+    ...mapGetters('enumItem', [
+      'enumFormat'
+    ]),
+    ...mapState('enumItem', {
+      sexEnum: state => state.user.sexEnum,
+      statusEnum: state => state.user.statusEnum,
+      statusTag: state => state.user.statusTag,
+      statusBtn: state => state.user.statusBtn,
+      levelEnum: state => state.user.levelEnum
+    })
   }
 }
 </script>

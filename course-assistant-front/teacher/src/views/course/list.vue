@@ -51,6 +51,7 @@ export default {
     return {
       queryParam: {
         name: null,
+        teacherId: null,
         pageIndex: 1,
         pageSize: 10
       },
@@ -60,6 +61,7 @@ export default {
     }
   },
   created () {
+    this.queryParam.teacherId = this.userId
     this.search()
   },
   methods: {
@@ -108,6 +110,9 @@ export default {
   computed: {
     ...mapGetters('enumItem', [
       'enumFormat'
+    ]),
+    ...mapGetters([
+      'userId'
     ]),
     ...mapGetters(['userName']),
     ...mapState('enumItem', {

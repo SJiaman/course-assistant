@@ -98,16 +98,16 @@ const constantRoutes = [
         hidden: true
       },
       {
-        path: 'admin/list',
-        component: () => import('@/views/user/admin/list'),
-        name: 'UserAdminPageList',
+        path: 'student/list',
+        component: () => import('@/views/course/student/list'),
+        name: 'courseList',
         meta: { title: '课程学生列表', noCache: true }
       },
       {
-        path: 'admin/edit',
-        component: () => import('@/views/user/admin/edit'),
-        name: 'UserAdminEdit',
-        meta: { title: '课程学生列表', noCache: true, activeMenu: '/user/admin/list' },
+        path: 'student/edit',
+        component: () => import('@/views/course/student/edit'),
+        name: 'courseEdit',
+        meta: { title: '课程学生列表', noCache: true, activeMenu: '/course/student/list' },
         hidden: true
       }
     ]
