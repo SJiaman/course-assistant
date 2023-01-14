@@ -117,7 +117,7 @@ const constantRoutes = [
     component: Layout,
     name: 'ExamPage',
     meta: {
-      title: '卷题管理',
+      title: '题目管理',
       icon: 'exam'
     },
     children: [
@@ -182,7 +182,7 @@ const constantRoutes = [
     component: Layout,
     name: 'TaskPage',
     meta: {
-      title: '任务管理',
+      title: '试卷管理',
       icon: 'task'
     },
     alwaysShow: true,

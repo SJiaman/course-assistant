@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="用户名：">
-        <el-input v-model="queryParam.userName"></el-input>
+      <el-form-item label="课程名：">
+        <el-input v-model="queryParam.courseName"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
@@ -13,30 +13,16 @@
     </el-form>
 
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="id" label="Id" />
-      <el-table-column prop="userName" label="用户名"/>
+      <el-table-column type="index" width="50" label="ID"></el-table-column>
+      <el-table-column prop="username" label="用户名"/>
       <el-table-column prop="realName" label="真实姓名" />
-      <el-table-column prop="userLevel" label="学级"  :formatter="levelFormatter"/>
-      <el-table-column prop="sex" label="性别" width="60px;" :formatter="sexFormatter"/>
-      <el-table-column prop="phone" label="手机号"/>
-      <el-table-column prop="createTime" label="创建时间" width="160px"/>
-      <el-table-column label="状态" prop="status" width="70px">
-        <template slot-scope="{row}">
-          <el-tag :type="statusTagFormatter(row.status)">
-            {{ statusFormatter(row.status) }}
-          </el-tag>
-        </template>
-      </el-table-column>
+      <el-table-column prop="courseName" label="课程名" />
+      <el-table-column prop="college" label="学院"/>
+      <el-table-column prop="className" label="班级名" width="160px"/>
       <el-table-column width="270px" label="操作" align="center">
         <template slot-scope="{row}">
-          <el-button size="mini"  @click="changeStatus(row)" class="link-left">
-            {{ statusBtnFormatter(row.status) }}
-          </el-button>
           <router-link :to="{path:'/user/student/edit', query:{id:row.id}}" class="link-left">
             <el-button size="mini" >编辑</el-button>
-          </router-link>
-          <router-link :to="{path:'/log/user/list', query:{userId:row.id}}" class="link-left">
-            <el-button size="mini" >日志</el-button>
           </router-link>
           <el-button  size="mini" type="danger" @click="deleteUser(row)" class="link-left">删除</el-button>
         </template>
@@ -57,27 +43,28 @@ export default {
   data () {
     return {
       queryParam: {
-        userName: '',
-        role: 1,
+        courseName: '',
+        teacherId: null,
         pageIndex: 1,
         pageSize: 10
       },
+      teacherId: null,
       listLoading: true,
       tableData: [],
       total: 0
     }
   },
   created () {
+    this.teacherId = this.userId
     this.search()
   },
   methods: {
     search () {
       this.listLoading = true
-      courseApi.getCourseStudentList(this.queryParam).then(data => {
-        const re = data.response
-        this.tableData = re.list
-        this.total = re.total
-        this.queryParam.pageIndex = re.pageNum
+      courseApi.getCourseStudentList(this.teacherId).then(data => {
+        this.tableData = data.data
+        this.total = data.total
+        this.queryParam.pageIndex = data.pageNum
         this.listLoading = false
       })
     },
@@ -94,18 +81,25 @@ export default {
     },
     deleteUser (row) {
       let _this = this
-      userApi.deleteUser(row.id).then(re => {
-        if (re.code === 1) {
+      console.log(row.id)
+      courseApi.deleCourseStudent(row.id).then(re => {
+        if (re.code === 0) {
           _this.search()
-          _this.$message.success(re.message)
+          _this.$message.success(re.msg)
         } else {
-          _this.$message.error(re.message)
+          _this.$message.error(re.msg)
         }
       })
     },
     submitForm () {
-      this.queryParam.pageIndex = 1
-      this.search()
+       this.listLoading = true
+        let param ={courseName: this.queryParam.courseName}
+        courseApi.getCourseStudentByName(param).then(data => {
+        this.tableData = data.data
+        this.total = data.total
+        this.queryParam.pageIndex = data.pageNum
+        this.listLoading = false
+      })
     },
     levelFormatter  (row, column, cellValue, index) {
       return this.enumFormat(this.levelEnum, cellValue)
@@ -126,6 +120,9 @@ export default {
   computed: {
     ...mapGetters('enumItem', [
       'enumFormat'
+    ]),
+     ...mapGetters([
+      'userId'
     ]),
     ...mapState('enumItem', {
       sexEnum: state => state.user.sexEnum,
