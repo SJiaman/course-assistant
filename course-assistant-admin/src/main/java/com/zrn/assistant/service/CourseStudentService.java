@@ -26,7 +26,7 @@ public interface CourseStudentService extends CrudService<CourseStudentEntity, C
 
     List<CourseDTO> getUserCourse(Long id);
 
-    List<UserDTO> getStudent(Long id);
+    List<CourseStudentDTO> getStudent(Long id);
 
-    List<UserDTO> getStudentByCourseId(Long courseId);
+    List<CourseStudentDTO> getStudentByCourseName(String courseName);
 }

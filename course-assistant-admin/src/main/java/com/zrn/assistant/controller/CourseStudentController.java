@@ -64,7 +64,7 @@ public class CourseStudentController {
         return  Result.success();
     }
 
-    @DeleteMapping
+    @PostMapping("delete")
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         courseStudentService.delete(ids);
@@ -78,17 +78,17 @@ public class CourseStudentController {
         return Result.success(courses);
     }
 
-    @GetMapping("student")
+    @GetMapping("student/{id}")
     @ApiOperation("老师课程学生列表")
-    public Result getStudent(@RequestParam Long id) {
-        List<UserDTO> studentDTOS = courseStudentService.getStudent(id);
+    public Result getStudent(@PathVariable("id") Long id) {
+        List<CourseStudentDTO> studentDTOS = courseStudentService.getStudent(id);
         return Result.success(studentDTOS);
     }
 
     @GetMapping("byCourseId")
-    @ApiOperation("通过课程id查询")
-    public Result getStudentByCourseId(@RequestParam Long id) {
-        List<UserDTO> dtoList = courseStudentService.getStudentByCourseId(id);
+    @ApiOperation("通过课程名查询")
+    public Result getStudentByCourseId(@RequestParam String courseName) {
+        List<CourseStudentDTO> dtoList = courseStudentService.getStudentByCourseName(courseName);
         return Result.success(dtoList);
     }
 }

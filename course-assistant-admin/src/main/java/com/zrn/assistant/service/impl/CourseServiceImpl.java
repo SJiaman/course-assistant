@@ -23,9 +23,6 @@ import java.util.Map;
 @Service
 public class CourseServiceImpl extends CrudServiceImpl<CourseDao, CourseEntity, CourseDTO> implements CourseService {
 
-    @Autowired
-    private CourseStudentService courseStudentService;
-
     @Override
     public QueryWrapper<CourseEntity> getWrapper(Map<String, Object> params){
         String name = (String)params.get("name");

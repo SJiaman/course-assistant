@@ -28,14 +28,13 @@ public class CourseStudentDTO implements Serializable {
 	@ApiModelProperty(value = "课程id")
 	private Long courseId;
 
-	@ApiModelProperty(value = "创建时间")
-	private Date createTime;
+	private String username;
 
-	@ApiModelProperty(value = "修改时间")
-	private Date modifyTime;
+	private String realName;
 
-	@ApiModelProperty(value = "是否删除0:未删除1:删除")
-	private Boolean deleted;
+	private String college;
 
+	private String className;
 
+	private String courseName;
 }
