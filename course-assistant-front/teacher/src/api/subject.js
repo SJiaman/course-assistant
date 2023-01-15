@@ -1,7 +1,7 @@
-import { post } from '@/utils/request'
+import { get,post } from '@/utils/request'
 
 export default {
-  list: query => post('/api/admin/education/subject/list'),
+  list:  query => get('/api/course/page', query),
   pageList: query => post('/api/admin/education/subject/page', query),
   edit: query => post('/api/admin/education/subject/edit', query),
   select: id => post('/api/admin/education/subject/select/' + id),

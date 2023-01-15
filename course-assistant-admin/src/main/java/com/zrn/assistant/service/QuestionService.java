@@ -13,4 +13,6 @@ import com.zrn.assistant.entity.QuestionEntity;
  */
 public interface QuestionService extends CrudService<QuestionEntity, QuestionDTO> {
 
+    void addQuestion(QuestionDTO question);
+
 }

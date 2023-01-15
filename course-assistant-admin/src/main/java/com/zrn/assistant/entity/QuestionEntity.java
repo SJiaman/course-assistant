@@ -43,7 +43,7 @@ public class QuestionEntity {
     /**
      * 解析
      */
-	private String analyze;
+	private String analyzeText;
     /**
      * 题目详情
      */

@@ -19,7 +19,7 @@ const getters = {
 const actions = {
   initSubject ({ commit }, action) {
     subjectApi.list().then(re => {
-      commit('setSubjects', re.response)
+      commit('setSubjects', re.data.list)
       if (action !== undefined) {
         action()
       }

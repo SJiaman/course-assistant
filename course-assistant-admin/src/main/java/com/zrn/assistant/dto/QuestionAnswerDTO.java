@@ -23,13 +23,13 @@ public class QuestionAnswerDTO implements Serializable {
 	private Long id;
 
 	@ApiModelProperty(value = "题目id")
-	private Integer questionId;
+	private Long questionId;
 
 	@ApiModelProperty(value = "选项")
 	private String prefix;
 
 	@ApiModelProperty(value = "答案内容")
-	private Integer content;
+	private String content;
 
 	@ApiModelProperty(value = "创建时间")
 	private Date createTime;

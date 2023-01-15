@@ -18,7 +18,7 @@ import java.util.Map;
  * @since  2023-01-14
  */
 @RestController
-@RequestMapping("demo/question/answer")
+@RequestMapping("/question/answer")
 @Api(tags="题目答案表")
 public class QuestionAnswerController {
     @Autowired
@@ -38,21 +38,21 @@ public class QuestionAnswerController {
         return Result.success(data);
     }
 
-    @PostMapping
+    @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody QuestionAnswerDTO dto){
         questionAnswerService.save(dto);
         return Result.success();
     }
 
-    @PostMapping
+    @PostMapping("update")
     @ApiOperation("修改")
     public Result update(@RequestBody QuestionAnswerDTO dto){
         questionAnswerService.update(dto);
         return Result.success();
     }
 
-    @PostMapping
+    @PostMapping("delete")
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         questionAnswerService.delete(ids);

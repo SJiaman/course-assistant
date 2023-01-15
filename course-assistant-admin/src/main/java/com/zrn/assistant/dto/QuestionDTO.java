@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -38,7 +39,7 @@ public class QuestionDTO implements Serializable {
 	private String correct;
 
 	@ApiModelProperty(value = "解析")
-	private String analyze;
+	private String analyzeText;
 
 	@ApiModelProperty(value = "题目详情")
 	private Integer infoTextContentId;
@@ -58,5 +59,6 @@ public class QuestionDTO implements Serializable {
 	@ApiModelProperty(value = "")
 	private Boolean deleted;
 
+	private List<QuestionAnswerDTO> answers;
 
 }

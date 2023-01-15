@@ -3,7 +3,7 @@
     <div v-if="qType==1" v-loading="qLoading">
       <div class="q-title" v-html="question.title"/>
       <div class="q-content">
-          <span :key="item.id" v-for="item in question.items" class="q-item-contain">
+          <span :key="item.id" v-for="item in question.answers" class="q-item-contain">
             <span class="q-item-prefix">{{item.prefix}}</span>
             <span v-html="item.content" class="q-item-content"></span>
           </span>
@@ -12,7 +12,7 @@
     <div v-else-if="qType==2" v-loading="qLoading">
       <div class="q-title" v-html="question.title"/>
       <div class="q-content">
-          <span :key="item.id" v-for="item in question.items" class="q-item-contain">
+          <span :key="item.id" v-for="item in question.answers" class="q-item-contain">
             <span class="q-item-prefix">{{item.prefix}}</span>
             <span v-html="item.content" class="q-item-content"></span>
           </span>
@@ -21,7 +21,7 @@
     <div v-else-if="qType==3" v-loading="qLoading">
       <div class="q-title" v-html="question.title" style="display: inline;margin-right: 10px"/>
       <span>（</span>
-      <span :key="item.id" v-for="item in question.items">
+      <span :key="item.id" v-for="item in question.answers">
         <span v-html="item.content" class="q-item-content"></span>
        </span>
       <span>）</span>

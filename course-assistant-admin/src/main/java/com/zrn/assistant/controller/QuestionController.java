@@ -6,6 +6,7 @@ import com.zrn.assistant.dto.QuestionDTO;
 import com.zrn.assistant.service.QuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -17,8 +18,9 @@ import java.util.Map;
  * @author Zhang Ruina 727976120@qq.com
  * @since  2023-01-14
  */
+@Slf4j
 @RestController
-@RequestMapping("demo/question")
+@RequestMapping("/question")
 @Api(tags="题目表")
 public class QuestionController {
     @Autowired
@@ -38,21 +40,23 @@ public class QuestionController {
         return Result.success(data);
     }
 
-    @PostMapping
+    @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody QuestionDTO dto){
-        questionService.save(dto);
+//        questionService.save(dto);
+        log.info("dto: {}", dto);
+        questionService.addQuestion(dto);
         return Result.success();
     }
 
-    @PostMapping
+    @PostMapping("update")
     @ApiOperation("修改")
     public Result update(@RequestBody QuestionDTO dto){
         questionService.update(dto);
         return Result.success();
     }
 
-    @PostMapping
+    @PostMapping("delete")
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         questionService.delete(ids);

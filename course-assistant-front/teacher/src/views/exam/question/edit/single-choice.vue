@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
-      <el-form-item label="年级：" prop="gradeLevel" required>
+      <!-- <el-form-item label="年级：" prop="gradeLevel" required>
         <el-select v-model="form.gradeLevel" placeholder="年级"  @change="levelChange" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
@@ -10,19 +10,19 @@
         <el-select v-model="form.subjectId" placeholder="学科" >
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="题干：" prop="title" required>
         <el-input v-model="form.title"   @focus="inputClick(form,'title')" />
       </el-form-item>
       <el-form-item label="选项：" required>
-        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item,index) in form.items"  label-width="50px" class="question-item-label">
+        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item,index) in form.answers"  label-width="50px" class="question-item-label">
           <el-input v-model="item.prefix"  style="width:50px;" />
           <el-input v-model="item.content"   @focus="inputClick(item,'content')"  class="question-item-content-input"/>
            <el-button type="danger" size="mini" class="question-item-remove" icon="el-icon-delete" @click="questionItemRemove(index)"></el-button>
         </el-form-item>
       </el-form-item>
-      <el-form-item label="解析：" prop="analyze" required>
-        <el-input v-model="form.analyze"  @focus="inputClick(form,'analyze')" />
+      <el-form-item label="解析：" prop="analyzeText" required>
+        <el-input v-model="form.analyzeText"  @focus="inputClick(form,'analyzeText')" />
       </el-form-item>
       <el-form-item label="分数：" prop="score" required>
         <el-input-number v-model="form.score" :precision="1" :step="1" :max="100"></el-input-number>
@@ -32,13 +32,13 @@
       </el-form-item>
       <el-form-item label="正确答案：" prop="correct" required>
         <el-radio-group v-model="form.correct">
-          <el-radio  v-for="item in form.items"  :key="item.prefix"  :label="item.prefix">{{item.prefix}}</el-radio>
+          <el-radio  v-for="item in form.answers"  :key="item.prefix"  :label="item.prefix">{{item.prefix}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
         <el-button @click="resetForm">重置</el-button>
-        <el-button type="success" @click="questionItemAdd">添加选项</el-button>
+        <!-- <el-button type="success" @click="questionItemAdd">添加选项</el-button> -->
         <el-button type="success" @click="showQuestion">预览</el-button>
       </el-form-item>
     </el-form>
@@ -69,17 +69,17 @@ export default {
     return {
       form: {
         id: null,
-        questionType: 1,
+        type: 1,
         gradeLevel: null,
         subjectId: null,
         title: '',
-        items: [
+        answers: [
           { prefix: 'A', content: '' },
           { prefix: 'B', content: '' },
           { prefix: 'C', content: '' },
           { prefix: 'D', content: '' }
         ],
-        analyze: '',
+        analyzeText: '',
         correct: '',
         score: '',
         difficult: 0
@@ -87,12 +87,12 @@ export default {
       subjectFilter: null,
       formLoading: false,
       rules: {
-        gradeLevel: [
-          { required: true, message: '请选择年级', trigger: 'change' }
-        ],
-        subjectId: [
-          { required: true, message: '请选择学科', trigger: 'change' }
-        ],
+        // gradeLevel: [
+        //   { required: true, message: '请选择年级', trigger: 'change' }
+        // ],
+        // subjectId: [
+        //   { required: true, message: '请选择学科', trigger: 'change' }
+        // ],
         title: [
           { required: true, message: '请输入题干', trigger: 'blur' }
         ],
@@ -172,8 +172,8 @@ export default {
         if (valid) {
           this.formLoading = true
           questionApi.edit(this.form).then(re => {
-            if (re.code === 1) {
-              _this.$message.success(re.message)
+            if (re.code === 0) {
+              _this.$message.success(re.msg)
               _this.delCurrentView(_this).then(() => {
                 _this.$router.push('/exam/question/list')
               })
@@ -217,7 +217,7 @@ export default {
     },
     showQuestion () {
       this.questionShow.dialog = true
-      this.questionShow.qType = this.form.questionType
+      this.questionShow.qType = this.form.type
       this.questionShow.question = this.form
     },
     ...mapActions('exam', { initSubject: 'initSubject' }),

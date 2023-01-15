@@ -23,7 +23,7 @@ public class QuestionAnswerEntity {
     /**
      * 题目id
      */
-	private Integer questionId;
+	private Long questionId;
     /**
      * 选项
      */
@@ -31,7 +31,7 @@ public class QuestionAnswerEntity {
     /**
      * 答案内容
      */
-	private Integer content;
+	private String content;
     /**
      * 创建时间
      */

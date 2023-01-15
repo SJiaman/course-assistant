@@ -10,7 +10,7 @@
         <result property="score" column="score"/>
         <result property="difficult" column="difficult"/>
         <result property="correct" column="correct"/>
-        <result property="analyze" column="analyze"/>
+        <result property="analyzeText" column="analyze_text"/>
         <result property="infoTextContentId" column="info_text_content_id"/>
         <result property="createUser" column="create_user"/>
         <result property="status" column="status"/>

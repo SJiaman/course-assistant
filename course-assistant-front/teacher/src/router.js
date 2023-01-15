@@ -120,20 +120,21 @@ const constantRoutes = [
       title: '题目管理',
       icon: 'exam'
     },
+    alwaysShow: true,
     children: [
-      {
-        path: 'paper/list',
-        component: () => import('@/views/exam/paper/list'),
-        name: 'ExamPaperPageList',
-        meta: { title: '试卷列表', noCache: true }
-      },
-      {
-        path: 'paper/edit',
-        component: () => import('@/views/exam/paper/edit'),
-        name: 'ExamPaperEdit',
-        meta: { title: '试卷编辑', noCache: true, activeMenu: '/exam/paper/list' },
-        hidden: true
-      },
+      // {
+      //   path: 'paper/list',
+      //   component: () => import('@/views/exam/paper/list'),
+      //   name: 'ExamPaperPageList',
+      //   meta: { title: '试卷列表', noCache: true }
+      // },
+      // {
+      //   path: 'paper/edit',
+      //   component: () => import('@/views/exam/paper/edit'),
+      //   name: 'ExamPaperEdit',
+      //   meta: { title: '试卷编辑', noCache: true, activeMenu: '/exam/paper/list' },
+      //   hidden: true
+      // },
       {
         path: 'question/list',
         component: () => import('@/views/exam/question/list'),
@@ -268,24 +269,24 @@ const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/log',
-    component: Layout,
-    name: 'LogPage',
-    meta: {
-      title: '课堂工具',
-      icon: 'log'
-    },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'user/list',
-        component: () => import('@/views/log/list'),
-        name: 'LogUserPage',
-        meta: { title: '用户日志', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/log',
+  //   component: Layout,
+  //   name: 'LogPage',
+  //   meta: {
+  //     title: '课堂工具',
+  //     icon: 'log'
+  //   },
+  //   alwaysShow: true,
+  //   children: [
+  //     {
+  //       path: 'user/list',
+  //       component: () => import('@/views/log/list'),
+  //       name: 'LogUserPage',
+  //       meta: { title: '用户日志', noCache: true }
+  //     }
+  //   ]
+  // },
   {
     path: '/profile',
     component: Layout,
