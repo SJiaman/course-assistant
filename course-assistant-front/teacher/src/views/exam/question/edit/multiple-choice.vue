@@ -15,7 +15,7 @@
         <el-input v-model="form.title"   @focus="inputClick(form,'title')" />
       </el-form-item>
       <el-form-item label="选项：" required>
-        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item,index) in form.items"  label-width="50px" class="question-item-label">
+        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="(item,index) in form.answers"  label-width="50px" class="question-item-label">
           <el-input v-model="item.prefix"  style="width:50px;" />
           <el-input v-model="item.content"   @focus="inputClick(item,'content')"  class="question-item-content-input"/>
           <el-button type="danger" size="mini" class="question-item-remove" icon="el-icon-delete" @click="questionItemRemove(index)"></el-button>
@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item label="正确答案：" prop="correctArray" required>
         <el-checkbox-group v-model="form.correctArray">
-          <el-checkbox v-for="item in form.items" :label="item.prefix" :key="item.prefix">{{item.prefix}}</el-checkbox>
+          <el-checkbox v-for="item in form.answers" :label="item.prefix" :key="item.prefix">{{item.prefix}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>
@@ -69,17 +69,17 @@ export default {
     return {
       form: {
         id: null,
-        questionType: 2,
+        type: 2,
         gradeLevel: null,
         subjectId: null,
         title: '',
-        items: [
+        answers: [
           { id: null, prefix: 'A', content: '' },
           { id: null, prefix: 'B', content: '' },
           { id: null, prefix: 'C', content: '' },
           { id: null, prefix: 'D', content: '' }
         ],
-        analyze: '',
+        analyzeText: '',
         correct: '',
         correctArray: [],
         score: '',
@@ -173,8 +173,8 @@ export default {
         if (valid) {
           this.formLoading = true
           questionApi.edit(this.form).then(re => {
-            if (re.code === 1) {
-              _this.$message.success(re.message)
+            if (re.code === 0) {
+              _this.$message.success(re.msg)
               _this.delCurrentView(_this).then(() => {
                 _this.$router.push('/exam/question/list')
               })
@@ -196,7 +196,7 @@ export default {
     },
     showQuestion () {
       this.questionShow.dialog = true
-      this.questionShow.qType = this.form.questionType
+      this.questionShow.qType = this.form.type
       this.questionShow.question = this.form
     },
     resetForm () {
@@ -204,17 +204,17 @@ export default {
       this.$refs['form'].resetFields()
       this.form = {
         id: null,
-        questionType: 2,
+        type: 2,
         gradeLevel: null,
         subjectId: null,
         title: '',
-        items: [
+        answers: [
           { id: null, prefix: 'A', content: '' },
           { id: null, prefix: 'B', content: '' },
           { id: null, prefix: 'C', content: '' },
           { id: null, prefix: 'D', content: '' }
         ],
-        analyze: '',
+        analyzeText: '',
         correct: '',
         correctArray: [],
         score: '',

@@ -110,9 +110,9 @@ export default {
 
     console.log(this.userInfo)
     let _this = this
-    userApi.getUserEvent().then(re => {
-      _this.event = re.response
-    })
+    // userApi.getUserEvent().then(re => {
+    //   _this.event = re.response
+    // })
     _this.form = this.userInfo
   },
   methods: {

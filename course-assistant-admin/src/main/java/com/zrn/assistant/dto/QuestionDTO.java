@@ -38,6 +38,9 @@ public class QuestionDTO implements Serializable {
 	@ApiModelProperty(value = "正确答案")
 	private String correct;
 
+	@ApiModelProperty(value = "多选正确答案")
+	private List<String> correctArray;
+
 	@ApiModelProperty(value = "解析")
 	private String analyzeText;
 

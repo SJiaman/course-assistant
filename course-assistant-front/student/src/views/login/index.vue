@@ -1,13 +1,13 @@
 <template>
   <div class="lowin  lowin-blue">
-    <div class="lowin-brand">
+    <!-- <div class="lowin-brand">
       <img src="@/assets/logo2.png" alt="logo" style="margin-top: 12px">
-    </div>
+    </div> -->
     <div class="lowin-wrapper">
       <div class="lowin-box lowin-login">
         <div class="lowin-box-inner">
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
-            <p>新型课堂助理平台</p>
+            <p>新型课堂助理平台 学生端</p>
             <div class="lowin-group">
               <label>用户名 </label>
               <el-input ref="username" v-model="loginForm.username" class="lowin-input" placeholder="用户名" name="username" type="text" tabindex="1" auto-complete="on"/>
@@ -118,6 +118,7 @@ export default {
           loginApi.login(this.loginForm).then(function (result) {
             if (result && result.code === 0) {
               _this.setUserName(_this.loginForm.username)
+              _this.setUserId(result.data.id)
               _this.initUserInfo(result.data.id)
               _this.$router.push({ path: '/' })
             } else {
@@ -133,7 +134,7 @@ export default {
       })
     },
     ...mapActions('user', ['initUserInfo']),
-    ...mapMutations('user', ['setUserName'])
+    ...mapMutations('user', ['setUserName', 'setUserId'])
   }
 }
 </script>

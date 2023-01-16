@@ -18,7 +18,7 @@ import java.util.Map;
  * @since  2022-12-14
  */
 @RestController
-@RequestMapping("demo/message")
+@RequestMapping("message")
 @Api(tags="消息管理")
 public class MessageController {
     @Autowired

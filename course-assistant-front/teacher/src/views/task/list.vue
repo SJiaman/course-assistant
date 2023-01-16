@@ -43,13 +43,13 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
-      listLoading: true,
+      listLoading: false,
       tableData: [],
       total: 0
     }
   },
   created () {
-    this.search()
+    // this.search()
   },
   methods: {
     search () {

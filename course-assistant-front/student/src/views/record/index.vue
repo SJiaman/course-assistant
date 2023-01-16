@@ -83,7 +83,7 @@ export default {
     }
   },
   created () {
-    this.search()
+    // this.search()
     scrollTo(0, 800)
   },
   methods: {

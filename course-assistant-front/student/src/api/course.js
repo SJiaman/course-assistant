@@ -2,7 +2,7 @@ import { post, get } from '@/utils/request'
 
 export default {
   getCoursePageList: query => get('/api/course/page', query),
-  getCourseByUser: query => get('/api/course/user', query),
+  getCourseByUserId: query => get('/api/course/student/user', query),
   getUserEventPageList: query => post('/api/admin/user/event/page/list', query),
   joinCourse: query => post('/api/course/student/joinCourse', query),
   selectCourse: id => get('/api/course/' + id),

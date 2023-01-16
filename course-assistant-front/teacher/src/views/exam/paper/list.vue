@@ -61,8 +61,8 @@ export default {
     }
   },
   created () {
-    this.initSubject()
-    this.search()
+    // this.initSubject()
+    // this.search()
   },
   methods: {
     submitForm () {

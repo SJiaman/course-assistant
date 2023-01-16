@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 10px" class="app-contain">
-    <el-tabs tab-position="left"  v-model="tabId"  @tab-click="subjectChange" >
+    <!-- <el-tabs tab-position="left"  v-model="tabId"  @tab-click="subjectChange" >
       <el-tab-pane :label="item.name"  :key="item.id" :name="item.id" v-for="item in subjectList" style="margin-left: 20px;" >
         <el-row  style="float: right">
           <el-radio-group v-model="queryParam.paperType" size="mini" @change="paperTypeChange" >
@@ -21,7 +21,24 @@
         <pagination v-show="total>0" :total="total" :background="false" :page.sync="queryParam.pageIndex" :limit.sync="queryParam.pageSize"
                     @pagination="search" style="margin-top: 20px"/>
       </el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
+     <el-row class="app-item-contain">
+      <div style="padding-left: 15px">
+        <el-col :span="4" v-for="(item, index) in taskList" :key="index" :offset="index > 0 ? 1 : 0">
+          <el-card :body-style="{ padding: '0px' }" v-loading="loading">
+            <img src="@/assets/exam-paper/show1.png" class="image">
+            <div style="padding: 14px;">
+              <span>{{item.name}}</span>
+              <div class="bottom clearfix">
+                <!-- <router-link target="_blank" :to="{path:'/do',query:{id:item.id}}"> -->
+                  <el-button type="text" class="button" @click="open(item.id)">进入课程</el-button>
+                <!-- </router-link> -->
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </div>
+    </el-row>
 
   </div>
 </template>
@@ -31,6 +48,7 @@ import { mapState } from 'vuex'
 import Pagination from '@/components/Pagination'
 import examPaperApi from '@/api/examPaper'
 import subjectApi from '@/api/subject'
+import courseApi from '@/api/course'
 
 export default {
   components: { Pagination },
@@ -46,11 +64,21 @@ export default {
       listLoading: true,
       subjectList: [],
       tableData: [],
+      taskList: [],
       total: 0
     }
   },
   created () {
-    this.initSubject()
+     let _this = this 
+    // this.initSubject()
+    console.log(this.userId)
+     let param ={id: this.userId}
+    courseApi.getCourseByUserId(param).then(re => {
+      _this.taskList = re.data
+      console.log(_this.taskList)
+      // _this.loading = false
+      // _this.taskLoading = false
+    })
   },
   methods: {
     initSubject () {
@@ -82,6 +110,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('user', ['userId']),
     ...mapState('enumItem', {
       paperTypeEnum: state => state.exam.examPaper.paperTypeEnum
     })

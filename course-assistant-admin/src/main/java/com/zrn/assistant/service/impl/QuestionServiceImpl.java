@@ -1,6 +1,7 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zrn.assistant.common.enums.QuestionTypeEnum;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.QuestionAnswerDao;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 题目表
@@ -52,6 +54,10 @@ public class QuestionServiceImpl extends CrudServiceImpl<QuestionDao, QuestionEn
 //        questionEntity.setScore(question.getScore());
 //        questionEntity.setInfoTextContentId(question.getInfoTextContentId());
         QuestionEntity questionEntity = ConvertUtils.sourceToTarget(question, QuestionEntity.class);
+        if (question.getType() == QuestionTypeEnum.MultipleChoice.getCode()) {
+            String collect = question.getCorrectArray().stream().sorted().collect(Collectors.joining(","));
+            questionEntity.setCorrect(collect);
+        }
         insert(questionEntity);
         List<QuestionAnswerDTO> answers = question.getAnswers();
         answers.forEach(x -> {

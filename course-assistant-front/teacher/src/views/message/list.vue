@@ -10,13 +10,12 @@
     </el-form>
 
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="id" label="Id"  width="100" />
+      <el-table-column type="index" width="50" label="ID"></el-table-column>
       <el-table-column prop="title" label="标题" show-overflow-tooltip/>
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="sendUserName" label="发送人"  width="100" />
-      <el-table-column prop="receives" label="接收人"  show-overflow-tooltip />
-      <el-table-column prop="readCount" label="已读数" width="70" />
+      <el-table-column prop="courseName" label="接收课程"  show-overflow-tooltip />
       <el-table-column prop="receiveUserCount" label="接收人数" width="100" />
+      <el-table-column prop="readCount" label="已读数" width="70" />
       <el-table-column prop="createTime" label="创建时间" width="160px"/>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="queryParam.pageIndex" :limit.sync="queryParam.pageSize"
@@ -38,7 +37,7 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
-      listLoading: true,
+      listLoading: false,
       tableData: [],
       total: 0
     }
@@ -50,10 +49,9 @@ export default {
     search () {
       this.listLoading = true
       messageApi.pageList(this.queryParam).then(data => {
-        const re = data.response
-        this.tableData = re.list
-        this.total = re.total
-        this.queryParam.pageIndex = re.pageNum
+        this.tableData = data.data.list
+        this.total = data.data.total
+        this.queryParam.pageIndex = data.data.pageNum
         this.listLoading = false
       })
     },

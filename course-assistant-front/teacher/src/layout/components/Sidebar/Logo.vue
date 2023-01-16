@@ -24,7 +24,7 @@ export default {
   },
   data () {
     return {
-      title: '新型课堂助理平台'
+      title: '新型课堂助理平台 教师端'
     }
   }
 }
