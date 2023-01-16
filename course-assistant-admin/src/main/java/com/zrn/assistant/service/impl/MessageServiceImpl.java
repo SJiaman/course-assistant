@@ -1,6 +1,8 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.dao.MessageDao;
 import com.zrn.assistant.dto.MessageDTO;
@@ -31,4 +33,10 @@ public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntit
     }
 
 
+    @Override
+    public PageData<MessageDTO> messagePage(Map<String, Object> params) {
+        IPage<MessageEntity> page = getPage(params, null, false);
+        IPage<MessageDTO> messageDTOIPage = baseDao.messagePage(page);
+        return new PageData<>(messageDTOIPage.getRecords(), messageDTOIPage.getTotal());
+    }
 }

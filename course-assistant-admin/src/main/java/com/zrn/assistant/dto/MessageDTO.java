@@ -34,6 +34,10 @@ public class MessageDTO implements Serializable {
 	@ApiModelProperty(value = "课程id")
 	private Integer courseId;
 
+	private String courseName;
+
+	private Integer receiveCount;
+
 	@ApiModelProperty(value = "阅读统计")
 	private Integer readCount;
 

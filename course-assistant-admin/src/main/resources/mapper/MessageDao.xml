@@ -15,5 +15,14 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
+    <select id="messagePage" resultType="com.zrn.assistant.dto.MessageDTO">
+        select
+            a.*,
+            b.name as courseName,
+            b.count as receiveCount
+        from
+            t_message a JOIN t_course b on a.course_id = b.id
+    </select>
+
 
 </mapper>

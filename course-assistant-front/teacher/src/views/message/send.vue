@@ -8,12 +8,17 @@
       <el-form-item label="内容：" prop="content" required>
         <el-input type="textarea" rows="13"  v-model="form.content"></el-input>
       </el-form-item>
-      <el-form-item label="接收人：" required>
+      <!-- <el-form-item label="接收课程：" required>
         <el-select v-model="form.receiveUserIds" multiple filterable remote reserve-keyword
           placeholder="请输入用户名"
           :remote-method="getUserByUserName"
           :loading="selectLoading">
           <el-option v-for="item in options" :key="item.value" :label="item.name" :value="item.value"/>
+        </el-select>
+      </el-form-item> -->
+      <el-form-item label="课程：">
+        <el-select v-model="form.courseId" clearable>
+          <el-option v-for="item in courseList" :key="item.id" :value="item.id" :label="item.name"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -25,9 +30,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters,mapActions } from 'vuex'
 import userApi from '@/api/user'
 import messageApi from '@/api/message'
+import courseApi from '@/api/course'
 
 export default {
   data () {
@@ -35,8 +41,11 @@ export default {
       form: {
         title: '',
         content: '',
-        receiveUserIds: []
+        courseId: '',
+        sendUserId: 0,
+        
       },
+      courseList: [],
       formLoading: false,
       selectLoading: false,
       options: [],
@@ -51,8 +60,17 @@ export default {
     }
   },
   created () {
+    this.form.sendUserId = this.userId
+    this.search()
   },
   methods: {
+    search () {
+      let param ={teacherId: this.userId}
+      courseApi.getCoursePageList(param).then(result => {
+        this.courseList = result.data.list
+        console.log(this.courseList)
+      })
+    },
     getUserByUserName (query) {
       let _this = this
       if (query !== '') {
@@ -71,13 +89,13 @@ export default {
         if (valid) {
           this.formLoading = true
           messageApi.send(this.form).then(data => {
-            if (data.code === 1) {
-              _this.$message.success(data.message)
+            if (data.code === 0) {
+              _this.$message.success(data.msg)
               _this.delCurrentView(_this).then(() => {
                 _this.$router.push('/message/list')
               })
             } else {
-              _this.$message.error(data.message)
+              _this.$message.error(data.msg)
               _this.formLoading = false
             }
           }).catch(e => {
@@ -99,6 +117,11 @@ export default {
       this.form.id = lastId
     },
     ...mapActions('tagsView', { delCurrentView: 'delCurrentView' })
+  },
+  computed: {
+    ...mapGetters([
+      'userId'
+    ]),
   }
 }
 </script>

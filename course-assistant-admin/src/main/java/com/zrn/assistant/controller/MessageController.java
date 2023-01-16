@@ -27,8 +27,9 @@ public class MessageController {
     @GetMapping("page")
     @ApiOperation("分页")
     public Result<PageData<MessageDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<MessageDTO> page = messageService.page(params);
-        return Result.success(page);
+//        PageData<MessageDTO> page = messageService.page(params);
+        PageData<MessageDTO> pageData = messageService.messagePage(params);
+        return Result.success(pageData);
     }
 
     @GetMapping("{id}")

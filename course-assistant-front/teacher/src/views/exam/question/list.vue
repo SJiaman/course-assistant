@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="题目ID：">
+      <!-- <el-form-item label="题目ID：">
         <el-input v-model="queryParam.id" clearable></el-input>
       </el-form-item>
-      <!-- <el-form-item label="年级：">
+      <el-form-item label="年级：">
         <el-select v-model="queryParam.level" placeholder="年级"  @change="levelChange" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="课程：">
         <el-select v-model="queryParam.subjectId" clearable>
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id"
                      :label="item.name+' ( '+item.levelName+' )'"></el-option>
         </el-select>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item label="题型：">
         <el-select v-model="queryParam.questionType" clearable>
           <el-option v-for="item in questionType" :key="item.key" :value="item.key" :label="item.value"></el-option>
@@ -31,7 +31,7 @@
       </el-form-item>
     </el-form>
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="id" label="Id" width="90px"/>
+      <el-table-column type="index" width="50" label="ID"></el-table-column>
       <!-- <el-table-column prop="courseId" label="学科" :formatter="subjectFormatter" width="120px"/> -->
       <el-table-column prop="type" label="题型" :formatter="questionTypeFormatter" width="70px"/>
       <el-table-column prop="title" label="题干" show-overflow-tooltip/>
@@ -126,11 +126,11 @@ export default {
     deleteQuestion (row) {
       let _this = this
       questionApi.deleteQuestion(row.id).then(re => {
-        if (re.code === 1) {
+        if (re.code === 0) {
           _this.search()
-          _this.$message.success(re.message)
+          _this.$message.success(re.msg)
         } else {
-          _this.$message.error(re.message)
+          _this.$message.error(re.msg)
         }
       })
     },
