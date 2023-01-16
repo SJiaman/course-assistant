@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 用户表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-11-27
  */
 @Mapper

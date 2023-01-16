@@ -8,7 +8,7 @@ import com.zrn.assistant.entity.ExamQuestionAnswerEntity;
 /**
  * 考试问题记录表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-12-14
  */
 public interface ExamQuestionAnswerService extends CrudService<ExamQuestionAnswerEntity, ExamQuestionAnswerDTO> {

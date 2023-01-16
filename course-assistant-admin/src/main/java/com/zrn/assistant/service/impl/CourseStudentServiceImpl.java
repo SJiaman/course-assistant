@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * 课程-学生关联表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-11-27
  */
 @Service

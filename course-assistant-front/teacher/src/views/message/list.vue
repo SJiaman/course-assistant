@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="发送者用户名：">
+      <el-form-item label="课程名：">
         <el-input v-model="queryParam.sendUserName"></el-input>
       </el-form-item>
       <el-form-item>
@@ -14,7 +14,7 @@
       <el-table-column prop="title" label="标题" show-overflow-tooltip/>
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="courseName" label="接收课程"  show-overflow-tooltip />
-      <el-table-column prop="receiveUserCount" label="接收人数" width="100" />
+      <el-table-column prop="receiveCount" label="接收人数" width="100" />
       <el-table-column prop="readCount" label="已读数" width="70" />
       <el-table-column prop="createTime" label="创建时间" width="160px"/>
     </el-table>

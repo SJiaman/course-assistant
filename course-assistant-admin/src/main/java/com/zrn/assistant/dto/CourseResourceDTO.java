@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 课程资源表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-12-14
  */
 @Data

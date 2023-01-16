@@ -7,7 +7,7 @@ import com.zrn.assistant.entity.MessageUserEntity;
 /**
  * 
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-12-14
  */
 public interface MessageUserService extends CrudService<MessageUserEntity, MessageUserDTO> {

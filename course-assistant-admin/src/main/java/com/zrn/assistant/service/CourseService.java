@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 课程表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-11-27
  */
 public interface CourseService extends CrudService<CourseEntity, CourseDTO> {

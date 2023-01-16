@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 课程表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2023-01-16
  */
 public enum QuestionTypeEnum {

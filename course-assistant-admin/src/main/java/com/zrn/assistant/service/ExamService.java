@@ -7,7 +7,7 @@ import com.zrn.assistant.entity.ExamEntity;
 /**
  * 考试表
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-12-14
  */
 public interface ExamService extends CrudService<ExamEntity, ExamDTO> {

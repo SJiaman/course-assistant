@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 
  *
- * @author Zhang Ruina 727976120@qq.com
+ * @author Zhang Ruina
  * @since  2022-12-14
  */
 public interface MessageService extends CrudService<MessageEntity, MessageDTO> {
