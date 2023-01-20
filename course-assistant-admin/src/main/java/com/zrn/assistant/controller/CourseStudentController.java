@@ -32,7 +32,7 @@ public class CourseStudentController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<CourseStudentDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<CourseStudentDTO>> page( @RequestParam Map<String, Object> params){
         PageData<CourseStudentDTO> page = courseStudentService.page(params);
         return Result.success(page);
     }
@@ -80,8 +80,8 @@ public class CourseStudentController {
 
     @GetMapping("student/{id}")
     @ApiOperation("老师课程学生列表")
-    public Result getStudent(@PathVariable("id") Long id) {
-        List<CourseStudentDTO> studentDTOS = courseStudentService.getStudent(id);
+    public Result getStudent( @RequestParam Map<String, Object> params) {
+        List<CourseStudentDTO> studentDTOS = courseStudentService.getStudent(params);
         return Result.success(studentDTOS);
     }
 

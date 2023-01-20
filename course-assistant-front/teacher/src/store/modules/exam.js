@@ -8,7 +8,7 @@ const getters = {
   subjectEnumFormat: (state) => (key) => {
     for (let item of state.subjects) {
       if (item.id === key) {
-        return item.name + ' ( ' + item.levelName + ' )'
+        return item.name
       }
     }
     return null
@@ -19,7 +19,7 @@ const getters = {
 const actions = {
   initSubject ({ commit }, action) {
     subjectApi.list().then(re => {
-      commit('setSubjects', re.data.list)
+      commit('setSubjects', re.data)
       if (action !== undefined) {
         action()
       }

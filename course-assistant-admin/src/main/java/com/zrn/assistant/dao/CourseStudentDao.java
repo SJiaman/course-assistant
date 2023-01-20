@@ -1,5 +1,7 @@
 package com.zrn.assistant.dao;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zrn.assistant.common.dao.BaseDao;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.entity.CourseStudentEntity;
@@ -17,7 +19,8 @@ import java.util.List;
 @Mapper
 public interface CourseStudentDao extends BaseDao<CourseStudentEntity> {
 
-    List<CourseStudentDTO> getTeacherStudent(@Param("id") Long id);
+//    List<CourseStudentDTO> getTeacherStudent(@Param("id") Long id);
+    IPage<CourseStudentDTO> getTeacherStudent(IPage<CourseStudentEntity> page,   @Param("ew") Wrapper<CourseStudentDTO> queryWrapper);
 
 
     List<CourseStudentDTO> getStudentByCourseName(@Param("courseName") String courseName);

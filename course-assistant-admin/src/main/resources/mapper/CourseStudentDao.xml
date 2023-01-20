@@ -25,7 +25,11 @@
             t_course a join
             t_course_student b on a.id = b.course_id
                        join t_user c on b.student_id = c.id
-        where b.deleted = 0 and a.teacher_id = #{id};
+        <!-- 如果QueryWrapper存在的话，就拼where条件，因为QueryWrapper其实就是在封装where条件 where b.deleted = 0 and a.teacher_id = #{id};-->
+        <if test="ew.emptyOfWhere == false">
+            ${ew.customSqlSegment}
+        </if>
+
     </select>
 
 

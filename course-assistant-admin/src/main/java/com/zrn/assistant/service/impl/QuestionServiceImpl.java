@@ -33,9 +33,14 @@ public class QuestionServiceImpl extends CrudServiceImpl<QuestionDao, QuestionEn
     @Override
     public QueryWrapper<QuestionEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
+        String courseId = (String)params.get("courseId");
+        String type = (String)params.get("type");
+
 
         QueryWrapper<QuestionEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+        wrapper.eq(StringUtils.isNotBlank(id), "id", id)
+        .eq(StringUtils.isNotBlank(courseId), "course_id", courseId)
+                .eq(StringUtils.isNotBlank(type), "type", type);
 
         return wrapper;
     }

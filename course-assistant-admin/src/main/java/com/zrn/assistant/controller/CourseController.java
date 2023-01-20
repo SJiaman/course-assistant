@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,7 +30,7 @@ public class CourseController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<CourseDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<CourseDTO>> page( @RequestParam Map<String, Object> params){
         PageData<CourseDTO> page = courseService.page(params);
         return Result.success(page);
     }
@@ -61,4 +63,10 @@ public class CourseController {
         return  Result.success();
     }
 
+    @GetMapping("list")
+    @ApiOperation("课程列表")
+    public Result list(@RequestParam Map<String, Object> params) {
+        List<CourseDTO> list = courseService.list(params);
+        return Result.success(list);
+    }
 }

@@ -56,6 +56,8 @@ public class QuestionEntity {
      * 状态
      */
 	private Integer status;
+
+	private Long courseId;
     /**
      * 创建时间
      */

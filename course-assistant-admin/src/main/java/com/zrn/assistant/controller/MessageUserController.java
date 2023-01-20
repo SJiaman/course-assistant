@@ -26,7 +26,7 @@ public class MessageUserController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<MessageUserDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<MessageUserDTO>> page( @RequestParam Map<String, Object> params){
         PageData<MessageUserDTO> page = messageUserService.page(params);
         return Result.success(page);
     }

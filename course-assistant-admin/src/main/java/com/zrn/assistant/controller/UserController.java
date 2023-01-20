@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<UserDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<UserDTO>> page( @RequestParam Map<String, Object> params){
         PageData<UserDTO> page = userService.page(params);
         return Result.success(page);
     }

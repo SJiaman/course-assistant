@@ -26,7 +26,7 @@ public class CourseStudentScoreController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<CourseStudentScoreDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<CourseStudentScoreDTO>> page( @RequestParam Map<String, Object> params){
         PageData<CourseStudentScoreDTO> page = courseStudentScoreService.page(params);
         return Result.success(page);
     }

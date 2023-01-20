@@ -26,7 +26,7 @@ public class CourseResourceController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<CourseResourceDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<CourseResourceDTO>> page( @RequestParam Map<String, Object> params){
         PageData<CourseResourceDTO> page = courseResourceService.page(params);
         return Result.success(page);
     }

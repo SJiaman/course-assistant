@@ -26,7 +26,7 @@ public class ExamRecordController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<ExamRecordDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<ExamRecordDTO>> page( @RequestParam Map<String, Object> params){
         PageData<ExamRecordDTO> page = examRecordService.page(params);
         return Result.success(page);
     }

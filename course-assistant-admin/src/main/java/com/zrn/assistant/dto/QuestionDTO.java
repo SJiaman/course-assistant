@@ -64,4 +64,5 @@ public class QuestionDTO implements Serializable {
 
 	private List<QuestionAnswerDTO> answers;
 
+	private Long courseId;
 }

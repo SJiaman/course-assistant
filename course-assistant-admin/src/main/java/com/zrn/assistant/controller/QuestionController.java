@@ -28,7 +28,7 @@ public class QuestionController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public Result<PageData<QuestionDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<QuestionDTO>> page( @RequestParam Map<String, Object> params){
         PageData<QuestionDTO> page = questionService.page(params);
         return Result.success(page);
     }

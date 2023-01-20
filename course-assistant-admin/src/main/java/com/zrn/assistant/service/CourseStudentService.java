@@ -8,6 +8,7 @@ import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.entity.CourseStudentEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课程-学生关联表
@@ -26,7 +27,7 @@ public interface CourseStudentService extends CrudService<CourseStudentEntity, C
 
     List<CourseDTO> getUserCourse(Long id);
 
-    List<CourseStudentDTO> getStudent(Long id);
+    List<CourseStudentDTO> getStudent(Map<String, Object> params);
 
     List<CourseStudentDTO> getStudentByCourseName(String courseName);
 }
