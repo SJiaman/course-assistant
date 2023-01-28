@@ -21,6 +21,7 @@ public interface CourseStudentDao extends BaseDao<CourseStudentEntity> {
 
 //    List<CourseStudentDTO> getTeacherStudent(@Param("id") Long id);
     IPage<CourseStudentDTO> getTeacherStudent(IPage<CourseStudentEntity> page,   @Param("ew") Wrapper<CourseStudentDTO> queryWrapper);
+//    IPage<CourseStudentDTO> getTeacherStudent(IPage<CourseStudentEntity> page);
 
 
     List<CourseStudentDTO> getStudentByCourseName(@Param("courseName") String courseName);

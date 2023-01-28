@@ -75,10 +75,10 @@ public class CourseStudentController {
         return Result.success(courses);
     }
 
-    @GetMapping("student/{id}")
+    @GetMapping("student")
     @ApiOperation("老师课程学生列表")
     public Result getStudent( @RequestParam Map<String, Object> params) {
-        List<CourseStudentDTO> studentDTOS = courseStudentService.getStudent(params);
+        PageData<CourseStudentDTO> studentDTOS = courseStudentService.getStudent(params);
         return Result.success(studentDTOS);
     }
 

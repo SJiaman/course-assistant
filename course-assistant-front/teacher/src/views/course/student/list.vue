@@ -55,15 +55,15 @@ export default {
     }
   },
   created () {
-    this.teacherId = this.userId
+    this.queryParam.teacherId = this.userId
     this.search()
   },
   methods: {
     search () {
       this.listLoading = true
-      courseApi.getCourseStudentList(this.teacherId).then(data => {
-        this.tableData = data.data
-        this.total = data.total
+      courseApi.getCourseStudentList(this.queryParam).then(data => {
+        this.tableData = data.data.list
+        this.total = data.data.total
         this.queryParam.pageIndex = data.pageNum
         this.listLoading = false
       })
@@ -92,14 +92,16 @@ export default {
       })
     },
     submitForm () {
-       this.listLoading = true
-        let param ={courseName: this.queryParam.courseName}
-        courseApi.getCourseStudentByName(param).then(data => {
-        this.tableData = data.data
-        this.total = data.total
-        this.queryParam.pageIndex = data.pageNum
-        this.listLoading = false
-      })
+      this.queryParam.pageIndex = 1
+      this.search()
+      //  this.listLoading = true
+      //   let param ={courseName: this.queryParam.courseName}
+      //   courseApi.getCourseStudentByName(param).then(data => {
+      //   this.tableData = data.data
+      //   this.total = data.total
+      //   this.queryParam.pageIndex = data.pageNum
+      //   this.listLoading = false
+      // })
     },
     levelFormatter  (row, column, cellValue, index) {
       return this.enumFormat(this.levelEnum, cellValue)

@@ -1,5 +1,6 @@
 package com.zrn.assistant.service;
 
+import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.CrudService;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
@@ -27,7 +28,7 @@ public interface CourseStudentService extends CrudService<CourseStudentEntity, C
 
     List<CourseDTO> getUserCourse(Long id);
 
-    List<CourseStudentDTO> getStudent(Map<String, Object> params);
+    PageData<CourseStudentDTO> getStudent(Map<String, Object> params);
 
     List<CourseStudentDTO> getStudentByCourseName(String courseName);
 }

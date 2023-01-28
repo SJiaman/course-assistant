@@ -37,4 +37,7 @@ public class CourseStudentDTO implements Serializable {
 	private String className;
 
 	private String courseName;
+
+	@ApiModelProperty(value = "是否删除0:未删除1:删除")
+	private Boolean deleted;
 }

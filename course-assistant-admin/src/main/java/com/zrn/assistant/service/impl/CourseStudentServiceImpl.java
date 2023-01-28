@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.exception.BusinessException;
+import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.CourseDao;
@@ -76,7 +77,16 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
     }
 
     @Override
-    public List<CourseStudentDTO> getStudent(Map<String, Object> params) {
+    public PageData<CourseStudentDTO> getStudent(Map<String, Object> params) {
+        IPage<CourseStudentEntity> page = getPage(params, null, false);
+        QueryWrapper<CourseStudentDTO> wrapper = new QueryWrapper<>();
+        String teacherId = (String)params.get("teacherId");
+        String courseName = (String)params.get("courseName");
+        wrapper.eq("b.deleted", false)
+                .eq(StringUtils.isNotBlank(courseName),"a.name", params.get("courseName"))
+                .eq(StringUtils.isNotBlank(teacherId), "a.teacher_id", teacherId);
+        IPage<CourseStudentDTO> teacherStudent = baseDao.getTeacherStudent(page, wrapper);
+        return new PageData<>(teacherStudent.getRecords(), teacherStudent.getTotal());
 //        List<CourseEntity> courseEntities = courseDao.selectList(Wrappers.lambdaQuery(CourseEntity.class)
 //                .eq(CourseEntity::getTeacherId, id));
 //        List<Long> courseIds = courseEntities.stream().map(CourseEntity::getId).collect(Collectors.toList());
@@ -88,7 +98,6 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
 //        QueryWrapper<CourseStudentDTO> wrapper = new QueryWrapper<>();
 //        IPage<CourseStudentDTO> messageDTOIPage = baseDao.getTeacherStudent(page);
 //        List<CourseStudentDTO> dto = baseDao.getTeacherStudent(id);
-        return null;
     }
 
     @Override
