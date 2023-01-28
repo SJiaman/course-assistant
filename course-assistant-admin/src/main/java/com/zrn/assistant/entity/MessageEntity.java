@@ -31,11 +31,11 @@ public class MessageEntity {
     /**
      * 
      */
-	private Integer sendUserId;
+	private Long sendUserId;
     /**
      * 
      */
-	private Integer courseId;
+	private Long courseId;
     /**
      * 
      */

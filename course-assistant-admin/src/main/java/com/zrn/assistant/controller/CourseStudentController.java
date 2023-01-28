@@ -5,14 +5,11 @@ import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.dto.JoinCourseDTO;
-import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.service.CourseStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
 import java.util.List;
 import java.util.Map;
 

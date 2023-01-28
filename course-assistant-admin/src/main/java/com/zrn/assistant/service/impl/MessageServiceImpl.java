@@ -2,15 +2,24 @@ package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
+import com.zrn.assistant.common.utils.ConvertUtils;
+import com.zrn.assistant.dao.CourseStudentDao;
 import com.zrn.assistant.dao.MessageDao;
+import com.zrn.assistant.dao.MessageUserDao;
 import com.zrn.assistant.dto.MessageDTO;
+import com.zrn.assistant.entity.CourseStudentEntity;
 import com.zrn.assistant.entity.MessageEntity;
+import com.zrn.assistant.entity.MessageUserEntity;
 import com.zrn.assistant.service.MessageService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +30,11 @@ import java.util.Map;
  */
 @Service
 public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntity, MessageDTO> implements MessageService {
+    @Resource
+    private CourseStudentDao courseStudentDao;
+
+    @Resource
+    private MessageUserDao messageUserDao;
 
     @Override
     public QueryWrapper<MessageEntity> getWrapper(Map<String, Object> params){
@@ -38,5 +52,21 @@ public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntit
         IPage<MessageEntity> page = getPage(params, null, false);
         IPage<MessageDTO> messageDTOIPage = baseDao.messagePage(page);
         return new PageData<>(messageDTOIPage.getRecords(), messageDTOIPage.getTotal());
+    }
+
+    @Override
+    public void saveMessage(MessageDTO message) {
+        MessageEntity messageEntity = ConvertUtils.sourceToTarget(message, MessageEntity.class);
+        insert(messageEntity);
+
+        // 保存用户消息
+        List<CourseStudentEntity> courseStudentEntities = courseStudentDao.selectList(
+                Wrappers.lambdaQuery(CourseStudentEntity.class).eq(CourseStudentEntity::getCourseId, message.getCourseId()));
+        for (CourseStudentEntity courseStudentEntity : courseStudentEntities) {
+            MessageUserEntity messageUserEntity = new MessageUserEntity();
+            messageUserEntity.setReceiveUserId(courseStudentEntity.getStudentId());
+            messageUserEntity.setMessageId(messageEntity.getId());
+            messageUserDao.insert(messageUserEntity);
+        }
     }
 }

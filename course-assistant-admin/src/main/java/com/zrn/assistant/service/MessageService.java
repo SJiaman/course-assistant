@@ -18,4 +18,6 @@ import java.util.Map;
 public interface MessageService extends CrudService<MessageEntity, MessageDTO> {
 
     PageData<MessageDTO> messagePage(Map<String, Object> params);
+
+    void saveMessage(MessageDTO message);
 }

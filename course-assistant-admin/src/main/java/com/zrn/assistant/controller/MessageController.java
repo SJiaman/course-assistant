@@ -42,7 +42,8 @@ public class MessageController {
     @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody MessageDTO dto){
-        messageService.save(dto);
+//        messageService.save(dto);
+        messageService.saveMessage(dto);
         return Result.success();
     }
 

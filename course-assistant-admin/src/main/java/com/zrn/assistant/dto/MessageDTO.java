@@ -29,10 +29,10 @@ public class MessageDTO implements Serializable {
 	private String content;
 
 	@ApiModelProperty(value = "消息创建者id")
-	private Integer sendUserId;
+	private Long sendUserId;
 
 	@ApiModelProperty(value = "课程id")
-	private Integer courseId;
+	private Long courseId;
 
 	private String courseName;
 

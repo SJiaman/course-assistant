@@ -23,10 +23,10 @@ public class MessageUserDTO implements Serializable {
 	private Long id;
 
 	@ApiModelProperty(value = "消息id")
-	private Integer messageId;
+	private Long messageId;
 
 	@ApiModelProperty(value = "用户id")
-	private Integer receiveUserId;
+	private Long receiveUserId;
 
 	@ApiModelProperty(value = "是否阅读")
 	private Boolean readed;

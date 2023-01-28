@@ -23,11 +23,11 @@ public class MessageUserEntity {
     /**
      * 
      */
-	private Integer messageId;
+	private Long messageId;
     /**
      * 
      */
-	private Integer receiveUserId;
+	private Long receiveUserId;
     /**
      * 
      */
