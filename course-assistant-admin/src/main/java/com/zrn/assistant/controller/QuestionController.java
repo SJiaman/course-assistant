@@ -36,7 +36,8 @@ public class QuestionController {
     @GetMapping("{id}")
     @ApiOperation("信息")
     public Result<QuestionDTO> get(@PathVariable("id") Long id){
-        QuestionDTO data = questionService.get(id);
+//        QuestionDTO data = questionService.get(id);
+        QuestionDTO data = questionService.getQuestionById(id);
         return Result.success(data);
     }
 

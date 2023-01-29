@@ -1,6 +1,7 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.enums.QuestionTypeEnum;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
@@ -13,8 +14,10 @@ import com.zrn.assistant.entity.QuestionEntity;
 import com.zrn.assistant.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -64,11 +67,22 @@ public class QuestionServiceImpl extends CrudServiceImpl<QuestionDao, QuestionEn
             questionEntity.setCorrect(collect);
         }
         insert(questionEntity);
-        List<QuestionAnswerDTO> answers = question.getAnswers();
-        answers.forEach(x -> {
-            x.setQuestionId(questionEntity.getId());
-            QuestionAnswerEntity questionAnswerEntity = ConvertUtils.sourceToTarget(x, QuestionAnswerEntity.class);
-            questionAnswerDao.insert(questionAnswerEntity);
-        });
+        if (!CollectionUtils.isEmpty(question.getAnswers())) {
+            List<QuestionAnswerDTO> answers = question.getAnswers();
+            answers.forEach(x -> {
+                x.setQuestionId(questionEntity.getId());
+                QuestionAnswerEntity questionAnswerEntity = ConvertUtils.sourceToTarget(x, QuestionAnswerEntity.class);
+                questionAnswerDao.insert(questionAnswerEntity);
+            });
+        }
+    }
+
+    @Override
+    public QuestionDTO getQuestionById(Long id) {
+        QuestionDTO questionDTO = get(id);
+        List<QuestionAnswerEntity> questionAnswerEntity = questionAnswerDao
+                .selectList(Wrappers.lambdaQuery(QuestionAnswerEntity.class).eq(QuestionAnswerEntity::getQuestionId, id));
+        questionDTO.setAnswers(ConvertUtils.sourceToTarget(questionAnswerEntity, QuestionAnswerDTO.class));
+        return questionDTO;
     }
 }

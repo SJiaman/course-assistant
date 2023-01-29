@@ -1,27 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading"  :rules="rules">
-      <el-form-item label="年级：" prop="gradeLevel" required>
-        <el-select v-model="form.gradeLevel" placeholder="年级" @change="levelChange">
-          <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="学科：" prop="subjectId" required>
-        <el-select v-model="form.subjectId" placeholder="学科" >
-          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
+      <el-form-item label="学科：" prop="courseId" required>
+        <el-select v-model="form.courseId" placeholder="学科" >
+          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="题干：" prop="title" required>
         <el-input v-model="form.title"   @focus="inputClick(form,'title')" />
       </el-form-item>
-      <el-form-item label="填空答案：" required>
-        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="item in form.items"  label-width="50px" class="question-item-label">
-          <el-input v-model="item.content"   @focus="inputClick(item,'content')"  class="question-item-content-input"  style="width: 80%"/>
-          <span class="question-item-span">分数：</span><el-input-number v-model="item.score" :precision="1" :step="1" :max="100"  ></el-input-number>
-        </el-form-item>
+      <el-form-item label="填空答案：" prop="correct" required>
+       <el-input v-model="form.correct"  @focus="inputClick(form,'correct')" />
       </el-form-item>
-      <el-form-item label="解析：" prop="analyze" required>
-        <el-input v-model="form.analyze"  @focus="inputClick(form,'analyze')" />
+      <el-form-item label="解析：" prop="analyzeText" required>
+        <el-input v-model="form.analyzeText"  @focus="inputClick(form,'analyzeText')" />
       </el-form-item>
       <el-form-item label="分数：" prop="score" required>
         <el-input-number v-model="form.score" :precision="1" :step="1" :max="100"></el-input-number>
@@ -31,7 +23,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
-        <el-button @click="resetForm">重置</el-button>
+        <!-- <el-button @click="resetForm">重置</el-button> -->
         <el-button type="success" @click="showQuestion">预览</el-button>
       </el-form-item>
     </el-form>
@@ -62,13 +54,14 @@ export default {
     return {
       form: {
         id: null,
-        questionType: 4,
+        type: 4,
         gradeLevel: null,
-        subjectId: null,
+        courseId: null,
         title: '',
         items: [
+          { id: null, prefix: 'A', content: '' },
         ],
-        analyze: '',
+        analyzeText: '',
         correct: '',
         score: '',
         difficult: 0
@@ -76,16 +69,13 @@ export default {
       subjectFilter: null,
       formLoading: false,
       rules: {
-        gradeLevel: [
-          { required: true, message: '请选择年级', trigger: 'change' }
-        ],
-        subjectId: [
+        courseId: [
           { required: true, message: '请选择学科', trigger: 'change' }
         ],
         title: [
           { required: true, message: '请输入题干', trigger: 'blur' }
         ],
-        analyze: [
+        analyzeText: [
           { required: true, message: '请输入解析', trigger: 'blur' }
         ],
         score: [
@@ -181,13 +171,13 @@ export default {
         if (valid) {
           this.formLoading = true
           questionApi.edit(this.form).then(re => {
-            if (re.code === 1) {
-              _this.$message.success(re.message)
+            if (re.code === 0) {
+              _this.$message.success(re.msg)
               _this.delCurrentView(_this).then(() => {
                 _this.$router.push('/exam/question/list')
               })
             } else {
-              _this.$message.error(re.message)
+              _this.$message.error(re.msg)
               this.formLoading = false
             }
           }).catch(e => {

@@ -5,12 +5,12 @@
         <el-select v-model="form.gradeLevel" placeholder="年级"  @change="levelChange">
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="学科：" prop="subjectId" required>
-        <el-select v-model="form.subjectId" placeholder="学科" >
-          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
-        </el-select>
       </el-form-item> -->
+      <el-form-item label="学科：" prop="courseId" required>
+        <el-select v-model="form.courseId" placeholder="学科" >
+          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="题干：" prop="title" required>
         <el-input v-model="form.title"   @focus="inputClick(form,'title')" />
       </el-form-item>
@@ -21,8 +21,8 @@
           <el-button type="danger" size="mini" class="question-item-remove" icon="el-icon-delete" @click="questionItemRemove(index)"></el-button>
         </el-form-item>
       </el-form-item>
-      <el-form-item label="解析：" prop="analyze" required>
-        <el-input v-model="form.analyze"  @focus="inputClick(form,'analyze')" />
+      <el-form-item label="解析：" prop="analyzeText" required>
+        <el-input v-model="form.analyzeText"  @focus="inputClick(form,'analyzeText')" />
       </el-form-item>
       <el-form-item label="分数：" prop="score" required>
         <el-input-number v-model="form.score" :precision="1" :step="1" :max="100"></el-input-number>
@@ -37,7 +37,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
-        <el-button @click="resetForm">重置</el-button>
+        <!-- <el-button @click="resetForm">重置</el-button> -->
         <el-button type="success" @click="questionItemAdd">添加选项</el-button>
         <el-button type="success" @click="showQuestion">预览</el-button>
       </el-form-item>
@@ -71,7 +71,7 @@ export default {
         id: null,
         type: 2,
         gradeLevel: null,
-        subjectId: null,
+        courseId: null,
         title: '',
         answers: [
           { id: null, prefix: 'A', content: '' },
@@ -88,12 +88,9 @@ export default {
       subjectFilter: null,
       formLoading: false,
       rules: {
-        // gradeLevel: [
-        //   { required: true, message: '请选择年级', trigger: 'change' }
-        // ],
-        // subjectId: [
-        //   { required: true, message: '请选择学科', trigger: 'change' }
-        // ],
+        courseId: [
+          { required: true, message: '请选择学科', trigger: 'change' }
+        ],
         title: [
           { required: true, message: '请输入题干', trigger: 'blur' }
         ],

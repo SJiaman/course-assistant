@@ -106,13 +106,13 @@ export default {
       this.questionShow.dialog = true
       this.questionShow.loading = true
       questionApi.select(row.id).then(re => {
-        _this.questionShow.qType = re.response.questionType
-        _this.questionShow.question = re.response
+        _this.questionShow.qType = re.data.type
+        _this.questionShow.question = re.data
         _this.questionShow.loading = false
       })
     },
     editQuestion (row) {
-      let url = this.enumFormat(this.editUrlEnum, row.questionType)
+      let url = this.enumFormat(this.editUrlEnum, row.type)
       this.$router.push({ path: url, query: { id: row.id } })
     },
     deleteQuestion (row) {
