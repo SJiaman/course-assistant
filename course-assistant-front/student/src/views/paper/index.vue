@@ -71,8 +71,8 @@ export default {
   created () {
      let _this = this 
     // this.initSubject()
-    console.log(this.userId)
-     let param ={id: this.userId}
+    console.log(this.studentUserId)
+     let param ={id: this.studentUserId}
     courseApi.getCourseByUserId(param).then(re => {
       _this.taskList = re.data
       console.log(_this.taskList)
@@ -110,7 +110,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['userId']),
+    ...mapState('user', ['studentUserId']),
     ...mapState('enumItem', {
       paperTypeEnum: state => state.exam.examPaper.paperTypeEnum
     })
