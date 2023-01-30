@@ -13,6 +13,9 @@
           <el-row>
             <label>发送人：{{item.sendUserName}}</label>
           </el-row>
+           <el-row>
+            <label>课程：{{item.courseName}}</label>
+          </el-row>
           <el-row>
             <label>发送时间：{{item.createTime}}</label>
           </el-row>
@@ -38,6 +41,7 @@ export default {
   data () {
     return {
       queryParam: {
+        receiveUserId: 3,
         pageIndex: 1,
         pageSize: 10
       },
@@ -66,11 +70,12 @@ export default {
     },
     search () {
       this.listLoading = true
-      userApi.messagePageList(this.queryParam).then(data => {
-        const re = data.response
-        this.tableData = re.list
-        this.total = re.total
-        this.queryParam.pageIndex = re.pageNum
+      userApi.messagePageList(this.queryParam).then(res => {
+        this.tableData = res.data.list
+        this.total = res.data.total
+        console.log(this.total)
+        console.log(this.tableData)
+        // this.queryParam.pageIndex = re.pageNum
         this.listLoading = false
       })
     },
