@@ -6,6 +6,7 @@
     <resultMap type="com.zrn.assistant.entity.ExamQuestionEntity" id="examQuestionMap">
         <result property="id" column="id"/>
         <result property="examId" column="exam_id"/>
+        <result property="questionType" column="exam_type"/>
         <result property="questionId" column="question_id"/>
         <result property="createTime" column="create_time"/>
         <result property="modifyTime" column="modify_time"/>

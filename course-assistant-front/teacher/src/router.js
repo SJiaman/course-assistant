@@ -189,17 +189,30 @@ const constantRoutes = [
     alwaysShow: true,
     children: [
       {
-        path: 'list',
-        component: () => import('@/views/task/list'),
-        name: 'TaskListPage',
-        meta: { title: '任务列表', noCache: true }
+        path: 'paper/list',
+        component: () => import('@/views/exam/paper/list'),
+        name: 'ExamPaperPageList',
+        meta: { title: '试卷列表', noCache: true }
       },
       {
-        path: 'edit',
-        component: () => import('@/views/task/edit'),
-        name: 'TaskEditPage',
-        meta: { title: '任务创建', noCache: true }
-      }
+        path: 'paper/edit',
+        component: () => import('@/views/exam/paper/edit'),
+        name: 'ExamPaperEdit',
+        meta: { title: '试卷编辑', noCache: true, activeMenu: '/exam/paper/list' },
+        hidden: true
+      },
+      // {
+      //   path: 'list',
+      //   component: () => import('@/views/task/list'),
+      //   name: 'TaskListPage',
+      //   meta: { title: '任务列表', noCache: true }
+      // },
+      // {
+      //   path: 'edit',
+      //   component: () => import('@/views/task/edit'),
+      //   name: 'TaskEditPage',
+      //   meta: { title: '任务创建', noCache: true }
+      // }
     ]
   },
   // {

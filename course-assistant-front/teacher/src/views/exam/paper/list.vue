@@ -1,34 +1,35 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="题目ID：">
-        <el-input v-model="queryParam.id" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="年级：">
-        <el-select v-model="queryParam.level" placeholder="年级" @change="levelChange" clearable>
-          <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+      <!-- <el-form-item label="课程：" >
+        <el-select v-model="queryParam.courseId"  clearable>
+          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="学科：" >
-        <el-select v-model="queryParam.subjectId"  clearable>
-          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
+      </el-form-item> -->
+      <el-form-item label="课程：">
+        <el-select v-model="queryParam.courseId" clearable>
+          <el-option v-for="item in subjects" :key="item.id" :value="item.id"
+                     :label="item.name"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
-        <router-link :to="{path:'/exam/paper/edit'}" class="link-left">
+        <router-link :to="{path:'/task/paper/edit'}" class="link-left">
           <el-button type="primary">添加</el-button>
         </router-link>
       </el-form-item>
     </el-form>
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="id" label="Id" width="90px"/>
-      <el-table-column prop="subjectId" label="学科" :formatter="subjectFormatter" width="120px" />
-      <el-table-column prop="name" label="名称"  />
+      <el-table-column type="index" width="50" label="ID"></el-table-column>
+      <el-table-column prop="courseId" label="学科" :formatter="subjectFormatter" width="120px" />
+      <el-table-column prop="examName" label="名称"  />
+      <el-table-column prop="questionCount" label="题目数量"  />
+      <el-table-column prop="score" label="总分"  />
+      <el-table-column prop="duration" label="做题时长"  />
       <el-table-column prop="createTime" label="创建时间" width="160px"/>
       <el-table-column  label="操作" align="center"  width="160px">
         <template slot-scope="{row}">
-          <el-button size="mini" @click="$router.push({path:'/exam/paper/edit',query:{id:row.id}})" >编辑</el-button>
+          <el-button size="mini" @click="$router.push({path:'/task/paper/edit',query:{id:row.id}})" >编辑</el-button>
           <el-button size="mini" type="danger"  @click="deletePaper(row)" class="link-left">删除</el-button>
         </template>
       </el-table-column>
@@ -50,7 +51,7 @@ export default {
       queryParam: {
         id: null,
         level: null,
-        subjectId: null,
+        courseId: null,
         pageIndex: 1,
         pageSize: 10
       },
@@ -61,8 +62,8 @@ export default {
     }
   },
   created () {
-    // this.initSubject()
-    // this.search()
+    this.initSubject()
+    this.search()
   },
   methods: {
     submitForm () {
@@ -71,22 +72,21 @@ export default {
     },
     search () {
       this.listLoading = true
-      examPaperApi.pageList(this.queryParam).then(data => {
-        const re = data.response
-        this.tableData = re.list
-        this.total = re.total
-        this.queryParam.pageIndex = re.pageNum
+      examPaperApi.pageList(this.queryParam).then(res => {
+        this.tableData = res.data.list
+        this.total = res.data.total
+        // this.queryParam.pageIndex = res.pageNum
         this.listLoading = false
       })
     },
     deletePaper (row) {
       let _this = this
       examPaperApi.deletePaper(row.id).then(re => {
-        if (re.code === 1) {
+        if (re.code === 0) {
           _this.search()
-          _this.$message.success(re.message)
+          _this.$message.success(re.msg)
         } else {
-          _this.$message.error(re.message)
+          _this.$message.error(re.msg)
         }
       })
     },

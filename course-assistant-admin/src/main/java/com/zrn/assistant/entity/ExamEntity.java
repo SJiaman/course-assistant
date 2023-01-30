@@ -70,4 +70,6 @@ public class ExamEntity {
      * 是否删除0:未删除1:删除
      */
 	private Boolean deleted;
+
+    private Integer type;
 }

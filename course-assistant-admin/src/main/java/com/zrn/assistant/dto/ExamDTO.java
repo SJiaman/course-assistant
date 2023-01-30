@@ -1,11 +1,13 @@
 package com.zrn.assistant.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -58,5 +60,11 @@ public class ExamDTO implements Serializable {
 	@ApiModelProperty(value = "是否删除0:未删除1:删除")
 	private Boolean deleted;
 
+	private Integer type;
 
+	@JsonFormat(pattern ="yyyy-MM-dd HH:mm:ss")
+	private List<Date> limitDateTime;
+
+//	private List<QuestionDTO> questionDTOList;
+	private List<TitleItemsDTO> titleItems;
 }

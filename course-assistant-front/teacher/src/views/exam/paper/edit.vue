@@ -1,32 +1,30 @@
 <template>
   <div class="app-container">
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
-      <el-form-item label="年级：" prop="level" required>
-        <el-select v-model="form.level" placeholder="年级"  @change="levelChange">
-          <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="学科：" prop="subjectId" required>
-        <el-select v-model="form.subjectId" placeholder="学科">
+      <el-form-item label="课程：" prop="courseId" required>
+        <el-select v-model="form.courseId" placeholder="课程">
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id"
-                     :label="item.name+' ( '+item.levelName+' )'"></el-option>
+                     :label="item.name"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="试卷类型：" prop="paperType" required>
-        <el-select v-model="form.paperType" placeholder="试卷类型">
+      <el-form-item label="试卷类型：" prop="type" required>
+        <el-select v-model="form.type" placeholder="试卷类型">
           <el-option v-for="item in paperTypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="时间限制：" required v-show="form.paperType===4">
+      <el-form-item label="时间限制：" required v-show="form.type===4">
         <el-date-picker v-model="form.limitDateTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetimerange"
                         range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="试卷名称："  prop="name" required>
-        <el-input v-model="form.name"/>
+      <el-form-item label="试卷名称："  prop="examName" required>
+        <el-input v-model="form.examName"/>
       </el-form-item>
-      <el-form-item :key="index" :label="'标题'+(index+1)+'：'" required v-for="(titleItem,index) in form.titleItems">
-        <el-input v-model="titleItem.name" style="width: 80%"/>
+      <el-form-item :key="index" :label="'题型'+(index+1)+'：'" required v-for="(titleItem,index) in form.titleItems">
+        <!-- <el-input v-model="titleItem.name" style="width: 80%"/> -->
+         <el-select v-model="titleItem.type" clearable>
+            <el-option v-for="item in questionTypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+          </el-select>
         <el-button type="text" class="link-left" style="margin-left: 20px" size="mini" @click="addQuestion(titleItem)">
           添加题目
         </el-button>
@@ -36,7 +34,7 @@
                         v-for="(questionItem,questionIndex) in titleItem.questionItems" style="margin-bottom: 15px">
             <el-row>
               <el-col :span="23">
-                <QuestionShow :qType="questionItem.questionType" :question="questionItem"/>
+                <QuestionShow :qType="questionItem.type" :question="questionItem"/>
               </el-col>
               <el-col :span="1">
                 <el-button type="text" size="mini" @click="titleItem.questionItems.splice(questionIndex,1)">删除
@@ -46,35 +44,35 @@
           </el-form-item>
         </el-card>
       </el-form-item>
-      <el-form-item label="建议时长：" prop="suggestTime" required>
-        <el-input v-model="form.suggestTime" placeholder="分钟"/>
+      <el-form-item label="建议时长：" prop="duration" required>
+        <el-input v-model="form.duration" placeholder="分钟"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
         <el-button @click="resetForm">重置</el-button>
-        <el-button type="success" @click="addTitle">添加标题</el-button>
+        <el-button type="success" @click="addTitle">添加题型</el-button>
       </el-form-item>
     </el-form>
     <el-dialog :visible.sync="questionPage.showDialog"  width="70%">
-      <el-form :model="questionPage.queryParam" ref="queryForm" :inline="true">
+      <!-- <el-form :model="questionPage.queryParam" ref="queryForm" :inline="true">
         <el-form-item label="ID：">
           <el-input v-model="questionPage.queryParam.id"  clearable></el-input>
         </el-form-item>
         <el-form-item label="题型：">
-          <el-select v-model="questionPage.queryParam.questionType" clearable>
+          <el-select v-model="questionPage.queryParam.type" clearable>
             <el-option v-for="item in questionTypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="queryForm">查询</el-button>
         </el-form-item>
-      </el-form>
+      </el-form> -->
       <el-table v-loading="questionPage.listLoading" :data="questionPage.tableData"
                 @selection-change="handleSelectionChange" border fit highlight-current-row style="width: 100%">
         <el-table-column type="selection" width="35"></el-table-column>
         <el-table-column prop="id" label="Id" width="60px"/>
-        <el-table-column prop="questionType" label="题型" :formatter="questionTypeFormatter" width="70px"/>
-        <el-table-column prop="shortTitle" label="题干" show-overflow-tooltip/>
+        <el-table-column prop="type" label="题型" :formatter="questionTypeFormatter" width="70px"/>
+        <el-table-column prop="title" label="题干" show-overflow-tooltip/>
       </el-table>
       <pagination v-show="questionPage.total>0" :total="questionPage.total"
                   :page.sync="questionPage.queryParam.pageIndex" :limit.sync="questionPage.queryParam.pageSize"
@@ -102,11 +100,11 @@ export default {
       form: {
         id: null,
         level: null,
-        subjectId: null,
-        paperType: 1,
+        courseId: null,
+        type: 1,
         limitDateTime: [],
-        name: '',
-        suggestTime: null,
+        examName: '',
+        duration: null,
         titleItems: []
       },
       subjectFilter: null,
@@ -133,8 +131,8 @@ export default {
         showDialog: false,
         queryParam: {
           id: null,
-          questionType: null,
-          subjectId: 1,
+          type: null,
+          courseId: 1,
           pageIndex: 1,
           pageSize: 5
         },
@@ -150,11 +148,12 @@ export default {
     let _this = this
     this.initSubject(function () {
       _this.subjectFilter = _this.subjects
+      console.log(_this.subjectFilter)
     })
     if (id && parseInt(id) !== 0) {
       _this.formLoading = true
       examPaperApi.select(id).then(re => {
-        _this.form = re.response
+        _this.form = re.data
         _this.formLoading = false
       })
     }
@@ -166,13 +165,13 @@ export default {
         if (valid) {
           this.formLoading = true
           examPaperApi.edit(this.form).then(re => {
-            if (re.code === 1) {
-              _this.$message.success(re.message)
+            if (re.code === 0) {
+              _this.$message.success(re.msg)
               _this.delCurrentView(_this).then(() => {
-                _this.$router.push('/exam/paper/list')
+                _this.$router.push('/task/paper/list')
               })
             } else {
-              _this.$message.error(re.message)
+              _this.$message.error(re.msg)
               this.formLoading = false
             }
           }).catch(e => {
@@ -185,12 +184,14 @@ export default {
     },
     addTitle () {
       this.form.titleItems.push({
-        name: '',
+        // type: 1,
         questionItems: []
       })
     },
     addQuestion (titleItem) {
       this.currentTitleItem = titleItem
+      this.questionPage.queryParam.type = titleItem.type
+      // this.questionPage.queryParam.courseId = this.form.courseId
       this.questionPage.showDialog = true
       this.search()
     },
@@ -208,7 +209,7 @@ export default {
       let _this = this
       this.questionPage.multipleSelection.forEach(q => {
         questionApi.select(q.id).then(re => {
-          _this.currentTitleItem.questionItems.push(re.response)
+          _this.currentTitleItem.questionItems.push(re.data)
         })
       })
       this.questionPage.showDialog = false
@@ -218,13 +219,12 @@ export default {
       this.subjectFilter = this.subjects.filter(data => data.level === this.form.level)
     },
     search () {
-      this.questionPage.queryParam.subjectId = this.form.subjectId
+      this.questionPage.queryParam.courseId = this.form.courseId
       this.questionPage.listLoading = true
-      questionApi.pageList(this.questionPage.queryParam).then(data => {
-        const re = data.response
-        this.questionPage.tableData = re.list
-        this.questionPage.total = re.total
-        this.questionPage.queryParam.pageIndex = re.pageNum
+      questionApi.questionPageList(this.questionPage.queryParam).then(res => {
+        this.questionPage.tableData = res.data.list
+        this.questionPage.total = res.data.total
+        this.questionPage.queryParam.pageIndex = res.pageNum
         this.questionPage.listLoading = false
       })
     },

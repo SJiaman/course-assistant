@@ -12,4 +12,9 @@ import com.zrn.assistant.entity.ExamEntity;
  */
 public interface ExamService extends CrudService<ExamEntity, ExamDTO> {
 
+    void saveExam(ExamDTO dto);
+
+    void deleteExam(Integer id);
+
+    ExamDTO getExamById(Long id);
 }

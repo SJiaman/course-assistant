@@ -31,14 +31,5 @@ public class QuestionAnswerDTO implements Serializable {
 	@ApiModelProperty(value = "答案内容")
 	private String content;
 
-	@ApiModelProperty(value = "创建时间")
-	private Date createTime;
-
-	@ApiModelProperty(value = "修改时间")
-	private Date modifyTime;
-
-	@ApiModelProperty(value = "是否删除0:未删除1:删除")
-	private Boolean deleted;
-
 
 }

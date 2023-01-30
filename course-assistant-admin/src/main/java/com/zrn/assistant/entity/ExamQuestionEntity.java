@@ -24,6 +24,9 @@ public class ExamQuestionEntity {
      * 考试id
      */
 	private Long examId;
+
+	private Integer questionType;
+
     /**
      * 题目id
      */

@@ -25,6 +25,8 @@ public class ExamQuestionDTO implements Serializable {
 	@ApiModelProperty(value = "考试id")
 	private Long examId;
 
+	private Integer questionType;
+
 	@ApiModelProperty(value = "题目id")
 	private Long questionId;
 
