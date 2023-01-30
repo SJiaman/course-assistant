@@ -20,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -41,10 +42,12 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
     public QueryWrapper<ExamEntity> getWrapper(Map<String, Object> params) {
         String id = (String) params.get("id");
         String courseId = (String) params.get("courseId");
+        String type = (String) params.get("type");
 
         QueryWrapper<ExamEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StringUtils.isNotBlank(id), "id", id)
-        .eq(StringUtils.isNotBlank(courseId), "course_id", courseId);
+        .eq(StringUtils.isNotBlank(courseId), "course_id", courseId)
+        .eq(StringUtils.isNotBlank(type), "type", type);
 
         return wrapper;
     }
@@ -72,15 +75,26 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
         insert(examEntity);
 
         // 试卷问题
+        AtomicInteger order = new AtomicInteger();
         titleItems.forEach(item -> {
             List<QuestionDTO> questionDTOList = item.getQuestionItems();
-            questionDTOList.forEach(x -> {
+            for (int i = 0; i < questionDTOList.size(); i++) {
+                QuestionDTO x = questionDTOList.get(i);
                 ExamQuestionEntity examQuestionEntity = new ExamQuestionEntity();
                 examQuestionEntity.setExamId(examEntity.getId());
                 examQuestionEntity.setQuestionId(x.getId());
                 examQuestionEntity.setQuestionType(x.getType());
+                examQuestionEntity.setItemOrder(order.incrementAndGet());
                 examquestionDao.insert(examQuestionEntity);
-            });
+            }
+//            questionDTOList.forEach(x -> {
+//                ExamQuestionEntity examQuestionEntity = new ExamQuestionEntity();
+//                examQuestionEntity.setExamId(examEntity.getId());
+//                examQuestionEntity.setQuestionId(x.getId());
+//                examQuestionEntity.setQuestionType(x.getType());
+//                examQuestionEntity.setItemOrder();
+//                examquestionDao.insert(examQuestionEntity);
+//            });
         });
     }
 
@@ -106,6 +120,11 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
             ArrayList<QuestionDTO> questionDTOS = new ArrayList<>();
             for (Long questionId : questionIds) {
                 QuestionDTO questionById = questionService.getQuestionById(questionId);
+                ExamQuestionEntity examQuestionEntity = examquestionDao
+                        .selectOne(Wrappers.lambdaQuery(ExamQuestionEntity.class)
+                                .eq(ExamQuestionEntity::getQuestionId, questionId)
+                                .eq(ExamQuestionEntity::getExamId, examDTO.getId()));
+                questionById.setItemOrder(examQuestionEntity.getItemOrder());
                 questionDTOS.add(questionById);
             }
             titleItemsDTO.setQuestionItems(questionDTOS);

@@ -1,5 +1,7 @@
 package com.zrn.assistant.dto;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -7,8 +9,8 @@ import java.util.List;
  * @Date 2023/1/30 22:24
  * @Desc
  */
-
-public class AnswerItem {
+@Data
+public class AnswerItemDTO {
     private Long questionId;
 
     private String content;

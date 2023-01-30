@@ -4,7 +4,7 @@
       <div class="q-title" v-html="question.title"/>
       <div class="q-content">
         <el-radio-group v-model="answer.content" @change="answer.completed = true" >
-          <el-radio  v-for="item in question.items"  :key="item.prefix"  :label="item.prefix" >
+          <el-radio  v-for="item in question.answers"  :key="item.prefix"  :label="item.prefix" >
             <span class="question-prefix">{{item.prefix}}.</span>
             <span v-html="item.content" class="q-item-span-content"></span>
           </el-radio>
@@ -15,7 +15,7 @@
       <div class="q-title" v-html="question.title"/>
       <div class="q-content">
         <el-checkbox-group v-model="answer.contentArray" @change="answer.completed = true" >
-          <el-checkbox v-for="item in question.items" :label="item.prefix" :key="item.prefix"  >
+          <el-checkbox v-for="item in question.answers" :label="item.prefix" :key="item.prefix"  >
             <span class="question-prefix">{{item.prefix}}.</span>
             <span v-html="item.content" class="q-item-span-content"></span>
           </el-checkbox>
@@ -26,7 +26,7 @@
       <div class="q-title" v-html="question.title" style="display: inline;margin-right: 10px"/>
       <span style="padding-right: 10px;">(</span>
       <el-radio-group v-model="answer.content" @change="answer.completed = true" >
-        <el-radio  v-for="item in question.items"  :key="item.prefix"  :label="item.prefix" >
+        <el-radio  v-for="item in question.answers"  :key="item.prefix"  :label="item.prefix" >
           <span v-html="item.content" class="q-item-span-content"></span>
         </el-radio>
       </el-radio-group>
@@ -35,7 +35,7 @@
     <div v-else-if="qType==4" v-loading="qLoading">
       <div class="q-title" v-html="question.title"/>
       <div>
-        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="item in question.items"  label-width="50px" style="margin-top: 10px;margin-bottom: 10px;">
+        <el-form-item :label="item.prefix" :key="item.prefix"  v-for="item in question.answers"  label-width="50px" style="margin-top: 10px;margin-bottom: 10px;">
           <el-input v-model="answer.contentArray[item.prefix-1]"  @change="answer.completed = true" />
         </el-form-item>
       </div>

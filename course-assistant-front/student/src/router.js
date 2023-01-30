@@ -21,6 +21,18 @@ const router = new Router({
       ]
     },
     {
+      path: '/course',
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/course/index'),
+          name: 'CourseIndex',
+          meta: { title: '我的课程' }
+        }
+      ]
+    },
+    {
       path: '/paper',
       component: Layout,
       children: [

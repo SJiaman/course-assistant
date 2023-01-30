@@ -1,6 +1,7 @@
 package com.zrn.assistant.service;
 
 import com.zrn.assistant.common.service.CrudService;
+import com.zrn.assistant.dto.AnswerDTO;
 import com.zrn.assistant.dto.ExamRecordDTO;
 import com.zrn.assistant.entity.ExamRecordEntity;
 
@@ -13,4 +14,5 @@ import com.zrn.assistant.entity.ExamRecordEntity;
  */
 public interface ExamRecordService extends CrudService<ExamRecordEntity, ExamRecordDTO> {
 
+    Integer doExam(AnswerDTO dto);
 }

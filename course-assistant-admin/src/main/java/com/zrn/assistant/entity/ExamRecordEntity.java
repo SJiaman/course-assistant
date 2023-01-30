@@ -36,6 +36,8 @@ public class ExamRecordEntity {
      * 做对数量
      */
 	private Integer correctCount;
+
+	private Integer doTime;
     /**
      * 答卷状态
      */

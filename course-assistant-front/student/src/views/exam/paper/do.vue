@@ -23,21 +23,21 @@
     </el-row>
     <el-container  class="app-item-contain">
       <el-header class="align-center">
-        <h1>{{form.name}}</h1>
+        <h1>{{form.examName}}</h1>
         <div>
           <span class="question-title-padding">试卷总分：{{form.score}}</span>
-          <span class="question-title-padding">考试时间：{{form.suggestTime}}分钟</span>
+          <span class="question-title-padding">考试时间：{{form.duration}}分钟</span>
         </div>
       </el-header>
       <el-main>
         <el-form :model="form" ref="form" v-loading="formLoading" label-width="100px">
           <el-row :key="index"  v-for="(titleItem,index) in form.titleItems">
-            <h3>{{titleItem.name}}</h3>
+            <h3>{{questionTypeFormatter(titleItem.type)}}</h3>
             <el-card class="exampaper-item-box" v-if="titleItem.questionItems.length!==0">
               <el-form-item :key="questionItem.itemOrder" :label="questionItem.itemOrder+'.'"
                             v-for="questionItem in titleItem.questionItems"
                             class="exam-question-item" label-width="50px" :id="'question-'+ questionItem.itemOrder">
-                <QuestionEdit :qType="questionItem.questionType" :question="questionItem"
+                <QuestionEdit :qType="questionItem.type" :question="questionItem"
                               :answer="answer.answerItems[questionItem.itemOrder-1]"/>
               </el-form-item>
             </el-card>
@@ -66,7 +66,7 @@ export default {
       form: {},
       formLoading: false,
       answer: {
-        questionId: null,
+        id: 0,
         doTime: 0,
         answerItems: []
       },
@@ -80,8 +80,8 @@ export default {
     if (id && parseInt(id) !== 0) {
       _this.formLoading = true
       examPaperApi.select(id).then(re => {
-        _this.form = re.response
-        _this.remainTime = re.response.suggestTime * 60
+        _this.form = re.data
+        _this.remainTime = re.data.duration * 60
         _this.initAnswer()
         _this.timeReduce()
         _this.formLoading = false
@@ -131,8 +131,8 @@ export default {
       window.clearInterval(_this.timer)
       _this.formLoading = true
       examPaperAnswerApi.answerSubmit(this.answer).then(re => {
-        if (re.code === 1) {
-          _this.$alert('试卷得分：' + re.response + '分', '考试结果', {
+        if (re.code === 0) {
+          _this.$alert('试卷得分：' + re.data + '分', '考试结果', {
             confirmButtonText: '返回考试记录',
             callback: action => {
               _this.$router.push('/record/index')
@@ -145,12 +145,16 @@ export default {
       }).catch(e => {
         _this.formLoading = false
       })
-    }
+    },
+     questionTypeFormatter (id) {
+      return this.enumFormat(this.questionTypeEnum, id)
+    },
   },
   computed: {
     ...mapGetters('enumItem', ['enumFormat']),
     ...mapState('enumItem', {
-      doCompletedTag: state => state.exam.question.answer.doCompletedTag
+      doCompletedTag: state => state.exam.question.answer.doCompletedTag,
+       questionTypeEnum: state => state.exam.question.typeEnum
     })
   }
 }

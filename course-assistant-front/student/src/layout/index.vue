@@ -20,9 +20,10 @@
       </div>
       <el-menu class="el-menu-title" mode="horizontal" :default-active="defaultUrl" :router="true">
         <el-menu-item index="/index">首页</el-menu-item>
-        <el-menu-item index="/paper/index">我的课程</el-menu-item>
+        <el-menu-item index="/course/index">我的课程</el-menu-item>
+        <el-menu-item index="/paper/index">在线考试</el-menu-item>
         <el-menu-item index="/record/index">我的考试</el-menu-item>
-        <!-- <el-menu-item index="/question/index">错题本</el-menu-item> -->
+        <el-menu-item index="/question/index">错题本</el-menu-item>
       </el-menu>
       <div>
         <!-- <a href="/"><img src="@/assets/logo.png" height="56"/></a> -->
@@ -84,7 +85,7 @@ export default {
   },
   methods: {
     routeSelect (path) {
-      let topPath = ['/', '/index', '/paper/index', '/record/index', '/question/index']
+      let topPath = ['/', '/index','course/index', '/paper/index', '/record/index', '/question/index']
       if (topPath.indexOf(path)) {
         return path
       }

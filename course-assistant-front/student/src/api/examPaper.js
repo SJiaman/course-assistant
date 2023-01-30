@@ -1,6 +1,6 @@
-import { post } from '@/utils/request'
+import { get,post } from '@/utils/request'
 
 export default {
-  select: id => post('/api/student/exam/paper/select/' + id),
-  pageList: query => post('/api/student/exam/paper/pageList', query)
+  select: id => get('/api/exam/' + id),
+  pageList: query => get('/api/exam/page', query)
 }

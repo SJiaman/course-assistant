@@ -2,6 +2,7 @@ package com.zrn.assistant.controller;
 
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.utils.Result;
+import com.zrn.assistant.dto.AnswerDTO;
 import com.zrn.assistant.dto.ExamRecordDTO;
 import com.zrn.assistant.service.ExamRecordService;
 import io.swagger.annotations.Api;
@@ -18,7 +19,7 @@ import java.util.Map;
  * @since  2022-12-14
  */
 @RestController
-@RequestMapping("demo/examrecord")
+@RequestMapping("exam/record")
 @Api(tags="考试记录表")
 public class ExamRecordController {
     @Autowired
@@ -57,6 +58,14 @@ public class ExamRecordController {
     public Result delete(@RequestBody Long[] ids){
         examRecordService.delete(ids);
         return Result.success();
+    }
+
+
+    @PostMapping("do")
+    @ApiOperation("保存")
+    public Result save(@RequestBody AnswerDTO dto){
+        Integer score = examRecordService.doExam(dto);
+        return Result.success(score);
     }
 
 }

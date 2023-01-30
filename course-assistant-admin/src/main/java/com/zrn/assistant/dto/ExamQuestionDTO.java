@@ -27,6 +27,8 @@ public class ExamQuestionDTO implements Serializable {
 
 	private Integer questionType;
 
+	private Integer itemOrder;
+
 	@ApiModelProperty(value = "题目id")
 	private Long questionId;
 

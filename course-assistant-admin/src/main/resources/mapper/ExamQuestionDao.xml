@@ -8,6 +8,7 @@
         <result property="examId" column="exam_id"/>
         <result property="questionType" column="exam_type"/>
         <result property="questionId" column="question_id"/>
+        <result property="itemOrder" column="item_order"/>
         <result property="createTime" column="create_time"/>
         <result property="modifyTime" column="modify_time"/>
         <result property="deleted" column="deleted"/>

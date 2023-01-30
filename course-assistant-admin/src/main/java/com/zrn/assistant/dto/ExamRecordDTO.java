@@ -34,6 +34,8 @@ public class ExamRecordDTO implements Serializable {
 	@ApiModelProperty(value = "做对数量")
 	private Integer correctCount;
 
+	private Integer doTime;
+
 	@ApiModelProperty(value = "答卷状态")
 	private Integer status;
 

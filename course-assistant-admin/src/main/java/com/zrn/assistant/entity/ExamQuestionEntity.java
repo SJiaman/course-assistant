@@ -27,6 +27,8 @@ public class ExamQuestionEntity {
 
 	private Integer questionType;
 
+	private Integer itemOrder;
+
     /**
      * 题目id
      */
