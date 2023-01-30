@@ -31,6 +31,10 @@ public class MessageDTO implements Serializable {
 	@ApiModelProperty(value = "消息创建者id")
 	private Long sendUserId;
 
+	private Boolean readed;
+
+	private String sendUserName;
+
 	@ApiModelProperty(value = "课程id")
 	private Long courseId;
 

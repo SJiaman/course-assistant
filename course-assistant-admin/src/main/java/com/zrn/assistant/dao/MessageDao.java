@@ -6,6 +6,8 @@ import com.zrn.assistant.dto.MessageDTO;
 import com.zrn.assistant.entity.MessageEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 
  *
@@ -16,5 +18,10 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MessageDao extends BaseDao<MessageEntity> {
 
     IPage<MessageDTO> messagePage(IPage<MessageEntity> page);
+
+    IPage<MessageDTO> userMessage(IPage<MessageEntity> page);
+
+
+//    List<MessageDTO> userMessage(Long id);
 	
 }

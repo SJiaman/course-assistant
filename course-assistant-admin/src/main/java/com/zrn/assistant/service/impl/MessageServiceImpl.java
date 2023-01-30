@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -68,5 +69,20 @@ public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntit
             messageUserEntity.setMessageId(messageEntity.getId());
             messageUserDao.insert(messageUserEntity);
         }
+    }
+
+    @Override
+    public PageData<MessageDTO> getMessageList(Map<String, Object> params) {
+        IPage<MessageEntity> page = getPage(params, null, false);
+        IPage<MessageDTO> messageDTOIPage = baseDao.userMessage(page);
+        return new PageData<>(messageDTOIPage.getRecords(), messageDTOIPage.getTotal());
+    }
+
+    @Override
+    public void readed(Long id) {
+        MessageUserEntity messageUserEntity = messageUserDao.selectById(id);
+        messageUserEntity.setReaded(true);
+        messageUserEntity.setReadTime(new Date());
+        messageUserDao.updateById(messageUserEntity);
     }
 }

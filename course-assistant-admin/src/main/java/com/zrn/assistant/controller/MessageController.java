@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +41,13 @@ public class MessageController {
         return Result.success(data);
     }
 
+    @GetMapping("user")
+    @ApiOperation("用户消息")
+    public Result<PageData<MessageDTO>> getUserMessage(@RequestParam Map<String, Object> params) {
+        PageData<MessageDTO> pageData = messageService.getMessageList(params);
+        return Result.success(pageData);
+    }
+
     @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody MessageDTO dto){
@@ -61,4 +70,11 @@ public class MessageController {
         return Result.success();
     }
 
+
+    @PostMapping("readed/{id}")
+    @ApiOperation("读消息")
+    public Result update(@PathVariable("id") Long id){
+        messageService.readed(id);
+        return Result.success();
+    }
 }
