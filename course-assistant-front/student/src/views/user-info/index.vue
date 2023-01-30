@@ -51,16 +51,16 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="出生日期：">
-                  <el-date-picker v-model="form.birthDay" value-format="yyyy-MM-dd" type="date" placeholder="选择日期"/>
+                  <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="选择日期"/>
                 </el-form-item>
-                <el-form-item label="手机：">
+                <el-form-item label="手机：" prop="phone">
                   <el-input v-model="form.phone"></el-input>
                 </el-form-item>
-                <el-form-item label="年级：" prop="userLevel" required>
-                  <el-select v-model="form.userLevel" placeholder="年级">
-                    <el-option v-for="item in levelEnum" :key="item.key" :value="item.key"
-                               :label="item.value"></el-option>
-                  </el-select>
+                <el-form-item label="学院：" prop="college">
+                  <el-input v-model="form.college"></el-input>
+                </el-form-item>
+                <el-form-item label="班级：" prop="className">
+                  <el-input v-model="form.className"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm">更新</el-button>
@@ -105,15 +105,12 @@ export default {
     }
   },
   created () {
-   
-   
-
-    console.log(this.userInfo)
+    console.log(this.studentUserId)
     let _this = this
-    // userApi.getUserEvent().then(re => {
-    //   _this.event = re.response
-    // })
-    _this.form = this.userInfo
+    userApi.getCurrentUser(this.studentUserId).then(re => {
+      _this.form = re.data
+    })
+    // _this.form = this.userInfo
   },
   methods: {
     uploadSuccess (re, file) {
@@ -129,10 +126,10 @@ export default {
         if (valid) {
           this.formLoading = true
           userApi.update(this.form).then(data => {
-            if (data.code === 1) {
-              _this.$message.success(data.message)
+            if (data.code === 0) {
+              _this.$message.success(data.msg)
             } else {
-              _this.$message.error(data.message)
+              _this.$message.error(data.msg)
             }
             _this.formLoading = false
           }).catch(e => {
@@ -151,7 +148,7 @@ export default {
     ...mapGetters('enumItem', [
       'enumFormat'
     ]),
-    ...mapState('user', ['userInfo']),
+    ...mapState('user', ['userInfo', 'studentUserId']),
     ...mapState('enumItem', {
       sexEnum: state => state.user.sexEnum,
       levelEnum: state => state.user.levelEnum

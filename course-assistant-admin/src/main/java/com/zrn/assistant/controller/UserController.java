@@ -38,21 +38,21 @@ public class UserController {
         return Result.success(data);
     }
 
-    @PostMapping
+    @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody UserDTO dto){
         userService.save(dto);
         return Result.success();
     }
 
-    @PutMapping
+    @PostMapping("update")
     @ApiOperation("修改")
     public Result update(@RequestBody UserDTO dto){
         userService.update(dto);
         return Result.success();
     }
 
-    @DeleteMapping
+    @PostMapping("delete")
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
         userService.delete(ids);
