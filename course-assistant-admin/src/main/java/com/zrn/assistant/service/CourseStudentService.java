@@ -31,4 +31,6 @@ public interface CourseStudentService extends CrudService<CourseStudentEntity, C
     PageData<CourseStudentDTO> getStudent(Map<String, Object> params);
 
     List<CourseStudentDTO> getStudentByCourseName(String courseName);
+
+    UserDTO randomStudent(Long courseId);
 }

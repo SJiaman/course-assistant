@@ -27,6 +27,7 @@ import javax.annotation.Resource;
 import javax.annotation.Resources;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -46,9 +47,11 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
     @Override
     public QueryWrapper<CourseStudentEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
+        String courseId = (String)params.get("courseId");
 
         QueryWrapper<CourseStudentEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq(StringUtils.isNotBlank(id), "id", id);
+        wrapper.eq(StringUtils.isNotBlank(id), "id", id)
+       .eq(StringUtils.isNotBlank(courseId), "course_id", courseId);
 
         return wrapper;
     }
@@ -81,9 +84,9 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
         IPage<CourseStudentEntity> page = getPage(params, null, false);
         QueryWrapper<CourseStudentDTO> wrapper = new QueryWrapper<>();
         String teacherId = (String)params.get("teacherId");
-        String courseName = (String)params.get("courseName");
+        String courseId = (String)params.get("courseId");
         wrapper.eq("b.deleted", false)
-                .eq(StringUtils.isNotBlank(courseName),"a.name", params.get("courseName"))
+                .eq(StringUtils.isNotBlank(courseId),"b.course_id", courseId)
                 .eq(StringUtils.isNotBlank(teacherId), "a.teacher_id", teacherId);
         IPage<CourseStudentDTO> teacherStudent = baseDao.getTeacherStudent(page, wrapper);
         return new PageData<>(teacherStudent.getRecords(), teacherStudent.getTotal());
@@ -110,5 +113,16 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
 //        List<UserEntity> userEntities = userDao.selectBatchIds(studentIds);
         List<CourseStudentDTO> dtoList = baseDao.getStudentByCourseName(courseName);
         return dtoList;
+    }
+
+    @Override
+    public UserDTO randomStudent(Long courseId) {
+        List<CourseStudentEntity> courseStudentEntities = baseDao.selectList(
+                Wrappers.lambdaQuery(CourseStudentEntity.class).eq(CourseStudentEntity::getCourseId, courseId));
+        List<Long> studentIds = courseStudentEntities.stream().map(CourseStudentEntity::getStudentId).collect(Collectors.toList());
+        Random rand = new Random();
+        int i = rand.nextInt(studentIds.size());
+        UserEntity userEntity = userDao.selectById(studentIds.get(i));
+        return ConvertUtils.sourceToTarget(userEntity, UserDTO.class);
     }
 }

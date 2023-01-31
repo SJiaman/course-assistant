@@ -5,6 +5,7 @@ import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.dto.CourseStudentDTO;
 import com.zrn.assistant.dto.JoinCourseDTO;
+import com.zrn.assistant.dto.UserDTO;
 import com.zrn.assistant.service.CourseStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -87,5 +88,12 @@ public class CourseStudentController {
     public Result getStudentByCourseId(@RequestParam String courseName) {
         List<CourseStudentDTO> dtoList = courseStudentService.getStudentByCourseName(courseName);
         return Result.success(dtoList);
+    }
+
+    @GetMapping("random")
+    @ApiOperation("随机点名")
+    public Result randomStudent(@RequestParam Long courseId) {
+        UserDTO userDTO = courseStudentService.randomStudent(courseId);
+        return Result.success(userDTO);
     }
 }

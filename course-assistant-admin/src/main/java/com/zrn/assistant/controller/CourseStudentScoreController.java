@@ -6,6 +6,7 @@ import com.zrn.assistant.dto.CourseStudentScoreDTO;
 import com.zrn.assistant.service.CourseStudentScoreService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -20,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("demo/coursestudentscore")
 @Api(tags="课程得分")
+@Slf4j
 public class CourseStudentScoreController {
     @Autowired
     private CourseStudentScoreService courseStudentScoreService;
@@ -41,6 +43,7 @@ public class CourseStudentScoreController {
     @PostMapping("save")
     @ApiOperation("保存")
     public Result save(@RequestBody CourseStudentScoreDTO dto){
+        log.info("dto:{}", dto);
         courseStudentScoreService.save(dto);
         return Result.success();
     }
