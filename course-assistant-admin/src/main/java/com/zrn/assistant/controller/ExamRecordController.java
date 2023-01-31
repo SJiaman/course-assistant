@@ -32,6 +32,13 @@ public class ExamRecordController {
         return Result.success(page);
     }
 
+    @GetMapping("list")
+    @ApiOperation("分页")
+    public Result<PageData<ExamRecordDTO>> list( @RequestParam Map<String, Object> params){
+        PageData<ExamRecordDTO> page = examRecordService.getExamRecords(params);
+        return Result.success(page);
+    }
+
     @GetMapping("{id}")
     @ApiOperation("信息")
     public Result<ExamRecordDTO> get(@PathVariable("id") Long id){

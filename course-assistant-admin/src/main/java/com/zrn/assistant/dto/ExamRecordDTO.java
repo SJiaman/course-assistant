@@ -48,5 +48,15 @@ public class ExamRecordDTO implements Serializable {
 	@ApiModelProperty(value = "是否删除0:未删除1:删除")
 	private Boolean deleted;
 
+	private String examName;
+
+	private Long courseId;
+
+	private Integer totalScore;
+
+	private Integer questionCount;
+
+	private Integer duration;
+
 
 }

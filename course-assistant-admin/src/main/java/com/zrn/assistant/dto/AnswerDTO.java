@@ -16,5 +16,7 @@ public class AnswerDTO {
 
     private Integer doTime;
 
+    private Long studentId;
+
     private List<AnswerItemDTO> answerItems;
 }

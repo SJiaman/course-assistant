@@ -16,5 +16,27 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
+    <select id="getExamRecordList" resultType="com.zrn.assistant.dto.ExamRecordDTO">
+        select
+            a.exam_name,
+            a.course_id,
+            a.score as totalScore,
+            a.duration,
+            a.question_count,
+            b.student_id,
+            b.score as userScore,
+            b.correct_count,
+            b.do_time as doTime,
+            b.create_time,
+            b.status
+        from
+            t_exam a
+                left join
+            t_exam_record b on a.id = b.exam_id
+        <if test="ew.emptyOfWhere == false">
+            ${ew.customSqlSegment}
+        </if>
+    </select>
+
 
 </mapper>

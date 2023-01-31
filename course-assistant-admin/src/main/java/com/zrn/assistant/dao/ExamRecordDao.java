@@ -1,8 +1,12 @@
 package com.zrn.assistant.dao;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zrn.assistant.common.dao.BaseDao;
+import com.zrn.assistant.dto.ExamRecordDTO;
 import com.zrn.assistant.entity.ExamRecordEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 考试记录表
@@ -12,5 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ExamRecordDao extends BaseDao<ExamRecordEntity> {
-	
+    IPage<ExamRecordDTO> getExamRecordList(IPage<ExamRecordEntity> page, @Param("ew") Wrapper<ExamRecordDTO> queryWrapper);
 }

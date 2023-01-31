@@ -1,7 +1,9 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zrn.assistant.common.enums.QuestionTypeEnum;
+import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.dao.ExamQuestionAnswerDao;
 import com.zrn.assistant.dao.ExamRecordDao;
@@ -53,6 +55,7 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
     public Integer doExam(AnswerDTO dto) {
         ExamRecordEntity examRecordEntity = new ExamRecordEntity();
         examRecordEntity.setExamId(dto.getId());
+        examRecordEntity.setStudentId(dto.getStudentId());
         examRecordEntity.setDoTime(dto.getDoTime());
         baseDao.insert(examRecordEntity);
         List<AnswerItemDTO> answerItems = dto.getAnswerItems();
@@ -74,6 +77,7 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
                         examQuestionAnswerEntity.setDoRight(true);
                         score.addAndGet(questionEntity.getScore());
                         examQuestionAnswerEntity.setScore(questionEntity.getScore());
+                        correctCount.getAndSet(correctCount.get() + 1);
                     } else {
                         examQuestionAnswerEntity.setDoRight(false);
                         examQuestionAnswerEntity.setScore(0);
@@ -88,13 +92,13 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
                         examQuestionAnswerEntity.setDoRight(true);
                         score.addAndGet(questionEntity.getScore());
                         examQuestionAnswerEntity.setScore(questionEntity.getScore());
+                        correctCount.getAndSet(correctCount.get() + 1);
                     } else {
                         examQuestionAnswerEntity.setDoRight(false);
                         examQuestionAnswerEntity.setScore(0);
                     }
                     examQuestionAnswerEntity.setDoAnswer(item.getContent());
                 }
-                correctCount.getAndSet(correctCount.get() + 1);
             }
             examQuestionAnswerDao.insert(examQuestionAnswerEntity);
         });
@@ -102,5 +106,16 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
         examRecordEntity.setCorrectCount(correctCount.get());
         baseDao.updateById(examRecordEntity);
         return score.get();
+    }
+
+    @Override
+    public PageData<ExamRecordDTO> getExamRecords(Map<String, Object> params) {
+        IPage<ExamRecordEntity> page = getPage(params, null, false);
+        QueryWrapper<ExamRecordDTO> wrapper = new QueryWrapper<>();
+        String studentId = (String)params.get("studentId");
+        wrapper.eq("b.deleted", false)
+                .eq(StringUtils.isNotBlank(studentId),"b.student_id", studentId);
+        IPage<ExamRecordDTO> teacherStudent = baseDao.getExamRecordList(page, wrapper);
+        return new PageData<>(teacherStudent.getRecords(), teacherStudent.getTotal());
     }
 }
