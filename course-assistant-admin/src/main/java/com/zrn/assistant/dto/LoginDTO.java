@@ -3,7 +3,7 @@ package com.zrn.assistant.dto;
 import lombok.Data;
 
 /**
- * @Author Jiaman
+ * @author Zhang Ruina
  * @Date 2022/11/30 19:17
  * @Desc
  */
