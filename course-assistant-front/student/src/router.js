@@ -29,6 +29,12 @@ const router = new Router({
           component: () => import('@/views/course/index'),
           name: 'CourseIndex',
           meta: { title: '我的课程' }
+        },
+        {
+          path: 'resource',
+          component: () => import('@/views/course/resource/index'),
+          name: 'CourseResource',
+          meta: { title: '课程资源' }
         }
       ]
     },

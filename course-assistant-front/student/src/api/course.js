@@ -10,5 +10,6 @@ export default {
   updateCourse: query => post('/api/course/update', query),
   changeStatus: id => post('/api/admin/user/changeStatus/' + id),
   deleteCourse: id => post('/api/course/delete/', [id]),
-  selectByUserName: query => post('/api/admin/user/selectByUserName', query)
+  selectByUserName: query => post('/api/admin/user/selectByUserName', query),
+  resourceList: query => get('/api/course/resource/page', query),
 }

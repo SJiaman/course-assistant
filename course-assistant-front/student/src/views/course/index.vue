@@ -30,9 +30,9 @@
             <div style="padding: 14px;">
               <span>{{item.name}}</span>
               <div class="bottom clearfix">
-                <!-- <router-link target="_blank" :to="{path:'/do',query:{id:item.id}}"> -->
-                  <el-button type="text" class="button" @click="open(item.id)">进入课程</el-button>
-                <!-- </router-link> -->
+                <router-link target="_blank" :to="{path:'/course/resource', query:{id:item.id}}">
+                  <el-button type="text" class="button">进入课程</el-button>
+                </router-link>
               </div>
             </div>
           </el-card>
