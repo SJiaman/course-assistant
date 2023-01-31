@@ -31,7 +31,7 @@ public class CourseResourceEntity {
     /**
      * 类型0:视频:1课件
      */
-	private Boolean type;
+	private Integer type;
     /**
      * URL地址
      */

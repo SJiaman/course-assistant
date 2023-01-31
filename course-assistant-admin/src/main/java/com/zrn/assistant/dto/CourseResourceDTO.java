@@ -29,7 +29,7 @@ public class CourseResourceDTO implements Serializable {
 	private Long courseId;
 
 	@ApiModelProperty(value = "类型0:视频:1课件")
-	private Boolean type;
+	private Integer type;
 
 	@ApiModelProperty(value = "URL地址")
 	private String url;

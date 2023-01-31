@@ -25,7 +25,8 @@ const state = {
   },
   course: {
     statusTag: [{ key: 0, value: 'success' }, { key: 1, value: 'info' }, { key: 2, value: 'danger' }],
-    statusEnum: [{ key: 0, value: '未开始' }, { key: 1, value: '进行中' }, { key: 2, value: '结束' }]
+    statusEnum: [{ key: 0, value: '未开始' }, { key: 1, value: '进行中' }, { key: 2, value: '结束' }],
+    resourceEnum: [{ key: 0, value: '课件' }, { key: 1, value: '视频' }]
   }
 }
 

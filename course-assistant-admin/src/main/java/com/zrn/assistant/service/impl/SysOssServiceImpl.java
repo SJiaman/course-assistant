@@ -1,21 +1,15 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
 
-package com.zrn.assistant.modules.oss.service.impl;
+
+package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zrn.assistant.common.constant.Constant;
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.BaseServiceImpl;
-import com.zrn.assistant.modules.oss.entity.SysOssEntity;
-import com.zrn.assistant.modules.oss.service.SysOssService;
-import com.zrn.assistant.modules.oss.dao.SysOssDao;
+import com.zrn.assistant.dao.SysOssDao;
+import com.zrn.assistant.entity.SysOssEntity;
+import com.zrn.assistant.service.SysOssService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

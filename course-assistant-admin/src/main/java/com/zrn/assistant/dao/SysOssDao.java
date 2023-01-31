@@ -1,15 +1,10 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
 
-package com.zrn.assistant.modules.oss.dao;
+
+package com.zrn.assistant.dao;
 
 import com.zrn.assistant.common.dao.BaseDao;
-import com.zrn.assistant.modules.oss.entity.SysOssEntity;
+import com.zrn.assistant.entity.SysOssEntity;
+
 import org.apache.ibatis.annotations.Mapper;
 
 /**

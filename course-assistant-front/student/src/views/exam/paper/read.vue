@@ -16,7 +16,7 @@
   </el-row>
   <el-container  class="app-item-contain">
     <el-header class="align-center">
-      <h1>{{form.name}}</h1>
+      <h1>{{form.examName}}</h1>
       <div>
         <span class="question-title-padding">试卷得分：{{answer.score}}</span>
         <span class="question-title-padding">试卷耗时：{{formatSeconds(answer.doTime)}}</span>
@@ -25,12 +25,13 @@
     <el-main>
       <el-form :model="form" ref="form" v-loading="formLoading" label-width="100px">
         <el-row :key="index"  v-for="(titleItem,index) in form.titleItems">
-          <h3>{{titleItem.name}}</h3>
+          <!-- <h3>{{titleItem.name}}</h3> -->
+          <h3>{{questionTypeFormatter(titleItem.type)}}</h3>
           <el-card class="exampaper-item-box" v-if="titleItem.questionItems.length!==0">
             <el-form-item :key="questionItem.itemOrder" :label="questionItem.itemOrder+'.'"
                           v-for="questionItem in titleItem.questionItems"
                           class="exam-question-item"  label-width="50px" :id="'question-'+ questionItem.itemOrder">
-              <QuestionAnswerShow :qType="questionItem.questionType" :question="questionItem"  :answer="answer.answerItems[questionItem.itemOrder-1]"/>
+              <QuestionAnswerShow :qType="questionItem.type" :question="questionItem"  :answer="answer.answerItems[questionItem.itemOrder-1]"/>
             </el-form-item>
           </el-card>
         </el-row>
@@ -66,8 +67,8 @@ export default {
     if (id && parseInt(id) !== 0) {
       _this.formLoading = true
       examPaperAnswerApi.read(id).then(re => {
-        _this.form = re.response.paper
-        _this.answer = re.response.answer
+        _this.form = re.data
+        _this.answer = re.data.answer
         _this.formLoading = false
       })
     }
@@ -81,12 +82,16 @@ export default {
     },
     goAnchor (selector) {
       this.$el.querySelector(selector).scrollIntoView({ behavior: 'instant', block: 'center', inline: 'nearest' })
-    }
+    },
+    questionTypeFormatter (id) {
+      return this.enumFormat(this.questionTypeEnum, id)
+    },
   },
   computed: {
     ...mapGetters('enumItem', ['enumFormat']),
     ...mapState('enumItem', {
-      doRightTag: state => state.exam.question.answer.doRightTag
+      doRightTag: state => state.exam.question.answer.doRightTag,
+      questionTypeEnum: state => state.exam.question.typeEnum
     })
   }
 }

@@ -5,7 +5,7 @@
         <div class="q-title" v-html="question.title"/>
         <div class="q-content">
           <el-radio-group v-model="answer.content">
-            <el-radio  v-for="item in question.items"  :key="item.prefix"  :label="item.prefix" >
+            <el-radio  v-for="item in question.answers"  :key="item.prefix"  :label="item.prefix" >
               <span class="question-prefix">{{item.prefix}}.</span>
               <span v-html="item.content" class="q-item-span-content"></span>
             </el-radio>
@@ -16,27 +16,37 @@
         <div class="q-title" v-html="question.title"/>
         <div class="q-content">
           <el-checkbox-group v-model="answer.contentArray" >
-            <el-checkbox v-for="item in question.items" :label="item.prefix" :key="item.prefix" >
+            <el-checkbox v-for="item in question.answers" :label="item.prefix" :key="item.prefix" >
               <span class="question-prefix">{{item.prefix}}.</span>
               <span v-html="item.content"  class="q-item-span-content"></span>
             </el-checkbox>
           </el-checkbox-group>
         </div>
       </div>
-      <div v-else-if="qType==3" >
+      <!-- <div v-else-if="qType==3" >
         <div class="q-title" v-html="question.title" style="display: inline;margin-right: 10px"/>
         <span style="padding-right: 10px;">(</span>
         <el-radio-group v-model="answer.content">
-          <el-radio  v-for="item in question.items"  :key="item.prefix"  :label="item.prefix">
+          <el-radio  v-for="item in question.answers"  :key="item.prefix"  :label="item.prefix">
             <span v-html="item.content" class="q-item-span-content"></span>
           </el-radio>
         </el-radio-group>
         <span style="padding-left: 10px;">)</span>
-      </div>
+      </div> -->
+    <div v-else-if="qType==3" >
+      <div class="q-title" v-html="question.title" style="display: inline;margin-right: 10px"/>
+      <span style="padding-right: 10px;">(</span>
+      <el-radio-group v-model="answer.content">
+        <el-radio  v-for="item in question.answers"  :key="item.prefix"  :label="item.prefix" >
+          <span v-html="item.content" class="q-item-span-content"></span>
+        </el-radio>
+      </el-radio-group>
+      <span style="padding-left: 10px;">)</span>
+    </div>
       <div v-else-if="qType==4" >
         <div class="q-title" v-html="question.title"/>
         <div v-if="answer.contentArray!==null">
-          <el-form-item :label="item.prefix" :key="item.prefix"  v-for="item in question.items"  label-width="50px" style="margin-top: 10px;margin-bottom: 10px;">
+          <el-form-item :label="item.prefix" :key="item.prefix"  v-for="item in question.answers"  label-width="50px" style="margin-top: 10px;margin-bottom: 10px;">
             <el-input v-model="answer.contentArray[item.prefix-1]"  />
           </el-form-item>
         </div>
@@ -69,7 +79,7 @@
       <div class="question-answer-show-item">
         <span class="question-show-item">正确答案：</span>
         <span v-if="qType==1||qType==2 ||qType==5" v-html="question.correct" class="q-item-span-content"/>
-        <span v-if="qType==3" v-html="trueFalseFormatter(question)" class="q-item-span-content"/>
+        <!-- <span v-if="qType==3" v-html="trueFalseFormatter(question)" class="q-item-span-content"/> -->
         <span v-if="qType==4">{{question.correctArray}}</span>
       </div>
     </div>
