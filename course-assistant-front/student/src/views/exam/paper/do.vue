@@ -67,6 +67,7 @@ export default {
       formLoading: false,
       answer: {
         id: 0,
+        studentId: 0,
         doTime: 0,
         answerItems: []
       },
@@ -87,6 +88,7 @@ export default {
         _this.formLoading = false
       })
     }
+    _this.answer.studentId = this.studentUserId
   },
   mounted () {
 
@@ -151,6 +153,7 @@ export default {
     },
   },
   computed: {
+    ...mapState('user', ['studentUserId']),
     ...mapGetters('enumItem', ['enumFormat']),
     ...mapState('enumItem', {
       doCompletedTag: state => state.exam.question.answer.doCompletedTag,

@@ -2,23 +2,28 @@ package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.enums.QuestionTypeEnum;
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
+import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.ExamQuestionAnswerDao;
+import com.zrn.assistant.dao.ExamQuestionDao;
 import com.zrn.assistant.dao.ExamRecordDao;
 import com.zrn.assistant.dao.QuestionDao;
-import com.zrn.assistant.dto.AnswerDTO;
-import com.zrn.assistant.dto.AnswerItemDTO;
-import com.zrn.assistant.dto.ExamRecordDTO;
+import com.zrn.assistant.dto.*;
 import com.zrn.assistant.entity.ExamQuestionAnswerEntity;
+import com.zrn.assistant.entity.ExamQuestionEntity;
 import com.zrn.assistant.entity.ExamRecordEntity;
 import com.zrn.assistant.entity.QuestionEntity;
 import com.zrn.assistant.service.ExamRecordService;
+import com.zrn.assistant.service.ExamService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,6 +44,12 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
 
     @Resource
     private ExamQuestionAnswerDao examQuestionAnswerDao;
+
+    @Resource
+    private ExamService examService;
+
+    @Resource
+    private ExamQuestionDao examQuestionDao;
 
     @Override
     public QueryWrapper<ExamRecordEntity> getWrapper(Map<String, Object> params){
@@ -117,5 +128,40 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
                 .eq(StringUtils.isNotBlank(studentId),"b.student_id", studentId);
         IPage<ExamRecordDTO> teacherStudent = baseDao.getExamRecordList(page, wrapper);
         return new PageData<>(teacherStudent.getRecords(), teacherStudent.getTotal());
+    }
+
+    @Override
+    public RecordDTO getRecord(Long id) {
+        ExamRecordEntity examRecordEntity = baseDao.selectById(id);
+        ExamDTO examDTO = examService.getExamById(examRecordEntity.getExamId());
+        List<ExamQuestionAnswerEntity>  examQuestionAnswerEntityList = examQuestionAnswerDao
+                .selectList(Wrappers.lambdaQuery(ExamQuestionAnswerEntity.class).eq(ExamQuestionAnswerEntity::getExamRecordId, id));
+        AnswerDTO answerDTO = new AnswerDTO();
+        answerDTO.setId(id);
+        answerDTO.setStudentId(examRecordEntity.getStudentId());
+        answerDTO.setScore(examRecordEntity.getScore());
+        answerDTO.setDoTime(examRecordEntity.getDoTime());
+        List<AnswerItemDTO> answerItemDTOS = examQuestionAnswerEntityList.stream().map(x -> {
+            AnswerItemDTO answerItemDTO = new AnswerItemDTO();
+            answerItemDTO.setId(x.getId());
+            answerItemDTO.setQuestionId(x.getQuestionId());
+            answerItemDTO.setScore(x.getScore());
+            answerItemDTO.setDoRight(x.getDoRight());
+            ExamQuestionEntity examQuestionEntity = examQuestionDao.selectOne(Wrappers.lambdaQuery(ExamQuestionEntity.class)
+                    .eq(ExamQuestionEntity::getExamId, examDTO.getId())
+                    .eq(ExamQuestionEntity::getQuestionId, x.getQuestionId()));
+            answerItemDTO.setItemOrder(examQuestionEntity.getItemOrder());
+            String[] split = x.getDoAnswer().split(",");
+            if (split.length > 1) {
+                ArrayList<String> list = new ArrayList<>(Arrays.asList(split));
+                answerItemDTO.setContentArray(list);
+            }
+            answerItemDTO.setContent(x.getDoAnswer());
+            return answerItemDTO;
+        }).collect(Collectors.toList());
+        answerDTO.setAnswerItems(answerItemDTOS);
+        RecordDTO recordDTO = ConvertUtils.sourceToTarget(examDTO, RecordDTO.class);
+        recordDTO.setAnswer(answerDTO);
+        return recordDTO;
     }
 }

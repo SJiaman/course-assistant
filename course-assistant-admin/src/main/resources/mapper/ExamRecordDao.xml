@@ -18,6 +18,7 @@
 
     <select id="getExamRecordList" resultType="com.zrn.assistant.dto.ExamRecordDTO">
         select
+            b.id,
             a.exam_name,
             a.course_id,
             a.score as totalScore,

@@ -11,9 +11,15 @@ import java.util.List;
  */
 @Data
 public class AnswerItemDTO {
+    private Long id;
+
     private Long questionId;
 
     private String content;
+
+    private Boolean doRight;
+
+    private Integer score;
 
     private List<String> contentArray;
 

@@ -18,5 +18,7 @@ public class AnswerDTO {
 
     private Long studentId;
 
+    private Integer score;
+
     private List<AnswerItemDTO> answerItems;
 }

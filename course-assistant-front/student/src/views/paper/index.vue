@@ -77,7 +77,7 @@ export default {
     subjectChange (tab, event) {
       this.queryParam.courseId = Number(this.tabId)
       this.search()
-    },
+    }
   },
   computed: {
     ...mapState('enumItem', {

@@ -4,6 +4,7 @@ import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.CrudService;
 import com.zrn.assistant.dto.AnswerDTO;
 import com.zrn.assistant.dto.ExamRecordDTO;
+import com.zrn.assistant.dto.RecordDTO;
 import com.zrn.assistant.entity.ExamRecordEntity;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ExamRecordService extends CrudService<ExamRecordEntity, ExamRec
     Integer doExam(AnswerDTO dto);
 
     PageData<ExamRecordDTO> getExamRecords(Map<String, Object> params);
+
+    RecordDTO getRecord(Long id);
 }

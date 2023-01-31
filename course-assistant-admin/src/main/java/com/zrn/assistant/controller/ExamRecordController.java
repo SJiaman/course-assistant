@@ -4,6 +4,7 @@ import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.AnswerDTO;
 import com.zrn.assistant.dto.ExamRecordDTO;
+import com.zrn.assistant.dto.RecordDTO;
 import com.zrn.assistant.service.ExamRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,8 +42,9 @@ public class ExamRecordController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    public Result<ExamRecordDTO> get(@PathVariable("id") Long id){
-        ExamRecordDTO data = examRecordService.get(id);
+    public Result<RecordDTO> get(@PathVariable("id") Long id){
+//        ExamRecordDTO data = examRecordService.get(id);
+        RecordDTO data = examRecordService.getRecord(id);
         return Result.success(data);
     }
 
