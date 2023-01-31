@@ -14,11 +14,11 @@
 
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
        <el-table-column type="index" width="50" label="ID"></el-table-column>
-      <el-table-column prop="name" label="课程名称"  width="150"/>
-      <el-table-column prop="command" label="班级口令"  width="150" />
-      <el-table-column prop="count" label="人数"  width="150" />
-      <el-table-column prop="teacher" label="教师" width="150px;">{{userName}} </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="200px"/>
+      <el-table-column prop="name" label="课程名称" />
+      <el-table-column prop="command" label="班级口令"   />
+      <el-table-column prop="count" label="人数"   />
+      <!-- <el-table-column prop="teacher" label="教师" width="150px;">{{userName}} </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="200px"/> -->
       <el-table-column label="状态" prop="status" width="100px">
         <template slot-scope="{row}">
           <el-tag :type="statusTagFormatter(row.status)">

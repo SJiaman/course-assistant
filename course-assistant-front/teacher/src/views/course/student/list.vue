@@ -1,14 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="课程名：">
-        <el-input v-model="queryParam.courseName"></el-input>
+       <el-form-item label="课程：">
+        <el-select v-model="queryParam.courseId" clearable>
+          <el-option v-for="item in subjects" :key="item.id" :value="item.id"
+                     :label="item.name"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
-        <router-link :to="{path:'/user/student/edit'}" class="link-left">
-          <el-button type="primary">添加</el-button>
-        </router-link>
+         <el-button type="primary" @click="selectStudent">随机抽人</el-button>
       </el-form-item>
     </el-form>
 
@@ -30,11 +31,30 @@
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="queryParam.pageIndex" :limit.sync="queryParam.pageSize"
                 @pagination="search"/>
+    <el-dialog title="随机点名" :visible.sync="dialogFormVisible">
+    <el-form :model="form">
+      <el-form-item label="姓名: " :label-width="formLabelWidth">
+        <!-- <el-input v-model="form.name" autocomplete="off"></el-input> -->
+         <span style="font-size: 25px">{{name}}</span>
+      </el-form-item>
+      <el-form-item label="打分: " :label-width="formLabelWidth">
+        <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
+          <el-option label="区域一" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+        </el-select> -->
+        <el-rate v-model="form.score" class="question-item-rate"></el-rate>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="submitScoreForm">确 定</el-button>
+    </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions  } from 'vuex'
 import Pagination from '@/components/Pagination'
 import courseApi from '@/api/course'
 
@@ -43,22 +63,50 @@ export default {
   data () {
     return {
       queryParam: {
-        courseName: '',
-        teacherId: null,
+        courseId: null,
         pageIndex: 1,
         pageSize: 10
       },
+      name: '张三',
       teacherId: null,
       listLoading: true,
       tableData: [],
-      total: 0
+      total: 0,
+      subjectFilter: null,
+      dialogFormVisible: false,
+      form: {
+        studentId: 0,
+        courseId: 0,
+        score: 0,
+      },
+      formLabelWidth: '120px'
     }
   },
   created () {
-    this.queryParam.teacherId = this.userId
     this.search()
+    this.initSubject()
   },
   methods: {
+    submitScoreForm () {
+      let _this = this
+      courseApi.saveScore(this.form).then(re => {
+        if (re.code === 0) {
+          this.dialogFormVisible = false
+          _this.$message.success(re.msg)
+        } else {
+          _this.$message.error(re.msg)
+        }
+      })
+    },
+    selectStudent () {
+      this.dialogFormVisible = true
+      let param ={courseId: this.queryParam.courseId}
+      this.form.courseId = this.queryParam.courseId
+      courseApi.selectStudent(param).then(data => {
+        this.name = data.data.username
+        this.form.studentId = data.data.id
+      })
+    },
     search () {
       this.listLoading = true
       courseApi.getCourseStudentList(this.queryParam).then(data => {
@@ -94,14 +142,6 @@ export default {
     submitForm () {
       this.queryParam.pageIndex = 1
       this.search()
-      //  this.listLoading = true
-      //   let param ={courseName: this.queryParam.courseName}
-      //   courseApi.getCourseStudentByName(param).then(data => {
-      //   this.tableData = data.data
-      //   this.total = data.total
-      //   this.queryParam.pageIndex = data.pageNum
-      //   this.listLoading = false
-      // })
     },
     levelFormatter  (row, column, cellValue, index) {
       return this.enumFormat(this.levelEnum, cellValue)
@@ -117,7 +157,11 @@ export default {
     },
     statusBtnFormatter (status) {
       return this.enumFormat(this.statusBtn, status)
-    }
+    },
+    subjectFormatter  (row, column, cellValue, index) {
+      return this.subjectEnumFormat(cellValue)
+    },
+    ...mapActions('exam', { initSubject: 'initSubject' })
   },
   computed: {
     ...mapGetters('enumItem', [
@@ -132,7 +176,9 @@ export default {
       statusTag: state => state.user.statusTag,
       statusBtn: state => state.user.statusBtn,
       levelEnum: state => state.user.levelEnum
-    })
+    }),
+    ...mapGetters('exam', ['subjectEnumFormat']),
+    ...mapState('exam', { subjects: state => state.subjects })
   }
 }
 </script>

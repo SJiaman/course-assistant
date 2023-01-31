@@ -101,26 +101,26 @@ const constantRoutes = [
         path: 'resource/list',
         component: () => import('@/views/course/resource/list'),
         name: 'CoursePageList',
-        meta: { title: '课程资料列表', noCache: true }
+        meta: { title: '资料列表', noCache: true }
       },
       {
         path: 'resource/edit',
         component: () => import('@/views/course/resource/edit'),
         name: 'CourseEdit',
-        meta: { title: '课程资料编辑', noCache: true, activeMenu: '/course/list' },
+        meta: { title: '资料编辑', noCache: true, activeMenu: '/course/list' },
         hidden: true
       },
       {
         path: 'student/list',
         component: () => import('@/views/course/student/list'),
         name: 'courseList',
-        meta: { title: '课程学生列表', noCache: true }
+        meta: { title: '学生列表', noCache: true }
       },
       {
         path: 'student/edit',
         component: () => import('@/views/course/student/edit'),
         name: 'courseEdit',
-        meta: { title: '课程学生列表', noCache: true, activeMenu: '/course/student/list' },
+        meta: { title: '学生编辑', noCache: true, activeMenu: '/course/student/list' },
         hidden: true
       }
     ]
