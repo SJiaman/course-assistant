@@ -3,6 +3,7 @@ package com.zrn.assistant.controller;
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.utils.Result;
 import com.zrn.assistant.dto.AnswerDTO;
+import com.zrn.assistant.dto.ExamRecordAnalysisDTO;
 import com.zrn.assistant.dto.ExamRecordDTO;
 import com.zrn.assistant.dto.RecordDTO;
 import com.zrn.assistant.service.ExamRecordService;
@@ -37,6 +38,13 @@ public class ExamRecordController {
     @ApiOperation("分页")
     public Result<PageData<ExamRecordDTO>> list( @RequestParam Map<String, Object> params){
         PageData<ExamRecordDTO> page = examRecordService.getExamRecords(params);
+        return Result.success(page);
+    }
+
+    @GetMapping("analysis")
+    @ApiOperation("分析")
+    public Result<PageData<ExamRecordAnalysisDTO>> analysis(@RequestParam Map<String, Object> params){
+        PageData<ExamRecordAnalysisDTO> page = examRecordService.getExamRecordAnalysis(params);
         return Result.success(page);
     }
 
@@ -76,5 +84,6 @@ public class ExamRecordController {
         Integer score = examRecordService.doExam(dto);
         return Result.success(score);
     }
+
 
 }

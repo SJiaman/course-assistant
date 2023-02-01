@@ -164,4 +164,30 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
         recordDTO.setAnswer(answerDTO);
         return recordDTO;
     }
+
+    @Override
+    public PageData<ExamRecordAnalysisDTO> getExamRecordAnalysis(Map<String, Object> params) {
+        PageData<ExamDTO> page = examService.page(params);
+        List<ExamDTO> examDTOList = page.getList();
+        ArrayList<ExamRecordAnalysisDTO> examRecordAnalysisDTOS = new ArrayList<>();
+        for (ExamDTO examDTO : examDTOList) {
+            List<ExamRecordEntity> examRecordEntities = baseDao.selectList(Wrappers
+                    .lambdaQuery(ExamRecordEntity.class).eq(ExamRecordEntity::getExamId, examDTO.getId()));
+            ExamRecordAnalysisDTO examRecordAnalysisDTO = ConvertUtils.sourceToTarget(examDTO, ExamRecordAnalysisDTO.class);
+            if (!examRecordEntities.isEmpty()) {
+                double maxScore = examRecordEntities.stream().mapToDouble(ExamRecordEntity::getScore).max().getAsDouble();
+                double minScore = examRecordEntities.stream().mapToDouble(ExamRecordEntity::getScore).min().getAsDouble();
+                double averageScore = examRecordEntities.stream().mapToDouble(ExamRecordEntity::getScore).average().orElse(0d);
+                double averageDoTime = examRecordEntities.stream().mapToDouble(ExamRecordEntity::getDoTime).average().orElse(0d);
+                examRecordAnalysisDTO.setAverageDoTime(String.format("%.2f", averageDoTime));
+                examRecordAnalysisDTO.setAverageScore(String.format("%.2f", averageScore));
+                examRecordAnalysisDTO.setMinScore(minScore);
+                examRecordAnalysisDTO.setMaxScore(maxScore);
+            }
+            examRecordAnalysisDTOS.add(examRecordAnalysisDTO);
+        }
+
+
+        return new PageData<>(examRecordAnalysisDTOS, page.getTotal());
+    }
 }

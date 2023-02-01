@@ -267,7 +267,7 @@ const constantRoutes = [
         path: 'list',
         component: () => import('@/views/answer/list'),
         name: 'AnswerPageList',
-        meta: { title: '答卷列表', noCache: true }
+        meta: { title: '答卷分析', noCache: true }
       }
     ]
   },

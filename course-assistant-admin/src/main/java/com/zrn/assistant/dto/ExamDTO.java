@@ -33,10 +33,10 @@ public class ExamDTO implements Serializable {
 	@ApiModelProperty(value = "课程id")
 	private Long courseId;
 
-	@ApiModelProperty(value = "开始时间(可删除)")
+	@ApiModelProperty(value = "开始时间")
 	private Date startTime;
 
-	@ApiModelProperty(value = "结束时间(可删除)")
+	@ApiModelProperty(value = "结束时间")
 	private Date endTime;
 
 	@ApiModelProperty(value = "考试时长")

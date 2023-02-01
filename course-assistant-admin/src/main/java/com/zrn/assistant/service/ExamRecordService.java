@@ -3,6 +3,7 @@ package com.zrn.assistant.service;
 import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.CrudService;
 import com.zrn.assistant.dto.AnswerDTO;
+import com.zrn.assistant.dto.ExamRecordAnalysisDTO;
 import com.zrn.assistant.dto.ExamRecordDTO;
 import com.zrn.assistant.dto.RecordDTO;
 import com.zrn.assistant.entity.ExamRecordEntity;
@@ -24,4 +25,6 @@ public interface ExamRecordService extends CrudService<ExamRecordEntity, ExamRec
     PageData<ExamRecordDTO> getExamRecords(Map<String, Object> params);
 
     RecordDTO getRecord(Long id);
+
+    PageData<ExamRecordAnalysisDTO> getExamRecordAnalysis(Map<String, Object> params);
 }

@@ -33,11 +33,11 @@ public class ExamEntity {
      */
 	private Long courseId;
     /**
-     * 开始时间(可删除)
+     * 开始时间
      */
 	private Date startTime;
     /**
-     * 结束时间(可删除)
+     * 结束时间
      */
 	private Date endTime;
     /**

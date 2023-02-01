@@ -1,5 +1,5 @@
-import { post } from '@/utils/request'
+import { get } from '@/utils/request'
 
 export default {
-  page: query => post('/api/admin/examPaperAnswer/page', query)
+  page: query => get('/api/exam/record/analysis', query)
 }
