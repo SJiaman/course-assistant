@@ -124,18 +124,21 @@ export default {
       this.richEditor.dialogVisible = true
     },
     editorConfirm () {
-      let content = this.richEditor.instance.getContent()
-      if (this.richEditor.parameterName === 'title') { // 题干的正确答案重置
-        if (this.questionItemReset(content)) {
-          this.richEditor.object[this.richEditor.parameterName] = content
-          this.richEditor.dialogVisible = false
-        } else {
+      // let content = this.richEditor.instance.getContent()
+      // if (this.richEditor.parameterName === 'title') { // 题干的正确答案重置
+      //   if (this.questionItemReset(content)) {
+      //     this.richEditor.object[this.richEditor.parameterName] = content
+      //     this.richEditor.dialogVisible = false
+      //   } else {
 
-        }
-      } else {
-        this.richEditor.object[this.richEditor.parameterName] = content
-        this.richEditor.dialogVisible = false
-      }
+      //   }
+      // } else {
+      //   this.richEditor.object[this.richEditor.parameterName] = content
+      //   this.richEditor.dialogVisible = false
+      // }
+      let content = this.richEditor.instance.getContent()
+      this.richEditor.object[this.richEditor.parameterName] = content
+      this.richEditor.dialogVisible = false
     },
     questionItemReset (content) {
       let spanRegex = new RegExp('<span class="gapfilling-span (.*?)">(.*?)<\\/span>', 'g')
