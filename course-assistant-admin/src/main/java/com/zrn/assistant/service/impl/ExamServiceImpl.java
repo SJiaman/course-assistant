@@ -1,6 +1,7 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
@@ -16,6 +17,7 @@ import com.zrn.assistant.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -53,7 +55,9 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
     }
 
 
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveExam(ExamDTO dto) {
         ExamEntity examEntity = ConvertUtils.sourceToTarget(dto, ExamEntity.class);
         if (!CollectionUtils.isEmpty(dto.getLimitDateTime())) {
@@ -72,7 +76,15 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
         examEntity.setQuestionCount(questionCount);
         examEntity.setScore(score);
         examEntity.setStatus(0);
-        insert(examEntity);
+        if (examEntity.getId() != null) {
+            baseDao.updateById(examEntity);
+            LambdaUpdateWrapper<ExamQuestionEntity> wrapper = Wrappers.lambdaUpdate(ExamQuestionEntity.class)
+                    .eq(ExamQuestionEntity::getExamId, examEntity.getId())
+                    .set(ExamQuestionEntity::getDeleted, 1);
+            examquestionDao.update(null, wrapper);
+        } else {
+            insert(examEntity);
+        }
 
         // 试卷问题
         AtomicInteger order = new AtomicInteger();
@@ -87,14 +99,6 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
                 examQuestionEntity.setItemOrder(order.incrementAndGet());
                 examquestionDao.insert(examQuestionEntity);
             }
-//            questionDTOList.forEach(x -> {
-//                ExamQuestionEntity examQuestionEntity = new ExamQuestionEntity();
-//                examQuestionEntity.setExamId(examEntity.getId());
-//                examQuestionEntity.setQuestionId(x.getId());
-//                examQuestionEntity.setQuestionType(x.getType());
-//                examQuestionEntity.setItemOrder();
-//                examquestionDao.insert(examQuestionEntity);
-//            });
         });
     }
 

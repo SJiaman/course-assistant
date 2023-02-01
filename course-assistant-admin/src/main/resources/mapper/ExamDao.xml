@@ -6,7 +6,6 @@
     <resultMap type="com.zrn.assistant.entity.ExamEntity" id="examMap">
         <result property="id" column="id"/>
         <result property="examName" column="exam_name"/>
-        <result property="teacherId" column="teacher_id"/>
         <result property="courseId" column="course_id"/>
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>

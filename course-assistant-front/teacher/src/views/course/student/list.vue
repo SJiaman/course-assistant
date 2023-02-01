@@ -22,9 +22,6 @@
       <el-table-column prop="className" label="班级名" width="160px"/>
       <el-table-column width="270px" label="操作" align="center">
         <template slot-scope="{row}">
-          <router-link :to="{path:'/user/student/edit', query:{id:row.id}}" class="link-left">
-            <el-button size="mini" >编辑</el-button>
-          </router-link>
           <el-button  size="mini" type="danger" @click="deleteUser(row)" class="link-left">删除</el-button>
         </template>
       </el-table-column>
@@ -34,14 +31,9 @@
     <el-dialog title="随机点名" :visible.sync="dialogFormVisible">
     <el-form :model="form">
       <el-form-item label="姓名: " :label-width="formLabelWidth">
-        <!-- <el-input v-model="form.name" autocomplete="off"></el-input> -->
          <span style="font-size: 25px">{{name}}</span>
       </el-form-item>
       <el-form-item label="打分: " :label-width="formLabelWidth">
-        <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select> -->
         <el-rate v-model="form.score" class="question-item-rate"></el-rate>
       </el-form-item>
     </el-form>
@@ -99,13 +91,18 @@ export default {
       })
     },
     selectStudent () {
-      this.dialogFormVisible = true
-      let param ={courseId: this.queryParam.courseId}
-      this.form.courseId = this.queryParam.courseId
-      courseApi.selectStudent(param).then(data => {
+       let _this = this
+      if (this.queryParam.courseId == null) {
+          _this.$message.error("请先选择课程！！")
+      } else {
+        this.dialogFormVisible = true
+        let param ={courseId: this.queryParam.courseId}
+        this.form.courseId = this.queryParam.courseId
+        courseApi.selectStudent(param).then(data => {
         this.name = data.data.username
         this.form.studentId = data.data.id
       })
+      }
     },
     search () {
       this.listLoading = true

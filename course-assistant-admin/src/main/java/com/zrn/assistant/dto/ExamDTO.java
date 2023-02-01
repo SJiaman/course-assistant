@@ -27,9 +27,6 @@ public class ExamDTO implements Serializable {
 	@ApiModelProperty(value = "考试名称")
 	private String examName;
 
-	@ApiModelProperty(value = "教师id")
-	private Long teacherId;
-
 	@ApiModelProperty(value = "课程id")
 	private Long courseId;
 

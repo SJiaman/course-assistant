@@ -25,10 +25,6 @@ public class ExamEntity {
      */
 	private String examName;
     /**
-     * 教师id
-     */
-	private Long teacherId;
-    /**
      * 课程id
      */
 	private Long courseId;
