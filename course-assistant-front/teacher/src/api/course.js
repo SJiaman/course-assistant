@@ -13,6 +13,7 @@ export default {
   deleCourseStudent: id => post('/api/course/student/delete', [id]),
   saveResource: query => post('/api/course/resource/save', query),
   resourceList: query => get('/api/course/resource/page', query),
+  selectResource: query => get('/api/course/resource/' + query),
   selectStudent: query => get('/api/course/student/random', query),
   saveScore: query => post('/api/demo/coursestudentscore/save', query),
 }

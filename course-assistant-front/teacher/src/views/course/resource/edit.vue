@@ -25,7 +25,6 @@
           :on-success="uploadSuccess">
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-          <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
       </el-form-item>
       <el-form-item>
@@ -47,7 +46,7 @@ export default {
         id: null,
         fileName: '',
         courseId:'',
-        type: 1,
+        type: 0,
         url: ''
       },
       formLoading: false,
@@ -60,8 +59,8 @@ export default {
     let _this = this
     if (id && parseInt(id) !== 0) {
       _this.formLoading = true
-      subjectApi.select(id).then(re => {
-        _this.form = re.response
+      courseApi.selectResource(id).then(re => {
+        _this.form = re.data
         _this.formLoading = false
       })
     }
@@ -98,9 +97,10 @@ export default {
       this.$refs['form'].resetFields()
       this.form = {
         id: null,
-        name: '',
-        type: 1,
-        levelName: ''
+        fileName: '',
+        courseId:'',
+        type: 0,
+        url: ''
       }
       this.form.id = lastId
     },
