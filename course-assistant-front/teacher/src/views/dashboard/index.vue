@@ -8,9 +8,9 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              试卷总数
+              课程总数
             </div>
-            <count-to :start-val="0" :end-val="examPaperCount" :duration="2600" class="card-panel-num" v-loading="loading"/>
+            <count-to :start-val="0" :end-val="courseCount" :duration="2600" class="card-panel-num" v-loading="loading"/>
           </div>
         </div>
       </el-col>
@@ -21,9 +21,9 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              题目总数
+              试卷总数
             </div>
-            <count-to :start-val="0" :end-val="questionCount" :duration="3000" class="card-panel-num" v-loading="loading"/>
+            <count-to :start-val="0" :end-val="examCount" :duration="3000" class="card-panel-num" v-loading="loading"/>
           </div>
         </div>
       </el-col>
@@ -34,9 +34,9 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              答卷总数
+              题目总数
             </div>
-            <count-to :start-val="0" :end-val="doExamPaperCount" :duration="3600" class="card-panel-num" v-loading="loading"/>
+            <count-to :start-val="0" :end-val="questionCount" :duration="3600" class="card-panel-num" v-loading="loading"/>
           </div>
         </div>
       </el-col>
@@ -47,16 +47,16 @@
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              答题总数
+              答卷总数
             </div>
-            <count-to :start-val="0" :end-val="doQuestionCount" :duration="3200" class="card-panel-num" v-loading="loading"/>
+            <count-to :start-val="0" :end-val="recordCount" :duration="3200" class="card-panel-num" v-loading="loading"/>
           </div>
         </div>
       </el-col>
     </el-row>
-    <el-row class="echarts-line">
+    <!-- <el-row class="echarts-line">
       <div id="echarts-moth-user" style="width: 100%;height:400px;" v-loading="loading"/>
-    </el-row>
+    </el-row> -->
     <el-row class="echarts-line">
       <div id="echarts-moth-question" style="width: 100%;height:400px;" v-loading="loading"/>
     </el-row>
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import resize from './components/mixins/resize'
 import CountTo from 'vue-count-to'
 import dashboardApi from '@/api/dashboard'
@@ -74,32 +75,35 @@ export default {
   },
   data () {
     return {
-      examPaperCount: 0,
+      courseCount: 0,
+      examCount: 0,
       questionCount: 0,
-      doExamPaperCount: 0,
-      doQuestionCount: 0,
+      recordCount: 0,
       echartsUserAction: null,
       echartsQuestion: null,
-      loading: false
+      loading: false,
+      mothDayText: [1, 2],
+      mothDayDoExamQuestionValue: [11, 23]
     }
   },
   mounted () {
     // eslint-disable-next-line no-undef
-    this.echartsUserAction = echarts.init(document.getElementById('echarts-moth-user'), 'macarons')
+    // this.echartsUserAction = echarts.init(document.getElementById('echarts-moth-user'), 'macarons')
     // eslint-disable-next-line no-undef
     this.echartsQuestion = echarts.init(document.getElementById('echarts-moth-question'), 'macarons')
     let _this = this
     this.loading = false
-    // dashboardApi.index().then(re => {
-    //   let response = re.response
-    //   _this.examPaperCount = response.examPaperCount
-    //   _this.questionCount = response.questionCount
-    //   _this.doExamPaperCount = response.doExamPaperCount
-    //   _this.doQuestionCount = response.doQuestionCount
-    //   _this.echartsUserAction.setOption(this.option('用户活跃度', '{b}日{c}度', response.mothDayText, response.mothDayUserActionValue))
-    //   _this.echartsQuestion.setOption(this.option('题目月数量', '{b}日{c}题', response.mothDayText, response.mothDayDoExamQuestionValue))
-    //   this.loading = false
-    // })
+    console.log(this.userId)
+    let param = {id: this.userId}
+    dashboardApi.index(param).then(re => {
+      _this.courseCount = re.data.courseCount
+      _this.examCount = re.data.examCount
+      _this.questionCount = re.data.questionCount
+      _this.recordCount = re.data.recordCount
+      // _this.echartsUserAction.setOption(this.option('用户活跃度', '{b}日{c}度', response.mothDayText, response.mothDayUserActionValue))
+      _this.echartsQuestion.setOption(this.option('答卷日数量', '{b}日{c}张', this.mothDayText, this.mothDayDoExamQuestionValue))
+      this.loading = false
+    })
   },
   methods: {
     option (title, formatter, label, vaule) {
@@ -132,6 +136,11 @@ export default {
         }]
       }
     }
+  },
+   computed: {
+    ...mapGetters([
+      'userId'
+    ]),
   }
 }
 </script>

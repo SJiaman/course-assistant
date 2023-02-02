@@ -1,5 +1,5 @@
-import { post } from '@/utils/request'
+import { get } from '@/utils/request'
 
 export default {
-  index: () => post('/api/admin/dashboard/index')
+  index: query => get('/api/index/teacher', query)
 }

@@ -50,7 +50,6 @@ export default {
     return {
       queryParam: {
         id: null,
-        level: null,
         courseId: null,
         pageIndex: 1,
         pageSize: 10
