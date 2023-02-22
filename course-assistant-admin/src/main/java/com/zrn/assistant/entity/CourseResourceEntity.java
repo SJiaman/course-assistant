@@ -21,10 +21,6 @@ public class CourseResourceEntity {
     @TableId(type = IdType.AUTO)
 	private Long id;
     /**
-     * 老师id
-     */
-	private Long teacherId;
-    /**
      * 课程id
      */
 	private Long courseId;

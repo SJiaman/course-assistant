@@ -5,7 +5,6 @@
 
     <resultMap type="com.zrn.assistant.entity.CourseResourceEntity" id="courseResourceMap">
         <result property="id" column="id"/>
-        <result property="teacherId" column="teacher_id"/>
         <result property="courseId" column="course_id"/>
         <result property="type" column="type"/>
         <result property="url" column="url"/>

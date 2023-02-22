@@ -22,9 +22,6 @@ public class CourseResourceDTO implements Serializable {
 	@ApiModelProperty(value = "id")
 	private Long id;
 
-	@ApiModelProperty(value = "老师id")
-	private Long teacherId;
-
 	@ApiModelProperty(value = "课程id")
 	private Long courseId;
 
