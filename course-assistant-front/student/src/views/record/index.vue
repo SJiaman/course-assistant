@@ -8,8 +8,8 @@
            <el-table-column prop="courseId" label="学科"  width="70" />
            <el-table-column label="状态" prop="status" width="100px">
              <template slot-scope="{row}">
-               <el-tag :type="statusTagFormatter(row.status)">
-                 {{ statusTextFormatter(row.status) }}
+               <el-tag :type="statusTagFormatter(2)">
+                 {{ statusTextFormatter(2) }}
                </el-tag>
              </template>
            </el-table-column>
@@ -28,7 +28,7 @@
          <pagination v-show="total>0" :total="total" :background="false" :page.sync="queryParam.pageIndex" :limit.sync="queryParam.pageSize"
                      @pagination="search" style="margin-top: 20px"/>
        </el-col>
-       <el-col  :span="6" >
+       <!-- <el-col  :span="6" >
          <el-card  class="record-answer-info">
             <el-form label-width="50%" >
               <el-form-item label="系统判分：">
@@ -51,7 +51,7 @@
               </el-form-item>
             </el-form>
          </el-card>
-       </el-col>
+       </el-col> -->
      </el-row>
   </div>
 </template>

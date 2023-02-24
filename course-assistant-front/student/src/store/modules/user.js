@@ -30,7 +30,7 @@ const mutations = {
     Cookies.set('studentUserName', userName, { expires: 30 })
   },
   setUserId (state, userId) {
-    state.userId = userId
+    state.studentUserId = userId
     Cookies.set('studentUserId', userId, { expires: 60 * 24 })
   },
   setUserInfo: (state, userInfo) => {

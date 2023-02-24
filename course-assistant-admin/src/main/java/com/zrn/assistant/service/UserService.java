@@ -24,4 +24,6 @@ public interface UserService extends CrudService<UserEntity, UserDTO> {
      * 退出登录
      */
     void logout();
+
+    void register(LoginDTO login);
 }

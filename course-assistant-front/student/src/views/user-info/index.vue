@@ -148,7 +148,7 @@ export default {
     ...mapGetters('enumItem', [
       'enumFormat'
     ]),
-    ...mapState('user', ['userInfo', 'studentUserId']),
+    ...mapState('user', ['studentUserId']),
     ...mapState('enumItem', {
       sexEnum: state => state.user.sexEnum,
       levelEnum: state => state.user.levelEnum

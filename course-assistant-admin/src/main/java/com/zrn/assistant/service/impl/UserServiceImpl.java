@@ -52,4 +52,15 @@ public class UserServiceImpl extends CrudServiceImpl<UserDao, UserEntity, UserDT
     public void logout() {
 
     }
+
+    @Override
+    public void register(LoginDTO login) {
+        UserEntity userEntity = baseDao.selectOne(Wrappers.lambdaQuery(UserEntity.class)
+                .eq(UserEntity::getUsername, login.getUsername()));
+        if (userEntity != null) {
+            throw new BusinessException("用户已存在");
+        }
+        UserEntity user = ConvertUtils.sourceToTarget(login, UserEntity.class);
+        insert(user);
+    }
 }

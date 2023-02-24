@@ -22,6 +22,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation("注册")
+    @PostMapping("/register")
+    public Result register(@RequestBody LoginDTO login) {
+        userService.register(login);
+        return Result.success();
+    }
+
 
     @ApiOperation("登录")
     @PostMapping("/login")

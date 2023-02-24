@@ -1,8 +1,5 @@
 <template>
   <div class="lowin  lowin-blue">
-    <div class="lowin-brand">
-      <img src="@/assets/logo2.png" alt="logo" style="margin-top: 12px">
-    </div>
     <div class="lowin-wrapper">
       <div class="lowin-box lowin-register">
         <div class="lowin-box-inner">
@@ -10,20 +7,13 @@
             <p>新型课堂助理平台</p>
             <div class="lowin-group">
               <label>用户名 </label>
-              <el-input ref="userName" v-model="loginForm.userName" class="lowin-input" placeholder="用户名"
-                        name="userName" type="text" tabindex="1" auto-complete="on"/>
+              <el-input ref="username" v-model="loginForm.username" class="lowin-input" placeholder="用户名"
+                        name="username" type="text" tabindex="1" auto-complete="on"/>
             </div>
             <div class="lowin-group password-group">
               <label>密码</label>
               <el-input class="lowin-input" ref="password" v-model="loginForm.password"
-                        placeholder="密码" name="password" tabindex="2" auto-complete="on"
-                        @keyup.enter.native="handleLogin"/>
-            </div>
-            <div class="lowin-group">
-              <label>年级 </label>
-              <el-select class="lowin-input" v-model="loginForm.userLevel" placeholder="年级">
-                <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
-              </el-select>
+                        placeholder="密码" name="password" tabindex="2" auto-complete="on" show-password/>
             </div>
             <el-button type="text" class="lowin-btn login-btn" @click.native.prevent="handleRegister">注册</el-button>
             <div class="text-foot">
@@ -36,35 +26,32 @@
         </div>
       </div>
     </div>
-    <div class="account-foot-copyright">
-      <span>Copyright ©2019-2022 武汉思维跳跃科技有限公司 版权所有</span>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import registerApi from '@/api/register'
+import registerApi from '@/api/login'
 
 export default {
   name: 'Login',
   data () {
     return {
       loginForm: {
-        userName: '',
+        username: '',
         password: '',
-        userLevel: 1
+        role: 1
       }
     }
   },
   methods: {
     handleRegister () {
       let _this = this
-      registerApi.register(this.loginForm).then(function (result) {
-        if (result && result.code === 1) {
+      registerApi.register(this.loginForm).then(result => {
+        if (result.code === 0) {
           _this.$router.push({ path: '/login' })
         } else {
-          _this.$message.error(result.message)
+          _this.$message.error(result.msg)
         }
       })
     },
