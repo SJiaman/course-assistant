@@ -27,4 +27,6 @@ public interface MessageService extends CrudService<MessageEntity, MessageDTO> {
     void readed(Long id);
 
     void deleteMessage(Long id);
+
+    void deleteMessageById(Long id);
 }

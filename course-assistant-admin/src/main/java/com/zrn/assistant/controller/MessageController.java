@@ -65,8 +65,9 @@ public class MessageController {
 
     @PostMapping("delete")
     @ApiOperation("删除")
-    public Result delete(@RequestBody Long[] ids){
-        messageService.delete(ids);
+    public Result delete(@RequestBody Long id){
+//        messageService.delete(ids);
+        messageService.deleteMessageById(id);
         return Result.success();
     }
 

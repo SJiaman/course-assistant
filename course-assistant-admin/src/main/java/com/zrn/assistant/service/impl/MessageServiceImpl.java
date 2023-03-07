@@ -100,4 +100,15 @@ public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntit
                     .eq(MessageUserEntity::getMessageId, x));
         });
     }
+
+    @Override
+    public void deleteMessageById(Long id) {
+        MessageEntity messageEntity = baseDao.selectById(id);
+        baseDao.delete(Wrappers.lambdaQuery(MessageEntity.class)
+                .eq(MessageEntity::getId, id));
+
+        messageUserDao.delete(Wrappers.lambdaQuery(MessageUserEntity.class)
+                .eq(MessageUserEntity::getMessageId, messageEntity.getId()));
+
+    }
 }
