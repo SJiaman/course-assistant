@@ -4,6 +4,8 @@ import com.zrn.assistant.common.service.CrudService;
 import com.zrn.assistant.dto.QuestionAnswerDTO;
 import com.zrn.assistant.entity.QuestionAnswerEntity;
 
+import java.util.List;
+
 /**
  * 题目答案表
  *
@@ -12,4 +14,5 @@ import com.zrn.assistant.entity.QuestionAnswerEntity;
  */
 public interface QuestionAnswerService extends CrudService<QuestionAnswerEntity, QuestionAnswerDTO> {
 
+    void deleteQuestionAnswer(Long id);
 }

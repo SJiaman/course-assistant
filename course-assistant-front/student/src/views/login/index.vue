@@ -123,7 +123,7 @@ export default {
               _this.$router.push({ path: '/' })
             } else {
               _this.loading = false
-              _this.$message.error(result.message)
+              _this.$message.error("用户不存在")
             }
           }).catch(function (reason) {
             _this.loading = false

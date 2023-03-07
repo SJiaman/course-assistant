@@ -77,19 +77,42 @@ export default {
     },
     submitForm () {
       let _this = this
-      this.formLoading = true
-      courseApi.saveResource(this.form).then(data => {
-        if (data.code === 0) {
-          _this.$message.success(data.msg)
-          _this.delCurrentView(_this).then(() => {
-            _this.$router.push('/course/resource/list')
-          })
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.formLoading = true
+          if (this.form.id == null) {
+            console.log(this.form)
+            courseApi.saveResource(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/course/resource/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          } else {
+            courseApi.updateResource(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/course/resource/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          }
         } else {
-          _this.$message.error(data.msg)
-          _this.formLoading = false
+          return false
         }
-      }).catch(e => {
-        _this.formLoading = false
       })
     },
     resetForm () {

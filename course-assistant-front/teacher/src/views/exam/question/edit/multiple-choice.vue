@@ -38,7 +38,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
         <!-- <el-button @click="resetForm">重置</el-button> -->
-        <el-button type="success" @click="questionItemAdd">添加选项</el-button>
+        <!-- <el-button type="success" @click="questionItemAdd">添加选项</el-button> -->
         <el-button type="success" @click="showQuestion">预览</el-button>
       </el-form-item>
     </el-form>
@@ -127,7 +127,13 @@ export default {
     if (id && parseInt(id) !== 0) {
       _this.formLoading = true
       questionApi.select(id).then(re => {
-        _this.form = re.response
+        _this.form = re.data
+        console.log(re.data.correct.split(",")[0]);
+        _this.form.correctArray = []
+        // console.log(_this.form.correctArray)
+        _this.form.correctArray.push(re.data.correct.split(",")[0])
+        _this.form.correctArray.push(re.data.correct.split(",")[1])
+        console.log(_this.form.correctArray);
         _this.formLoading = false
       })
     }
@@ -153,22 +159,24 @@ export default {
     questionItemRemove (index) {
       this.form.items.splice(index, 1)
     },
-    questionItemAdd () {
-      let items = this.form.items
-      let newLastPrefix
-      if (items.length > 0) {
-        let last = items[items.length - 1]
-        newLastPrefix = String.fromCharCode(last.prefix.charCodeAt() + 1)
-      } else {
-        newLastPrefix = 'A'
-      }
-      items.push({ id: null, prefix: newLastPrefix, content: '' })
-    },
+    // questionItemAdd () {
+    //   let items = this.form.items
+    //   let newLastPrefix
+    //   if (items.length > 0) {
+    //     let last = items[items.length - 1]
+    //     newLastPrefix = String.fromCharCode(last.prefix.charCodeAt() + 1)
+    //   } else {
+    //     newLastPrefix = 'A'
+    //   }
+    //   items.push({ id: null, prefix: newLastPrefix, content: '' })
+    // },
     submitForm () {
+      console.log(this.form.id)
       let _this = this
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.formLoading = true
+        if (this.form.id == null) {
           questionApi.edit(this.form).then(re => {
             if (re.code === 0) {
               _this.$message.success(re.msg)
@@ -176,14 +184,27 @@ export default {
                 _this.$router.push('/exam/question/list')
               })
             } else {
-              _this.$message.error(re.message)
+              _this.$message.error(re.msg)
               this.formLoading = false
             }
           }).catch(e => {
             this.formLoading = false
           })
         } else {
-          return false
+            questionApi.update(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/exam/question/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          }
         }
       })
     },

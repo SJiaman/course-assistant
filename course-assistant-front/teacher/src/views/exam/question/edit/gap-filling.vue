@@ -105,7 +105,7 @@ export default {
     if (id && parseInt(id) !== 0) {
       _this.formLoading = true
       questionApi.select(id).then(re => {
-        _this.form = re.response
+        _this.form = re.data
         _this.formLoading = false
       })
     }
@@ -169,10 +169,12 @@ export default {
       return true
     },
     submitForm () {
+      console.log(this.form.id)
       let _this = this
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.formLoading = true
+        if (this.form.id == null) {
           questionApi.edit(this.form).then(re => {
             if (re.code === 0) {
               _this.$message.success(re.msg)
@@ -187,7 +189,20 @@ export default {
             this.formLoading = false
           })
         } else {
-          return false
+            questionApi.update(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/exam/question/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          }
         }
       })
     },
@@ -197,7 +212,7 @@ export default {
     },
     showQuestion () {
       this.questionShow.dialog = true
-      this.questionShow.qType = this.form.questionType
+      this.questionShow.qType = this.form.type
       this.questionShow.question = this.form
     },
     resetForm () {

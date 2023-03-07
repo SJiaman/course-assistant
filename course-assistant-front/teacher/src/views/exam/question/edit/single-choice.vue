@@ -159,10 +159,12 @@ export default {
       items.push({ id: null, prefix: newLastPrefix, content: '' })
     },
     submitForm () {
+      console.log(this.form.id)
       let _this = this
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.formLoading = true
+        if (this.form.id == null) {
           questionApi.edit(this.form).then(re => {
             if (re.code === 0) {
               _this.$message.success(re.msg)
@@ -170,14 +172,27 @@ export default {
                 _this.$router.push('/exam/question/list')
               })
             } else {
-              _this.$message.error(re.message)
+              _this.$message.error(re.msg)
               this.formLoading = false
             }
           }).catch(e => {
             this.formLoading = false
           })
         } else {
-          return false
+            questionApi.update(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/exam/question/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          }
         }
       })
     },

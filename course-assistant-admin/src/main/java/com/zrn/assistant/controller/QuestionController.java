@@ -53,14 +53,16 @@ public class QuestionController {
     @PostMapping("update")
     @ApiOperation("修改")
     public Result update(@RequestBody QuestionDTO dto){
-        questionService.update(dto);
+        questionService.updateQuestion(dto);
+//        questionService.update(dto);
         return Result.success();
     }
 
     @PostMapping("delete")
     @ApiOperation("删除")
     public Result delete(@RequestBody Long[] ids){
-        questionService.delete(ids);
+//        questionService.delete(ids);
+        questionService.deleteQuestion(ids);
         return Result.success();
     }
 

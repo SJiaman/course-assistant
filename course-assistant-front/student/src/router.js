@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout'
+import Cookies from 'js-cookie'
 
 Vue.use(Router)
 const router = new Router({
@@ -105,5 +106,18 @@ const router = new Router({
     }
   ]
 })
-
+//进入页面之前判断用户是否登录
+router.beforeEach((to, from, next) => {
+  if(to.path === '/login') {
+    return next()
+  }
+  // 判断该路由是否需要登录权限
+  if (Cookies.get('studentUserId')) {  // 获取用户登录信息
+      next();
+  }else {
+      window.alert("请登录！")
+      next('/login')
+      
+  }
+})
 export { router }

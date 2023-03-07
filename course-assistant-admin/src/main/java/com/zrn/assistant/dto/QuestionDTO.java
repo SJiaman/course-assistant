@@ -59,4 +59,7 @@ public class QuestionDTO implements Serializable {
 	private Long courseId;
 
 	private Integer itemOrder;
+
+	@ApiModelProperty(value = "创建时间")
+	private Date createTime;
 }

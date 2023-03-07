@@ -17,4 +17,6 @@ public interface ExamService extends CrudService<ExamEntity, ExamDTO> {
     void deleteExam(Integer id);
 
     ExamDTO getExamById(Long id);
+
+    void deleteExamByCourseId(Long id);
 }

@@ -19,8 +19,8 @@ import java.util.Date;
 public class QuestionAnswerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "id")
-	private Long id;
+//	@ApiModelProperty(value = "id")
+//	private Long id;
 
 	@ApiModelProperty(value = "题目id")
 	private Long questionId;

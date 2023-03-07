@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface CourseService extends CrudService<CourseEntity, CourseDTO> {
 
+    void deleteCourse(Long[] ids);
 }

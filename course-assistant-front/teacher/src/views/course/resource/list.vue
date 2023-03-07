@@ -16,6 +16,7 @@
       <!-- <el-table-column prop="type" label="类型"  /> -->
       <el-table-column width="220px" label="操作" align="center">
         <template slot-scope="{row}">
+          <el-button size="mini"><a :href="row.url">打开</a></el-button>
           <router-link :to="{path:'/course/resource/edit', query:{id:row.id}}" class="link-left">
             <el-button size="mini">编辑</el-button>
           </router-link>
@@ -68,8 +69,8 @@ export default {
     },
     delSubject (row) {
       let _this = this
-      subjectApi.deleteSubject(row.id).then(re => {
-        if (re.code === 1) {
+      courseApi.deleteResource(row.id).then(re => {
+        if (re.code === 0) {
           _this.search()
           _this.$message.success(re.message)
         } else {

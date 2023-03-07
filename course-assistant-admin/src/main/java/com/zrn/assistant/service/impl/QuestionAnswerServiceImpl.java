@@ -1,14 +1,18 @@
 package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.dao.QuestionAnswerDao;
 import com.zrn.assistant.dto.QuestionAnswerDTO;
 import com.zrn.assistant.entity.QuestionAnswerEntity;
+import com.zrn.assistant.entity.QuestionEntity;
 import com.zrn.assistant.service.QuestionAnswerService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,4 +35,10 @@ public class QuestionAnswerServiceImpl extends CrudServiceImpl<QuestionAnswerDao
     }
 
 
+    @Override
+    public void deleteQuestionAnswer(Long id) {
+        LambdaUpdateWrapper<QuestionAnswerEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(QuestionAnswerEntity::getQuestionId, id).set(QuestionAnswerEntity::getDeleted, 1);
+         baseDao.update(null, lambdaUpdateWrapper);
+    }
 }

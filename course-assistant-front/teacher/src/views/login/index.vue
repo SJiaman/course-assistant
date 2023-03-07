@@ -143,10 +143,7 @@ export default {
               _this.$router.push({ path: '/' })
             } else {
               _this.loading = false
-              _this.$message({
-                message: result.message,
-                type: 'error'
-              })
+               _this.$message.error(result.msg)
             }
           }).catch(function (reason) {
             _this.loading = false

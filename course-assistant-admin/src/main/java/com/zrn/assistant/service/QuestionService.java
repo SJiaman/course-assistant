@@ -16,4 +16,8 @@ public interface QuestionService extends CrudService<QuestionEntity, QuestionDTO
     void addQuestion(QuestionDTO question);
 
     QuestionDTO getQuestionById(Long id);
+
+    void updateQuestion(QuestionDTO dto);
+
+    void deleteQuestion(Long[] ids);
 }

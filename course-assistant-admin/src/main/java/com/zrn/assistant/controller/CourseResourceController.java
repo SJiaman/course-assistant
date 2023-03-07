@@ -6,6 +6,7 @@ import com.zrn.assistant.dto.CourseResourceDTO;
 import com.zrn.assistant.service.CourseResourceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -20,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("course/resource")
 @Api(tags="课程资源表")
+@Slf4j
 public class CourseResourceController {
     @Autowired
     private CourseResourceService courseResourceService;
@@ -48,6 +50,7 @@ public class CourseResourceController {
     @PostMapping("update")
     @ApiOperation("修改")
     public Result update(@RequestBody CourseResourceDTO dto){
+        log.info("dto:{}",dto);
         courseResourceService.update(dto);
         return Result.success();
     }

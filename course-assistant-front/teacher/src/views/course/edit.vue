@@ -3,7 +3,7 @@
 
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading">
       <el-form-item label="课程名："  prop="name" required>
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.name"  width="50PX"></el-input>
       </el-form-item>
       <el-form-item label="课程口令：" prop="command" required>
         <el-input v-model="form.command"></el-input>

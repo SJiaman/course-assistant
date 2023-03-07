@@ -7,11 +7,13 @@ import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.ExamDao;
 import com.zrn.assistant.dao.ExamQuestionDao;
+import com.zrn.assistant.dao.ExamRecordDao;
 import com.zrn.assistant.dto.ExamDTO;
 import com.zrn.assistant.dto.QuestionDTO;
 import com.zrn.assistant.dto.TitleItemsDTO;
 import com.zrn.assistant.entity.ExamEntity;
 import com.zrn.assistant.entity.ExamQuestionEntity;
+import com.zrn.assistant.entity.ExamRecordEntity;
 import com.zrn.assistant.service.ExamService;
 import com.zrn.assistant.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,9 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
 
     @Resource
     private QuestionService questionService;
+
+    @Resource
+    private ExamRecordDao examRecordDao;
 
     @Override
     public QueryWrapper<ExamEntity> getWrapper(Map<String, Object> params) {
@@ -105,7 +110,12 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
     @Override
     public void deleteExam(Integer id) {
         baseDao.deleteById(id);
+
+        // 试卷问题删除
         examquestionDao.delete(Wrappers.lambdaQuery(ExamQuestionEntity.class).eq(ExamQuestionEntity::getExamId, id));
+
+        // 考试记录删除
+        examRecordDao.delete(Wrappers.lambdaQuery(ExamRecordEntity.class).eq(ExamRecordEntity::getExamId, id));
     }
 
     @Override
@@ -136,5 +146,24 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
         }
         examDTO.setTitleItems(titleItemsDTOS);
         return examDTO;
+    }
+
+    @Override
+    public void deleteExamByCourseId(Long id) {
+        baseDao.delete(Wrappers.lambdaQuery(ExamEntity.class).eq(ExamEntity::getCourseId, id));
+
+        List<ExamEntity> examEntities = baseDao.selectList(
+                Wrappers.lambdaQuery(ExamEntity.class).eq(ExamEntity::getCourseId, id));
+
+        List<Long> examIds = examEntities.stream().map(ExamEntity::getId).collect(Collectors.toList());
+
+        examIds.forEach(x -> {
+            // 试卷问题删除
+            examquestionDao.delete(Wrappers.lambdaQuery(ExamQuestionEntity.class).eq(ExamQuestionEntity::getExamId, x));
+
+            // 考试记录删除
+            examRecordDao.delete(Wrappers.lambdaQuery(ExamRecordEntity.class).eq(ExamRecordEntity::getExamId, x));
+        });
+
     }
 }
