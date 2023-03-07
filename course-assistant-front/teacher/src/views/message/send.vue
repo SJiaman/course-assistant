@@ -62,6 +62,15 @@ export default {
   created () {
     this.form.sendUserId = this.userId
     this.search()
+    let id = this.$route.query.id
+    let _this = this
+    if (id && parseInt(id) !== 0) {
+      _this.formLoading = true
+      messageApi.select(id).then(re => {
+        _this.form = re.data
+        _this.formLoading = false
+      })
+    }
   },
   methods: {
     search () {
@@ -88,21 +97,35 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.formLoading = true
-          messageApi.send(this.form).then(data => {
-            if (data.code === 0) {
-              _this.$message.success(data.msg)
-              _this.delCurrentView(_this).then(() => {
-                _this.$router.push('/message/list')
-              })
-            } else {
-              _this.$message.error(data.msg)
+          if (this.form.id == null) {
+            messageApi.send(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/message/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
               _this.formLoading = false
-            }
-          }).catch(e => {
-            _this.formLoading = false
-          })
-        } else {
-          return false
+            })
+          }  else {
+            messageApi.edit(this.form).then(data => {
+              if (data.code === 0) {
+                _this.$message.success(data.msg)
+                _this.delCurrentView(_this).then(() => {
+                  _this.$router.push('/message/list')
+                })
+              } else {
+                _this.$message.error(data.msg)
+                _this.formLoading = false
+              }
+            }).catch(e => {
+              _this.formLoading = false
+            })
+          }
         }
       })
     },

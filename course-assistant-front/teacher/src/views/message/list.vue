@@ -1,8 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="课程名：">
-        <el-input v-model="queryParam.sendUserName"></el-input>
+       <el-form-item label="课程：">
+        <el-select v-model="queryParam.courseId" clearable>
+          <el-option v-for="item in subjects" :key="item.id" :value="item.id"
+                     :label="item.name"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
@@ -17,6 +20,12 @@
       <el-table-column prop="receiveCount" label="接收人数" width="100" />
       <el-table-column prop="readCount" label="已读数" width="70" />
       <el-table-column prop="createTime" label="创建时间" width="160px"/>
+      <el-table-column  label="操作" align="center"  width="160px">
+        <template slot-scope="{row}">
+          <el-button size="mini" @click="$router.push({path:'/message/send',query:{id:row.id}})" >编辑</el-button>
+          <el-button size="mini" type="danger"  @click="deletePaper(row)" class="link-left">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="queryParam.pageIndex" :limit.sync="queryParam.pageSize"
                 @pagination="search"/>
@@ -24,7 +33,7 @@
 </template>
 
 <script>
-
+import { mapGetters, mapState, mapActions } from 'vuex'
 import Pagination from '@/components/Pagination'
 import messageApi from '@/api/message'
 
@@ -43,6 +52,7 @@ export default {
     }
   },
   created () {
+    this.initSubject()
     this.search()
   },
   methods: {
@@ -55,10 +65,30 @@ export default {
         this.listLoading = false
       })
     },
+    deletePaper (row) {
+      let _this = this
+      messageApi.delete(row.id).then(re => {
+        if (re.code === 0) {
+          _this.search()
+          _this.$message.success(re.msg)
+        } else {
+          _this.$message.error(re.msg)
+        }
+      })
+    },
     submitForm () {
       this.queryParam.pageIndex = 1
       this.search()
-    }
+    },
+    ...mapActions('exam', { initSubject: 'initSubject' })
+  },
+   computed: {
+    ...mapGetters('enumItem', ['enumFormat']),
+    ...mapState('enumItem', {
+      levelEnum: state => state.user.levelEnum
+    }),
+    ...mapGetters('exam', ['subjectEnumFormat']),
+    ...mapState('exam', { subjects: state => state.subjects })
   }
 }
 </script>
