@@ -32,8 +32,6 @@ public class MessageEntity {
      * 
      */
 	private Long sendUserId;
-
-	private Long receiveUserId;
     /**
      * 
      */

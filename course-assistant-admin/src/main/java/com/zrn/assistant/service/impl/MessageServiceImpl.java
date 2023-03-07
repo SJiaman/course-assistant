@@ -13,6 +13,7 @@ import com.zrn.assistant.dto.MessageDTO;
 import com.zrn.assistant.entity.CourseStudentEntity;
 import com.zrn.assistant.entity.MessageEntity;
 import com.zrn.assistant.entity.MessageUserEntity;
+import com.zrn.assistant.entity.QuestionEntity;
 import com.zrn.assistant.service.MessageService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -84,5 +86,18 @@ public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntit
         messageUserEntity.setReaded(true);
         messageUserEntity.setReadTime(new Date());
         messageUserDao.updateById(messageUserEntity);
+    }
+
+    @Override
+    public void deleteMessage(Long id) {
+        List<MessageEntity> messageEntities = baseDao.selectList(Wrappers.lambdaQuery(MessageEntity.class)
+                .eq(MessageEntity::getCourseId, id));
+        baseDao.delete(Wrappers.lambdaQuery(MessageEntity.class)
+                .eq(MessageEntity::getCourseId, id));
+        List<Long> ids = messageEntities.stream().map(MessageEntity::getId).collect(Collectors.toList());
+        ids.forEach( x -> {
+            messageUserDao.delete(Wrappers.lambdaQuery(MessageUserEntity.class)
+                    .eq(MessageUserEntity::getMessageId, x));
+        });
     }
 }

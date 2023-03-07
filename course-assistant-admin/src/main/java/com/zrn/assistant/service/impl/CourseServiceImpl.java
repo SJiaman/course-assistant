@@ -6,9 +6,7 @@ import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.dao.*;
 import com.zrn.assistant.dto.CourseDTO;
 import com.zrn.assistant.entity.*;
-import com.zrn.assistant.service.CourseService;
-import com.zrn.assistant.service.CourseStudentService;
-import com.zrn.assistant.service.ExamService;
+import com.zrn.assistant.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +31,13 @@ public class CourseServiceImpl extends CrudServiceImpl<CourseDao, CourseEntity, 
     private CourseResourceDao courseResourceDao;
 
     @Resource
+    private QuestionDao questionDao;
+
+    @Resource
     private ExamService examService;
+
+    @Resource
+    private MessageService messageService;
 
 
     @Override
@@ -61,8 +65,16 @@ public class CourseServiceImpl extends CrudServiceImpl<CourseDao, CourseEntity, 
         courseResourceDao.delete(Wrappers.lambdaQuery(CourseResourceEntity.class)
                 .eq(CourseResourceEntity::getCourseId, ids[0]));
 
+        // 删除课程关联题目
+        questionDao.delete(Wrappers.lambdaQuery(QuestionEntity.class)
+                .eq(QuestionEntity::getCourseId, ids[0]));
+
+
         // 删除课程关联试卷
         examService.deleteExamByCourseId(ids[0]);
+
+        // 删除课程通告
+        messageService.deleteMessage(ids[0]);
 
     }
 }

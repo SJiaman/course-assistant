@@ -25,4 +25,6 @@ public interface MessageService extends CrudService<MessageEntity, MessageDTO> {
     PageData<MessageDTO> getMessageList(Map<String, Object> params);
 
     void readed(Long id);
+
+    void deleteMessage(Long id);
 }
