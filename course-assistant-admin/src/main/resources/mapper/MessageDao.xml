@@ -22,7 +22,9 @@
             b.count as receiveCount
         from
             t_message a JOIN t_course b on a.course_id = b.id
-        where a.deleted = 0
+        <if test="ew.emptyOfWhere == false">
+            ${ew.customSqlSegment}
+        </if>
     </select>
 
     <select id="userMessage" resultType="com.zrn.assistant.dto.MessageDTO">

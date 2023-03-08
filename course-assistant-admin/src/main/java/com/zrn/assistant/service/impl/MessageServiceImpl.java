@@ -53,7 +53,11 @@ public class MessageServiceImpl extends CrudServiceImpl<MessageDao, MessageEntit
     @Override
     public PageData<MessageDTO> messagePage(Map<String, Object> params) {
         IPage<MessageEntity> page = getPage(params, null, false);
-        IPage<MessageDTO> messageDTOIPage = baseDao.messagePage(page);
+        QueryWrapper<MessageDTO> wrapper = new QueryWrapper<>();
+        String courseId = (String)params.get("courseId");
+        wrapper.eq("a.deleted", false)
+                .eq(StringUtils.isNotBlank(courseId),"a.course_id", courseId);
+        IPage<MessageDTO> messageDTOIPage = baseDao.messagePage(page, wrapper);
         return new PageData<>(messageDTOIPage.getRecords(), messageDTOIPage.getTotal());
     }
 

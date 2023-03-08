@@ -82,8 +82,8 @@ export default {
       echartsUserAction: null,
       echartsQuestion: null,
       loading: false,
-      mothDayText: [1, 2],
-      mothDayDoExamQuestionValue: [11, 23]
+      mothDayText: [],
+      mothDayDoExamQuestionValue: []
     }
   },
   mounted () {
