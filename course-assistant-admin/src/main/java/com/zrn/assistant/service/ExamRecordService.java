@@ -27,4 +27,6 @@ public interface ExamRecordService extends CrudService<ExamRecordEntity, ExamRec
     RecordDTO getRecord(Long id);
 
     PageData<ExamRecordAnalysisDTO> getExamRecordAnalysis(Map<String, Object> params);
+
+    List<Map<String, String>> getRecordCount();
 }

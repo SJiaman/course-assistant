@@ -39,5 +39,16 @@
         </if>
     </select>
 
+    <select id="getExamRecordListCount" resultType="com.zrn.assistant.dto.RecordCountDTO" parameterType="list">
+        select DATE_FORMAT(create_time,'%Y-%m-%d') AS day,count(1) as recordCount
+        from t_exam_record a
+        where deleted = 0 and exam_id in
+        <foreach item="item" collection="ids" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        GROUP BY day
+        order by day
+        limit 10
+    </select>
 
 </mapper>

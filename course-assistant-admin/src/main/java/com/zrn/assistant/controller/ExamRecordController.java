@@ -85,5 +85,9 @@ public class ExamRecordController {
         return Result.success(score);
     }
 
-
+    @GetMapping("test")
+    @ApiOperation("test")
+    public Result getRecordCount() {
+        return Result.success(examRecordService.getRecordCount());
+    }
 }

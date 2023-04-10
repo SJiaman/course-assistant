@@ -50,12 +50,21 @@ export default {
     }
   },
   created () {
-    this.initSubject()
+    // this.initSubject()
+    let param ={id: this.studentUserId}
+    subjectApi.list(param).then(re => {
+      _this.subjectList = re.data
+      console.log(_this.taskList)
+      // _this.loading = false
+      // _this.taskLoading = false
+    })
   },
   methods: {
     initSubject () {
       let _this = this
-      subjectApi.list().then(re => {
+      console.log(this.studentUserId)
+      let param ={id: this.studentUserId}
+      subjectApi.list(param).then(re => {
         _this.subjectList = re.data
         let courseId = _this.subjectList[0].id
         _this.queryParam.courseId = courseId
@@ -80,6 +89,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('user', ['studentUserId']),
     ...mapState('enumItem', {
       paperTypeEnum: state => state.exam.examPaper.paperTypeEnum,
     })

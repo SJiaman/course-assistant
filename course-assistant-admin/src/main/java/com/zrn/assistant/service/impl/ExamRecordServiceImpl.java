@@ -166,6 +166,12 @@ public class ExamRecordServiceImpl extends CrudServiceImpl<ExamRecordDao, ExamRe
     }
 
     @Override
+    public List<Map<String, String>> getRecordCount() {
+//        List<Map<String, String>> examRecordListCount = baseDao.getExamRecordListCount();
+        return null;
+    }
+
+    @Override
     public PageData<ExamRecordAnalysisDTO> getExamRecordAnalysis(Map<String, Object> params) {
         PageData<ExamDTO> page = examService.page(params);
         List<ExamDTO> examDTOList = page.getList();

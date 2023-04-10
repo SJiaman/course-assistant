@@ -2,13 +2,17 @@ package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.dao.*;
+import com.zrn.assistant.dto.RecordCountDTO;
 import com.zrn.assistant.dto.TeacherDashboardDTO;
 import com.zrn.assistant.entity.*;
 import com.zrn.assistant.service.IndexService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +38,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public TeacherDashboardDTO getTeacherDashboardById(Long id) {
         int courseCount = 0, examCount = 0, examRecordCount = 0, examQuestionCount = 0;
+        List<RecordCountDTO> examRecordListCount = new ArrayList<>();
 
         // 查询课程数
         List<CourseEntity> courseEntities = courseDao.selectList(
@@ -54,10 +59,13 @@ public class IndexServiceImpl implements IndexService {
             examQuestionCount = questionEntities.size();
 
             // 查询答卷数
-            List<Long> examIds = courseEntities.stream().map(CourseEntity::getId).collect(Collectors.toList());
-            List<ExamRecordEntity> examRecordEntities = examRecordDao.selectList(
-                    Wrappers.lambdaQuery(ExamRecordEntity.class).in(ExamRecordEntity::getExamId, examIds));
-            examRecordCount = examRecordEntities.size();
+            List<Long> examIds = examEntities.stream().map(ExamEntity::getId).collect(Collectors.toList());
+            if (!examIds.isEmpty()) {
+                List<ExamRecordEntity> examRecordEntities = examRecordDao.selectList(
+                        Wrappers.lambdaQuery(ExamRecordEntity.class).in(ExamRecordEntity::getExamId, examIds));
+                examRecordCount = examRecordEntities.size();
+                examRecordListCount = examRecordDao.getExamRecordListCount(examIds);
+            }
         }
 
         TeacherDashboardDTO teacherDashboardDTO = new TeacherDashboardDTO();
@@ -65,6 +73,7 @@ public class IndexServiceImpl implements IndexService {
         teacherDashboardDTO.setExamCount(examCount);
         teacherDashboardDTO.setQuestionCount(examQuestionCount);
         teacherDashboardDTO.setRecordCount(examRecordCount);
+        teacherDashboardDTO.setExamRecordListCount(examRecordListCount);
         return teacherDashboardDTO;
     }
 }

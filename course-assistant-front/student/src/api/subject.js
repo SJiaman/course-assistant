@@ -1,6 +1,6 @@
 import { get,post } from '@/utils/request'
 
 export default {
-  list: query => get('/api/course/list'),
-  select: id => post('/api/student/education/subject/select/' + id)
+  list: query => get('/api/ccourse/student/user', + query),
+  select: id => post('/api/course/student/user' + id)
 }

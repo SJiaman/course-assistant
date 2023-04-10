@@ -83,7 +83,7 @@ export default {
   methods: {
     initSubject () {
       let _this = this
-      subjectApi.list().then(re => {
+      subjectApi.list(_this.studentUserId).then(re => {
         _this.subjectList = re.response
         let subjectId = _this.subjectList[0].id
         _this.queryParam.subjectId = subjectId

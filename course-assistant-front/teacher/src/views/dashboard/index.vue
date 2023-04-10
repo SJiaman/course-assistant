@@ -100,6 +100,13 @@ export default {
       _this.examCount = re.data.examCount
       _this.questionCount = re.data.questionCount
       _this.recordCount = re.data.recordCount
+      _this.mothDayText = []
+      _this.mothDayDoExamQuestionValue = []
+      re.data.examRecordListCount.forEach(element => {
+        _this.mothDayText.push(element.day)
+        _this.mothDayDoExamQuestionValue.push(element.recordCount)
+      });
+      
       // _this.echartsUserAction.setOption(this.option('用户活跃度', '{b}日{c}度', response.mothDayText, response.mothDayUserActionValue))
       _this.echartsQuestion.setOption(this.option('答卷日数量', '{b}日{c}张', this.mothDayText, this.mothDayDoExamQuestionValue))
       this.loading = false
