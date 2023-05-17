@@ -44,8 +44,9 @@ public class UserServiceImpl extends CrudServiceImpl<UserDao, UserEntity, UserDT
         }
         if (userEntity.getPassword().equals(dto.getPassword())) {
             return ConvertUtils.sourceToTarget(userEntity, UserDTO.class);
+        } else {
+            throw new BusinessException("用户账号或密码错误");
         }
-        return null;
     }
 
     @Override

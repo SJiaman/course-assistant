@@ -59,6 +59,12 @@ public class CourseStudentServiceImpl extends CrudServiceImpl<CourseStudentDao, 
 
     @Override
     public void joinCourse(JoinCourseDTO dto) {
+        CourseStudentEntity courseStudentEntity = baseDao.selectOne(Wrappers.lambdaQuery(CourseStudentEntity.class)
+                .eq(CourseStudentEntity::getCourseId, dto.getCourseId())
+                .eq(CourseStudentEntity::getStudentId, dto.getStudentId()));
+        if (courseStudentEntity != null) {
+            throw new BusinessException("你已加入该课程，请勿重复操作");
+        }
         CourseEntity courseEntity = courseDao.selectById(dto.getCourseId());
         if (!courseEntity.getCommand().equals(dto.getCommand())) {
             throw new BusinessException("班级口令错误");

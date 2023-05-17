@@ -78,4 +78,10 @@ public class MessageController {
         messageService.readed(id);
         return Result.success();
     }
+
+    @GetMapping("unreadCount/{id}")
+    @ApiOperation("读消息")
+    public Result unreadCount(@PathVariable("id") Long id){
+        return Result.success(messageService.unreadCount(id));
+    }
 }

@@ -38,8 +38,12 @@ export default {
     return {
       queryParam: {
         courseId: null,
+        teacherId: 0,
         pageIndex: 1,
         pageSize: 10
+      },
+      courseParm: {
+        teacherId: 1
       },
       listLoading: false,
       tableData: [],
@@ -47,7 +51,9 @@ export default {
     }
   },
   created () {
-    this.initSubject()
+    this.queryParam.teacherId = this.userId
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.search()
   },
   methods: {
@@ -70,6 +76,9 @@ export default {
     ...mapActions('exam', { initSubject: 'initSubject' })
   },
   computed: {
+    ...mapGetters([
+      'userId'
+    ]),
     ...mapGetters('enumItem', ['enumFormat']),
     ...mapGetters('exam', ['subjectEnumFormat']),
     ...mapState('exam', { subjects: state => state.subjects })

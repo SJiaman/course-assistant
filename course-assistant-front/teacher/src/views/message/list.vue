@@ -42,9 +42,13 @@ export default {
   data () {
     return {
       queryParam: {
+        teacherId: 0,
         sendUserName: null,
         pageIndex: 1,
         pageSize: 10
+      },
+      courseParm: {
+        teacherId: 1
       },
       listLoading: false,
       tableData: [],
@@ -52,7 +56,9 @@ export default {
     }
   },
   created () {
-    this.initSubject()
+    this.queryParam.teacherId = this.userId
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.search()
   },
   methods: {
@@ -83,6 +89,9 @@ export default {
     ...mapActions('exam', { initSubject: 'initSubject' })
   },
    computed: {
+    ...mapGetters([
+      'userId'
+    ]),
     ...mapGetters('enumItem', ['enumFormat']),
     ...mapState('enumItem', {
       levelEnum: state => state.user.levelEnum

@@ -2,19 +2,19 @@ package com.zrn.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.enums.QuestionTypeEnum;
+import com.zrn.assistant.common.page.PageData;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
 import com.zrn.assistant.dao.*;
 import com.zrn.assistant.dto.QuestionAnswerDTO;
 import com.zrn.assistant.dto.QuestionDTO;
-import com.zrn.assistant.entity.ExamQuestionAnswerEntity;
-import com.zrn.assistant.entity.ExamQuestionEntity;
-import com.zrn.assistant.entity.QuestionAnswerEntity;
-import com.zrn.assistant.entity.QuestionEntity;
+import com.zrn.assistant.entity.*;
 import com.zrn.assistant.service.QuestionAnswerService;
 import com.zrn.assistant.service.QuestionService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -31,7 +31,9 @@ import java.util.stream.Collectors;
  * @since  2023-01-14
  */
 @Service
+@Slf4j
 public class QuestionServiceImpl extends CrudServiceImpl<QuestionDao, QuestionEntity, QuestionDTO> implements QuestionService {
+
     @Resource
     private QuestionAnswerDao questionAnswerDao;
 
@@ -44,17 +46,33 @@ public class QuestionServiceImpl extends CrudServiceImpl<QuestionDao, QuestionEn
     @Resource
     private ExamQuestionAnswerDao examQuestionAnswerDao;
 
+    @Resource
+    private CourseDao courseDao;
+
     @Override
     public QueryWrapper<QuestionEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
         String courseId = (String)params.get("courseId");
         String type = (String)params.get("type");
-
+        String teacherId = (String)params.get("teacherId");
 
         QueryWrapper<QuestionEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StringUtils.isNotBlank(id), "id", id)
-        .eq(StringUtils.isNotBlank(courseId), "course_id", courseId)
+                .eq(StringUtils.isNotBlank(courseId),"course_id", courseId)
                 .eq(StringUtils.isNotBlank(type), "type", type);
+
+        if (StringUtils.isNotBlank(teacherId)) {
+            List<CourseEntity> courseEntities = courseDao.selectList(
+                    Wrappers.lambdaQuery(CourseEntity.class).eq(CourseEntity::getTeacherId, teacherId));
+            if (!courseEntities.isEmpty()) {
+                List<Long> courseIds = courseEntities.stream().map(CourseEntity::getId).collect(Collectors.toList());
+                log.info("courseId{}", courseIds);
+                wrapper.in(CollectionUtils.isEmpty(courseIds) , "course_id", courseIds);
+            } else {
+                // 没有课程问题
+                wrapper.eq("course_id", 0);
+            }
+        }
 
         return wrapper;
     }

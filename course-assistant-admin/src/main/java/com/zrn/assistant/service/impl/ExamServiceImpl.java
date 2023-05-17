@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zrn.assistant.common.service.impl.CrudServiceImpl;
 import com.zrn.assistant.common.utils.ConvertUtils;
+import com.zrn.assistant.dao.CourseDao;
 import com.zrn.assistant.dao.ExamDao;
 import com.zrn.assistant.dao.ExamQuestionDao;
 import com.zrn.assistant.dao.ExamRecordDao;
 import com.zrn.assistant.dto.ExamDTO;
 import com.zrn.assistant.dto.QuestionDTO;
 import com.zrn.assistant.dto.TitleItemsDTO;
+import com.zrn.assistant.entity.CourseEntity;
 import com.zrn.assistant.entity.ExamEntity;
 import com.zrn.assistant.entity.ExamQuestionEntity;
 import com.zrn.assistant.entity.ExamRecordEntity;
@@ -45,16 +47,33 @@ public class ExamServiceImpl extends CrudServiceImpl<ExamDao, ExamEntity, ExamDT
     @Resource
     private ExamRecordDao examRecordDao;
 
+    @Resource
+    private CourseDao courseDao;
+
     @Override
     public QueryWrapper<ExamEntity> getWrapper(Map<String, Object> params) {
         String id = (String) params.get("id");
         String courseId = (String) params.get("courseId");
         String type = (String) params.get("type");
+        String teacherId = (String)params.get("teacherId");
 
         QueryWrapper<ExamEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StringUtils.isNotBlank(id), "id", id)
-        .eq(StringUtils.isNotBlank(courseId), "course_id", courseId)
-        .eq(StringUtils.isNotBlank(type), "type", type);
+            .eq(StringUtils.isNotBlank(courseId), "course_id", courseId)
+            .eq(StringUtils.isNotBlank(type), "type", type);
+
+        if (StringUtils.isNotBlank(teacherId)) {
+            List<CourseEntity> courseEntities = courseDao.selectList(
+                    Wrappers.lambdaQuery(CourseEntity.class).eq(CourseEntity::getTeacherId, teacherId));
+            if (!courseEntities.isEmpty()) {
+                List<Long> courseIds = courseEntities.stream().map(CourseEntity::getId).collect(Collectors.toList());
+                log.info("courseId{}", courseIds);
+                wrapper.in(CollectionUtils.isEmpty(courseIds) , "course_id", courseIds);
+            } else {
+                // 没有课程问题
+                wrapper.eq("course_id", 0);
+            }
+        }
 
         return wrapper;
     }

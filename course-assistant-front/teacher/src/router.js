@@ -17,6 +17,13 @@ const constantRoutes = [
       }
     ]
   },
+  { 
+    path: '/register', 
+    name: 'Register',
+    hidden: true, 
+    component: () => import('@/views/register/index'), 
+    meta: { title: '注册' } 
+  },
   {
     path: '/login',
     name: 'Login',

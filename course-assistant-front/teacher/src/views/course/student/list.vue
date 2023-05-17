@@ -55,9 +55,13 @@ export default {
   data () {
     return {
       queryParam: {
+        teacherId: 0,
         courseId: null,
         pageIndex: 1,
         pageSize: 10
+      },
+      courseParm: {
+        teacherId: 1
       },
       name: '张三',
       teacherId: null,
@@ -75,8 +79,10 @@ export default {
     }
   },
   created () {
+    this.queryParam.teacherId = this.userId
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.search()
-    this.initSubject()
   },
   methods: {
     submitScoreForm () {

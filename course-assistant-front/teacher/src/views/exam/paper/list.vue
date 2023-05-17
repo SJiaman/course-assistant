@@ -50,9 +50,13 @@ export default {
     return {
       queryParam: {
         id: null,
+        teacherId: 0,
         courseId: null,
         pageIndex: 1,
         pageSize: 10
+      },
+      courseParm: {
+        teacherId: 1
       },
       subjectFilter: null,
       listLoading: true,
@@ -61,7 +65,9 @@ export default {
     }
   },
   created () {
-    this.initSubject()
+    this.queryParam.teacherId = this.userId
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.search()
   },
   methods: {
@@ -100,6 +106,9 @@ export default {
   },
   computed: {
     ...mapGetters('enumItem', ['enumFormat']),
+    ...mapGetters([
+      'userId'
+    ]),
     ...mapState('enumItem', {
       levelEnum: state => state.user.levelEnum
     }),

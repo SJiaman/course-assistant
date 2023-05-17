@@ -29,4 +29,6 @@ public interface MessageService extends CrudService<MessageEntity, MessageDTO> {
     void deleteMessage(Long id);
 
     void deleteMessageById(Long id);
+
+    Integer unreadCount(Long id);
 }

@@ -60,8 +60,12 @@ export default {
         id: null,
         type: null,
         courseId: null,
+        teacherId: 0,
         pageIndex: 1,
         pageSize: 10
+      },
+       courseParm: {
+        teacherId: 1
       },
       subjectList: [],
       listLoading: true,
@@ -76,7 +80,9 @@ export default {
     }
   },
   created () {
-    this.initSubject()
+    this.queryParam.teacherId = this.userId
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.subjectList = this.subjects
     this.search()
   },
@@ -136,6 +142,9 @@ export default {
   },
   computed: {
     ...mapGetters('enumItem', ['enumFormat']),
+    ...mapGetters([
+      'userId'
+    ]),
     ...mapState('enumItem', {
       questionType: state => state.exam.question.typeEnum,
       editUrlEnum: state => state.exam.question.editUrlEnum,

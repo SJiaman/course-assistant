@@ -70,4 +70,12 @@ public class CourseController {
         List<CourseDTO> list = courseService.list(params);
         return Result.success(list);
     }
+
+
+    @GetMapping("student/list")
+    @ApiOperation("课程列表")
+    public Result studentList(@RequestParam Map<String, Object> params) {
+        List<CourseDTO> list = courseService.studentCourse(params);
+        return Result.success(list);
+    }
 }

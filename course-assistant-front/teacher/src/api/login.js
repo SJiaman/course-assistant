@@ -5,5 +5,6 @@ export default {
   // logout: query => post(`/api/user/logout`, query)
 
   login: query => postWithLoadTip(`/api/login`, query),
-  logout: query => post(`/api/logout`, query)
+  logout: query => post(`/api/logout`, query),
+  register: query => post(`/api/register`, query)
 }

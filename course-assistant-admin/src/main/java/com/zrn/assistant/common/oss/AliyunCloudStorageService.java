@@ -22,9 +22,9 @@ public class AliyunCloudStorageService  {
 
     private static final String aliyunEndPoint = "oss-cn-chengdu.aliyuncs.com";
 
-    private static final String aliyunAccessKeyId = "LTAI5tR21SZf64u7tMUy9R4x";
+    private static final String aliyunAccessKeyId = "LTAI5t87RudmiCfV84Wa5Edy";
 
-    private static final String aliyunAccessKeySecret = "rRS4zcJC6vdzYkAsGoBENa1Ty08ZSY";
+    private static final String aliyunAccessKeySecret = "ZCJD1FA7iaoM6hA7DPzR4AcYNGkwjH";
 
 
     private static final String aliyunBucketName = "shijin-video";

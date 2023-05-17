@@ -43,6 +43,9 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
+      courseParm: {
+        teacherId: 1
+      },
       listLoading: true,
       tableData: [],
       total: 0,
@@ -50,8 +53,9 @@ export default {
     }
   },
   created () {
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.search()
-    this.initSubject()
   },
   methods: {
     search () {
@@ -89,6 +93,9 @@ export default {
   computed: {
     ...mapGetters('enumItem', [
       'enumFormat'
+    ]),
+    ...mapGetters([
+      'userId'
     ]),
     ...mapState('enumItem', {
       resourceEnum: state => state.course.resourceEnum

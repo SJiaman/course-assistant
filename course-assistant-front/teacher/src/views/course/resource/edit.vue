@@ -49,6 +49,9 @@ export default {
         type: 0,
         url: ''
       },
+      courseParm: {
+        teacherId: 1
+      },
       formLoading: false,
       subjectList: [],
       num: 1
@@ -64,7 +67,8 @@ export default {
         _this.formLoading = false
       })
     }
-    this.initSubject()
+    this.courseParm.teacherId = this.userId
+    this.initSubject(this.courseParm)
     this.subjectList = this.subjects
   },
   methods: {
@@ -134,6 +138,9 @@ export default {
     ...mapActions('tagsView', { delCurrentView: 'delCurrentView' })
   },
   computed: {
+    ...mapGetters([
+      'userId'
+    ]),
     ...mapGetters('enumItem', [
       'enumFormat'
     ]),

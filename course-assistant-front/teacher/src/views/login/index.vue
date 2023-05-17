@@ -48,7 +48,12 @@
       <el-checkbox v-model="loginForm.remember" style="margin-bottom: 20px;margin-left: 5px;">记住密码</el-checkbox>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
-
+      <div class="text-foot">
+        还没有账号?
+        <router-link to="/register" class="register-link">
+          注册
+        </router-link>
+      </div>
     </el-form>
 
     <div class="account-foot-copyright">
@@ -138,12 +143,17 @@ export default {
           loginApi.login(this.loginForm).then(function (result) {
             if (result && result.code === 0) {
               _this.setUserName(_this.loginForm.username)
-              console.log('id', result.data.id)
-              _this.setUserId(result.data.id)
-              _this.$router.push({ path: '/' })
+              if (result.data.role != 0) {
+                _this.$message.error("账号权限不对")
+                _this.loading = false
+              } else {
+                console.log('id', result.data.id)
+                _this.setUserId(result.data.id)
+                _this.$router.push({ path: '/' })
+              } 
             } else {
               _this.loading = false
-               _this.$message.error(result.msg)
+              _this.$message.error(result.msg)
             }
           }).catch(function (reason) {
             _this.loading = false
